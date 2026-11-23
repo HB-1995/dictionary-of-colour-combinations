@@ -6,48 +6,77 @@
 <title>Wada Colour Combinations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
 <style>
 /* VOICE: quiet, gallery-like; the colours speak, the frame stays out of the way.
    IDEA: Wada's pocket swatch book — flat printed chips, numbered plates, tiny captions.
    PICTURE: a full-width ribbon of all 159 colours, then a wall of 348 combination plates.
    COLOUR and TYPE: paper white / ink black only, no accent; Zen Kaku Gothic New throughout.
    LAYOUT: ribbon + search up top, sticky filters, dense grid, a side sheet for detail. */
-:root{color-scheme:light dark;--bg:light-dark(#fbfbfa,#141414);--ink:light-dark(#191919,#ececea);--mute:light-dark(#6d6d69,#9a9a96);--line:light-dark(#e3e2de,#2c2c2b);--card:light-dark(#fff,#1d1d1c);--chip:light-dark(#efeeea,#262625)}
+:root{color-scheme:light dark;--bg:light-dark(#fafaf8,#141413);--ink:light-dark(#18181a,#ececea);--mute:light-dark(#5e5e59,#a09f9a);--faint:light-dark(#8a8a85,#77766f);--line:light-dark(#e6e5e1,#2c2c2b);--line2:light-dark(#dddcd7,#3a3a38);--card:light-dark(#fff,#1d1d1c);--chip:light-dark(#efeeea,#262625);--display:"Zen Kaku Gothic New",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;--r:8px}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Zen Kaku Gothic New",system-ui,sans-serif;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.band{padding:clamp(20px,3vw,44px) max(4vw,16px)}
-.wrap{max-width:1240px;margin:0 auto}
-h1{font-size:clamp(32px,5vw,50px);line-height:1.05;margin:0;font-weight:900;letter-spacing:-.01em;text-wrap:balance}
-.sub{color:var(--mute);margin:.5em 0 0}
-.ribbon{display:flex;height:clamp(90px,14vw,150px);margin-top:24px;border-radius:2px;overflow:hidden}
-.ribbon button{flex:1;border:0;padding:0;transition:flex .25s}
-.ribbon button:hover{flex:5}
-.searchrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
-#q{flex:1 1 320px;height:50px;border:1px solid var(--line);background:var(--card);border-radius:6px;padding:0 16px;font-size:16px}
-.tabs{display:flex;gap:4px;background:var(--chip);border-radius:8px;padding:4px}
-.tabs button,.seg button{border:0;background:none;border-radius:6px;padding:8px 14px;min-height:40px}
-.tabs button[aria-pressed=true],.seg button[aria-pressed=true]{background:var(--card);box-shadow:0 1px 2px #0002;font-weight:700}
-.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(4vw,16px)}
-.bar .wrap{display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center}
-.seg{display:flex;gap:2px;background:var(--chip);border-radius:8px;padding:3px;flex-wrap:wrap}
-.seg button{padding:6px 11px;min-height:36px;font-size:14px}
-.gd{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
-.gd-l{width:14px;height:14px;margin-right:10px}.hsub{font-size:14px;font-weight:400;color:var(--mute);margin-left:6px}
-.legend{display:flex;gap:0;margin-top:6px}.legend button{border:0;border-top:2px solid var(--line);background:none;padding:6px 6px 0;box-shadow:inset 1px 0 0 var(--line);font-size:13px;color:var(--mute);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:32px}.legend button:hover{color:var(--ink);border-color:var(--ink)}
-.top{display:flex;justify-content:space-between;gap:12px 20px;align-items:flex-start;flex-wrap:wrap}#auth{display:flex;gap:12px;align-items:center;font-size:14px;padding-top:10px}
-.field{height:44px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 12px;font-size:16px;width:100%}textarea.field{height:auto;padding:10px 12px;resize:vertical}
+.band{padding:clamp(20px,3vw,40px) max(4vw,16px)}
+.wrap{max-width:1280px;margin:0 auto}
+h1,h2,h3{font-family:var(--display)}
+h1{font-size:clamp(30px,4.2vw,44px);line-height:1.05;margin:0;font-weight:900;letter-spacing:-.015em;text-wrap:balance}
+.eyebrow{margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.sub{color:var(--mute);margin:.6em 0 0}
+/* header: wordmark · sections · account */
+.hdr{border-bottom:1px solid var(--line);padding:0 max(4vw,16px)}
+.hrow{display:flex;align-items:center;gap:12px 28px;min-height:64px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo{display:flex;width:28px;height:28px;border-radius:6px;overflow:hidden}.logo i{flex:1}
+.tabs{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+.tabs button{border:0;background:none;border-radius:var(--r);padding:8px 12px;min-height:40px;color:var(--mute);font-weight:500}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-pressed=true]{background:var(--chip);color:var(--ink);font-weight:600}
+.tabs svg{display:none}
+#auth{display:flex;gap:10px;align-items:center;font-size:14px}
+.btn{height:40px;padding:0 16px;border-radius:var(--r);border:1px solid var(--line2);background:var(--card);font-weight:500;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ibtn.sq{width:40px;min-width:40px;height:40px;padding:0;display:grid;place-items:center}.ibtn.sq svg{width:18px;height:18px}
+/* intro: title + search */
+.top{display:flex;justify-content:space-between;gap:24px 48px;align-items:flex-end;flex-wrap:wrap}.ttl{flex:1 1 420px}
+.searchrow{display:flex;gap:8px;flex:1 1 440px;max-width:560px}
+.search{flex:1;display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border:1px solid var(--line2);border-radius:var(--r);background:var(--card);box-shadow:0 1px 2px #0000000a}
+.search:focus-within{border-color:var(--ink)}
+.search svg{width:18px;height:18px;flex:none;color:var(--mute)}
+#q{flex:1;border:0;outline:0;background:none;height:100%;padding:0;font-size:15px}
+.search kbd{font-family:var(--mono);font-size:12px;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:0 6px}
+/* ribbon: every colour, grouped by hue family; the labels are the family shortcuts */
+.ribbon{display:flex;gap:3px;margin-top:32px}
+.rg{display:flex;flex-direction:column;gap:8px;min-width:64px}
+.rs{display:flex;height:56px;border-radius:6px;overflow:hidden}
+.rs button{flex:1;border:0;padding:0;min-width:0;transition:flex .25s}
+.rs button:hover{flex:5}
+.rl{border:0;background:none;padding:0;text-align:left;font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rl:hover{color:var(--ink)}.rl span{font-family:var(--mono);color:var(--faint);margin-left:2px}
+/* the one sticky toolbar */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line);padding:12px max(4vw,16px)}
+.bar .wrap{display:flex;gap:12px 20px;flex-wrap:wrap;align-items:center}
+.vsep{width:1px;height:24px;background:var(--line)}
+.seg{display:flex;gap:2px;background:var(--chip);border-radius:var(--r);padding:3px;flex-wrap:wrap}
+.seg button{border:0;background:none;border-radius:6px;padding:4px 12px;min-height:32px;font-size:13px;color:var(--mute)}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px #00000014;font-weight:600}
+.pills{display:flex;gap:6px;flex-wrap:wrap}#sort{min-width:0}
+.pills button{height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);background:var(--card);font-size:14px;font-weight:500;display:inline-flex;align-items:center}
+.pills button:hover{border-color:var(--ink)}
+.pills button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gd{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.gd-l{width:12px;height:12px;margin-right:10px}.hsub{font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:400;color:var(--mute);margin-left:6px}
+.field{height:44px;border:1px solid var(--line2);border-radius:var(--r);background:var(--card);padding:0 12px;font-size:16px;width:100%}textarea.field{height:auto;padding:10px 12px;resize:vertical}
 #pname{font-size:20px;font-weight:700;margin:4px 0 16px}.pstripbig{height:170px}.strip.vstrip{height:15px}
 .row-actions{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap;margin:18px 0}
 .mini{border:1px solid var(--line);background:var(--card);border-radius:4px;width:36px;height:36px;margin-left:3px}
 .wt{width:64px;height:38px;border:1px solid var(--line);border-radius:4px;background:var(--card);padding:0 6px;font-size:16px}
 .ptable .rec{min-width:150px}.handle{cursor:grab;color:var(--mute);width:22px;user-select:none}tr.dragover td{border-top:2px solid var(--ink)}
 .custom{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.custom .field{width:auto;flex:1 1 140px}
-input[type=color]{width:52px;height:44px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:3px}
+input[type=color]{width:52px;height:44px;border:1px solid var(--line2);border-radius:var(--r);background:var(--card);padding:3px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.schip{border:1px solid var(--line);background:var(--card);border-radius:24px;padding:4px 14px 4px 5px;display:flex;align-items:center;gap:4px;font-size:14px;min-height:44px}.schip .dot{width:32px;height:32px;border-radius:50%;margin-right:6px}
 .danger{color:#c2361f}.newstrip{align-items:center;justify-content:center;border:1.5px dashed var(--line);box-shadow:none;color:var(--mute)}
 .emptystrip{display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;background:var(--chip)}
@@ -57,7 +86,7 @@ body.adding{padding-bottom:96px}body.adding .card,body.adding .ribbon button{cur
 @media(max-width:700px){.dockin{grid-template-columns:1fr 1fr}.dockin>div:first-child,.dstrip{grid-column:1/-1}}
 .ptiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.pcard .meta{display:block}.pcard .meta span{display:block;white-space:normal}.artgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 14px;margin-top:14px}
 .artcard{display:flex;flex-direction:column;gap:3px;color:inherit;text-decoration:none;font-size:13px;line-height:1.35}
-.artcard img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;background:var(--chip)}
+.artcard img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;background:var(--chip)}
 .artcard:hover img{opacity:.88}.artcard b{font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.artcard span{color:var(--mute)}
 .acols{display:flex;height:12px;border-radius:2px;overflow:hidden;margin:6px 0 4px}.acols span.hit{box-shadow:inset 0 0 0 2px var(--ink)}
 .artcard .de{font-size:12px}.artseg{margin-top:4px}
@@ -65,44 +94,44 @@ body.adding{padding-bottom:96px}body.adding .card,body.adding .ribbon button{cur
 .addp{position:absolute;top:6px;right:6px;z-index:2;width:30px;height:30px;border-radius:50%;border:1px solid #ffffff99;background:#00000040;backdrop-filter:blur(4px);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s}
 .addp:hover{background:#00000080}.addp.on{background:var(--ink);color:var(--bg);border-color:transparent;font-size:15px}
 @media(hover:none){.addp{width:36px;height:36px}}
-.pswatch{display:flex;height:84px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000000d}.pswatch span{flex:1}
+.pswatch{display:flex;height:84px;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px #0000000d}.pswatch span{flex:1}
 .big2{height:150px}.big2 span{display:flex;align-items:flex-end;padding:10px;font-size:13px;font-weight:700}
-.own{border:1px solid var(--line);background:var(--card);border-radius:6px;min-height:38px;font-size:14px}.own.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.own{border:1px solid var(--line2);background:var(--card);border-radius:var(--r);min-height:38px;font-size:14px}.own.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .mini.wide{width:auto;padding:0 10px}
 .mixcols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
 .recipe{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
-.rsw{display:flex;height:72px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000001a}.rsw span{flex:1}
+.rsw{display:flex;height:72px;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px #0000001a}.rsw span{flex:1}
 .rings{display:flex;flex-direction:column;gap:4px;font-size:14px}.ring i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;box-shadow:0 0 0 1px #0000001a}
 .need{font-style:normal;font-size:12px;color:#c2361f}.de{display:inline-block;margin-top:6px;font-size:13px;color:var(--mute)}.de.good{color:#2f7d45}.de.bad{color:#c2361f}.tip{margin-top:10px}
 @media(max-width:700px){.mixcols{grid-template-columns:1fr}}
 .lbl{font-size:13px;color:var(--mute)}
-select{height:42px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 10px}
-#count{margin-left:auto;font-size:14px;color:var(--mute)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px 14px}
+select{height:36px;border:1px solid var(--line2);border-radius:var(--r);background:var(--card);padding:0 10px;font-size:14px}
+#count{margin-left:auto;font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:28px 20px}
 .card{border:0;background:none;padding:0;text-align:left;display:block;width:100%}
-.strip{display:flex;height:96px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000000d}
+.strip{display:flex;height:128px;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px #0000000d}
 .strip span{flex:1}
-.card:hover .strip{transform:translateY(-2px);box-shadow:0 6px 16px #0002}
+.card:hover .strip{transform:translateY(-2px);box-shadow:0 8px 20px #0000001f}
 .strip{transition:transform .15s,box-shadow .15s}
-.meta{display:flex;gap:8px;font-size:13px;margin-top:6px;align-items:baseline}
-.meta b{font-size:15px}.meta span{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{display:flex;gap:8px;font-size:13px;margin-top:10px;align-items:baseline}
+.meta b{font-size:14px;font-weight:600}.meta b.num{font-family:var(--mono);font-size:13px;font-weight:500}.meta span{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px 12px}
 .tiles .card{align-self:start}
-.tile .sw{height:110px;border-radius:2px;box-shadow:0 0 0 1px #0000000d}
+.tile .sw{height:110px;border-radius:var(--r);box-shadow:inset 0 0 0 1px #0000000d}
 .tile .meta{display:block}.tile .meta span{display:block}
-h2{font-size:22px;margin:34px 0 14px;font-weight:700}
+h2{font-size:22px;margin:40px 0 16px;font-weight:700}
 h2:first-child{margin-top:4px}
 .empty{color:var(--mute);padding:40px 0}
 /* sheet */
 #scrim{position:fixed;inset:0;background:#0006;z-index:20;display:none}
-#sheet{position:fixed;top:0;right:0;bottom:0;width:min(820px,100%);background:var(--bg);z-index:21;overflow-y:auto;transform:translateX(100%);transition:transform .25s ease;box-shadow:-10px 0 40px #0003}
-body.open #scrim{display:block}body.open #sheet{transform:none}
-.shead{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg);padding:14px 22px;border-bottom:1px solid var(--line);z-index:2}
-.shead h3{margin:0;font-size:20px;flex:1}
-.ibtn{border:1px solid var(--line);background:var(--card);border-radius:6px;min-width:44px;height:44px;padding:0 12px}
+#sheet{position:fixed;top:0;right:0;bottom:0;width:min(820px,100%);background:var(--bg);z-index:21;overflow-y:auto;transform:translateX(100%);transition:transform .25s ease,visibility .25s;visibility:hidden}
+body.open #scrim{display:block}body.open #sheet{transform:none;visibility:visible;box-shadow:-24px 0 64px #0000002e}
+.shead{display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--bg);padding:14px 28px;border-bottom:1px solid var(--line);z-index:2}
+.shead h3{margin:0;font-family:Inter,system-ui,sans-serif;font-size:17px;font-weight:600;flex:1}
+.ibtn{border:1px solid var(--line2);background:var(--card);border-radius:var(--r);min-width:40px;height:40px;padding:0 12px;font-weight:500}
 .sbody{padding:20px 22px 60px}
-.imgbtn{height:50px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:700}
-.imgbtn svg{width:20px;height:20px}
+.imgbtn{height:48px;padding:0 16px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap}
+.imgbtn svg{width:18px;height:18px}
 body.dragging::after{content:'Drop an image to get its palette';position:fixed;inset:12px;border:3px dashed var(--ink);border-radius:12px;background:#fffd;display:grid;place-items:center;font-size:22px;font-weight:700;z-index:40;pointer-events:none}
 .imgtop{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:20px;align-items:start}
 .imgwrap{position:relative;line-height:0;touch-action:none;cursor:crosshair;user-select:none}
@@ -112,8 +141,8 @@ body.dragging::after{content:'Drop an image to get its palette';position:fixed;i
 .imgside input[type=range]{flex:1}
 .picked{font-size:12px;color:var(--mute)}#imgout{margin-top:18px}
 @media(max-width:700px){.imgtop{grid-template-columns:1fr}}
-.big{display:flex;height:min(36vh,260px);border-radius:2px;overflow:hidden}
-.big button{flex:1;border:0;padding:10px;display:flex;align-items:flex-end;font-size:13px;font-weight:700}
+.big{display:flex;height:min(36vh,260px);border-radius:12px;overflow:hidden}
+.big button{flex:1;border:0;padding:16px;display:flex;align-items:flex-end;font-size:13px;font-weight:600}
 .toggles{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;margin:22px 0 12px}
 .duo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:start}
 .wheelbox{max-width:390px}.wheelrow{display:flex;gap:8px;align-items:flex-start}.wheelrow .wheel{width:280px;max-width:100%;flex:1 1 280px}.vscale{width:90px;flex:none;height:auto;aspect-ratio:90/280}
@@ -123,49 +152,70 @@ body.dragging::after{content:'Drop an image to get its palette';position:fixed;i
 .comp .strip{height:120px}
 .wheel{width:100%;aspect-ratio:1;max-width:280px}
 table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
-th{font-weight:500;color:var(--mute);text-align:left;font-size:13px;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-weight:500;color:var(--mute);text-align:left;font-size:12px;padding:8px;border-bottom:1px solid var(--line)}
 td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
-.dot{display:inline-block;width:34px;height:34px;border-radius:3px;vertical-align:middle;margin-right:8px;box-shadow:0 0 0 1px #0000001a}
-.code{font-variant-numeric:tabular-nums;white-space:nowrap}
-.copy{border:0;background:var(--chip);border-radius:4px;padding:3px 8px;font-size:12px;margin-left:4px}
-.scale{display:flex;height:34px;border-radius:2px;overflow:hidden;min-width:150px}
+.dot{display:inline-block;width:36px;height:36px;border-radius:6px;vertical-align:middle;margin-right:10px;box-shadow:inset 0 0 0 1px #0000001a}
+.code{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.copy{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:2px 8px;font:500 12px Inter,system-ui,sans-serif;color:var(--mute);margin-left:6px}.copy:hover{color:var(--ink);border-color:var(--line2)}
+.scale{display:flex;height:34px;border-radius:6px;overflow:hidden;min-width:150px}
 .scale span{flex:1}.scale span.on{flex:1.6;box-shadow:inset 0 0 0 2px var(--bg)}
 .note{font-size:13px;color:var(--mute)}
 .linkc{border:0;background:none;padding:0;text-decoration:underline;text-underline-offset:3px;font-weight:700}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:6px;font-size:14px;opacity:0;transition:opacity .2s;z-index:30;pointer-events:none}
-.sw-hero{height:220px;border-radius:2px;display:flex;align-items:flex-end;padding:14px;font-weight:700}
-@media(max-width:700px){.duo{grid-template-columns:1fr}.wheel{margin:0 auto;display:block}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.strip{height:80px}#count{margin-left:0;width:100%}}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:var(--r);font-size:14px;opacity:0;transition:opacity .2s;z-index:30;pointer-events:none}
+.sw-hero{height:220px;border-radius:12px;display:flex;align-items:flex-end;padding:14px;font-weight:700}
+@media(max-width:700px){.duo{grid-template-columns:1fr}.wheel{margin:0 auto;display:block}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.strip{height:104px}#count{margin-left:0}}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
+.tabs [hidden]{display:none}
+/* phone: sections move to a bottom bar, filters scroll sideways */
+@media(max-width:700px){
+ body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+ .brand{margin-right:auto}
+ .tabs{position:fixed;left:0;right:0;bottom:0;z-index:12;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;background:var(--card);border-top:1px solid var(--line);padding:4px 8px calc(4px + env(safe-area-inset-bottom))}
+ .tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:11px;min-height:52px;background:none!important}
+ .tabs svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.75}
+ body.adding .tabs{display:none}
+ #toast{bottom:84px}
+ .searchrow{max-width:none}.search{height:44px}.imgbtn{height:44px;width:44px;padding:0;justify-content:center}.imgbtn span{display:none}
+ .ribbon{margin-top:20px;gap:2px}.rg{min-width:0}.rs{height:32px}.rl{display:none}
+ .bar .wrap{gap:10px}.pills{flex-wrap:nowrap;overflow-x:auto;margin:0 calc(-1 * max(4vw,16px));padding:0 max(4vw,16px);scrollbar-width:none;width:calc(100% + 2 * max(4vw,16px))}.pills button{flex:none}.vsep{display:none}
+ #count{display:none}#sort{margin-left:auto}.search kbd{display:none}
+ #auth .note{display:none}
+}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
-<header class="band"><div class="wrap">
-  <div class="top"><h1>A Dictionary of Colour Combinations</h1><div id="auth"></div></div>
-  <p class="sub" id="sub">Sanzo Wada · Volume 1 · 348 combinations drawn from 159 colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.</p>
-  <div class="ribbon" id="ribbon" aria-label="All colours"></div><div class="legend" id="legend"></div>
-  <div class="searchrow">
-    <input id="q" type="search" placeholder="Search a name, combination (#240), hex (#BB451C) or CMYK (22 84 100 18)" autocomplete="off" aria-label="Search">
-    <label class="ibtn imgbtn" title="Get a palette from a painting or photo (or drop an image anywhere)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>Image<input type="file" id="imgfile" accept="image/*,.heic,.heif" hidden></label>
-    <div class="tabs" role="group" aria-label="View">
-      <button data-tab="combos" aria-pressed="true">Combinations</button>
-      <button data-tab="colours" aria-pressed="false">Colours</button>
-      <button data-tab="paints" aria-pressed="false">Paints</button>
-      <button data-tab="mine" aria-pressed="false" hidden>My palettes</button>
+<header class="hdr"><div class="wrap hrow">
+  <a class="brand" href="./"><span class="logo" aria-hidden="true"><i style="background:#F6917E"></i><i style="background:#FFF200"></i><i style="background:#0093A5"></i></span>Swatch</a>
+  <nav class="tabs" role="group" aria-label="View">
+    <button data-tab="combos" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/></svg>Combinations</button>
+    <button data-tab="colours" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Colours</button>
+    <button data-tab="paints" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v5l3 3v10H6V11l3-3Z"/></svg>Paints</button>
+    <button data-tab="mine" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4Z"/></svg>My palettes</button>
+  </nav>
+  <button class="ibtn sq" id="theme" aria-label="Switch light or dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
+  <div id="auth"></div>
+</div></header>
+<section class="band intro"><div class="wrap">
+  <div class="top">
+    <div class="ttl"><p class="eyebrow" id="eyebrow"></p><h1>A Dictionary of Colour Combinations</h1><p class="sub" id="sub"></p></div>
+    <div class="searchrow">
+      <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Name, #240, hex or CMYK" autocomplete="off" aria-label="Search a colour name, combination number, hex or CMYK"><kbd aria-hidden="true">/</kbd></label>
+      <label class="ibtn imgbtn" title="Get a palette from a painting or photo (or drop an image anywhere)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg><span>From image</span><input type="file" id="imgfile" accept="image/*,.heic,.heif" hidden></label>
     </div>
   </div>
-</div></header>
+  <div class="ribbon" id="ribbon" role="group" aria-label="All colours by hue family"></div>
+</div></section>
 <div class="bar"><div class="wrap">
   <label class="lbl" for="lib" hidden>Library</label><select id="lib" hidden></select>
-  <span class="lbl">Size</span>
-  <div class="seg" id="fsize"></div>
-  <span class="lbl">Hue family</span>
-  <div class="seg" id="fchap"></div>
-  <label class="lbl" for="sort">Sort</label>
-  <select id="sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option><option value="temp">Warm → cool</option></select>
+  <div class="pills" id="fchap" role="group" aria-label="Hue family"></div>
+  <span class="vsep" aria-hidden="true"></span>
+  <div class="seg" id="fsize" role="group" aria-label="Colours per combination"></div>
   <span id="count"></span>
+  <select id="sort" aria-label="Sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option><option value="temp">Warm → cool</option></select>
 </div></div>
-<main class="band" style="padding-top:22px"><div class="wrap" id="view"></div></main>
+<main class="band" style="padding-top:28px"><div class="wrap" id="view"></div></main>
 <div id="scrim"></div>
 <aside id="sheet" aria-modal="true" role="dialog" aria-labelledby="stitle">
   <div class="shead"><h3 id="stitle"></h3><span id="sextra"></span><button class="ibtn" id="close" aria-label="Close">✕</button></div>
@@ -242,7 +292,7 @@ C.forEach(c=>{if(!c.l)c.l=lab(c.h);if(!c.s)c.s=famOf(c.h)});
 /* rendering pieces */
 const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
 const favBtn=id=>{const on=favs.includes(id);return `<button class="addp star ${on?'on':''}" data-fav="${id}" aria-pressed="${on}" aria-label="${on?'Remove combination '+id+' from':'Save combination '+id+' to'} saved combinations" title="${on?'Saved — click to remove':'Save combination'}">${on?'★':'☆'}</button>`};
-const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(ptitle(id))}${MULTI?' · '+esc(SBY[PSRC[id]].short):''}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="${esc(ptitle(id))}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${esc(plabel(id))}</b></div></button></div>`;
+const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(ptitle(id))}${MULTI?' · '+esc(SBY[PSRC[id]].short):''}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="${esc(ptitle(id))}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b class="num">${PSRC[id]===PRIMARY?'No. ':''}${esc(plabel(id))}</b></div></button></div>`;
 const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h}${C[i].c?' · '+cmykOf(i):''}${MULTI&&st.lib==='all'?' · '+esc(SBY[C[i].src].short):''}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
 /* temperature on the painter's (RYB) wheel: orange warmest, blue coolest; weighted by chroma so greys sit near 0 */
 const warmth=c=>Math.hypot(c.l[1],c.l[2])*Math.cos((toRyb(hsl(c.h)[0])-60)*Math.PI/180);
@@ -263,7 +313,7 @@ function render(){const v=$('#view');
  if(st.tab==='paints'){v.innerHTML=paintsView();balanceTiles();return}
  if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>inLibP(id)&&(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
- if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} ${MULTI?'palettes':'combinations'}`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
+ if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length===IDS.length?L.length:L.length+' of '+IDS.length} ${MULTI?'palettes':'combinations'}`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
  else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>inLibC(i)&&(!st.chap||C[i].s===st.chap));
   if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));if(st.sort==='temp')L.sort((a,b)=>warmth(C[b])-warmth(C[a]));
   $('#count').textContent=`${L.length} of ${C.length} colours`;
@@ -369,7 +419,7 @@ function greyOf(h){const L=lab(h)[0],Y=L>8?((L+16)/116)**3:L/903.3,v=Y<=.0031308
 const addBtn=k=>user?`<button class="ibtn" id="add-${k}">${P(active)?'+ Add to '+esc(P(active).name):'+ New palette'}</button>`:'';
 
 function authUI(){const a=$('#auth');if(!sb){a.innerHTML='';return}
- a.innerHTML=user?`<span class="note">${esc(user.email||'')}</span><button class="linkc" id="signout">Sign out</button>`:`<button class="linkc" id="signin">Sign in</button>`;
+ a.innerHTML=user?`<span class="note">${esc(user.email||'')}</span><button class="linkc" id="signout">Sign out</button>`:`<button class="btn primary" id="signin">Sign in</button>`;
  $('[data-tab="mine"]').hidden=!user;
  if(!user&&st.tab==='mine'){st.tab='combos';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='combos'))}
  dock()}
@@ -631,18 +681,22 @@ function imgAction(t){if(!IMG||!cur||!cur.img)return false;
  return false}
 
 /* events */
-/* header, ribbon, legend and size filter follow the chosen library */
+/* header, ribbon and size filter follow the chosen library */
 function drawChrome(){const ci=C.map((c,i)=>i).filter(inLibC),pi=IDS.filter(inLibP),one=st.lib!=='all'||!MULTI?(SBY[st.lib]||SOURCES[0]):null;
- $('#sub').textContent=`${one?(one.byline||one.name)+' · ':`${SOURCES.length} libraries · `}${pi.length} ${one&&one.format==='wada'?'combinations':'palettes'} drawn from ${ci.length} colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.`;
- $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${ci.filter(i=>C[i].s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
+ $('#eyebrow').textContent=one?(one.byline||one.name):`${SOURCES.length} libraries`;
+ $('#sub').textContent=`${pi.length} ${one&&one.format==='wada'?'combinations':'palettes'} drawn from ${ci.length} colours.`;
  const sizes=[...new Set(pi.map(id=>COMBOS[id].length))].sort((a,b)=>a-b);if(st.size&&!sizes.includes(st.size))st.size=0;
- $('#fsize').innerHTML=[0,...sizes].map(v=>`<button data-v="${v}" aria-pressed="${v===st.size}">${v||'All'}</button>`).join('');
- $('#ribbon').innerHTML=ci.map(i=>[i,C[i]]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
+ $('#fsize').innerHTML=[0,...sizes].map(v=>`<button data-v="${v}" aria-pressed="${v===st.size}"${v?` aria-label="${v} colours"`:''}>${v||'Any'}</button>`).join('');
+ const rib=ci.map(i=>[i,C[i]]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]);
+ $('#ribbon').innerHTML=[1,2,3,4,5,6].map(f=>{const g=rib.filter(x=>x[1].s===f);return g.length?`<div class="rg" style="flex:${g.length}"><div class="rs">${g.map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('')}</div><button class="rl" data-fam="${f}" title="Browse ${GROUPS[f]}">${GSHORT[f]}<span>${g.length}</span></button></div>`:''}).join('');
  const L=$('#lib');L.hidden=L.previousElementSibling.hidden=!MULTI;
  L.innerHTML=`<option value="all">All libraries</option>`+SOURCES.map(s=>`<option value="${esc(s.id)}">${esc(s.short)}</option>`).join('');L.value=st.lib}
 drawChrome();
 $('#lib').addEventListener('change',e=>{st.lib=e.target.value;try{localStorage.setItem('w-lib',st.lib)}catch(x){}drawChrome();render();if(cur)openSheet(cur,true)});
-$('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
+$('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}" title="${v?GROUPS[v]:'All hue families'}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
+/* light / dark: follows the system until chosen, then remembered */
+{const set=t=>{if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme};try{set(localStorage.getItem('w-theme'))}catch(e){}
+ $('#theme').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches,t=dark?'light':'dark';set(t);try{localStorage.setItem('w-theme',t)}catch(e){}})}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button,#imgnew,#imgcrop0,#imgsnap button,[data-imgrm],[data-imgmix],#imgproc,#imgsave,#imgback');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
  if(t.id==='pproc'){const p=P(active);if(p)toProcreate(p.name,p.colours.map(itemHex));return}
  if(t.id==='proc-combo'){toProcreate(PNAME[cur.combo]||`${SBY[PSRC[cur.combo]].short} ${pnum(cur.combo)}`,COMBOS[cur.combo].map(i=>C[i].h));return}
