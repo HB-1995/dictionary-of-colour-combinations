@@ -55,7 +55,10 @@ input[type=color]{width:52px;height:44px;border:1px solid var(--line);border-rad
 .dockin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) auto auto;gap:12px;align-items:center}.dstrip{height:44px}
 body.adding{padding-bottom:96px}body.adding .card,body.adding .ribbon button{cursor:copy}
 @media(max-width:700px){.dockin{grid-template-columns:1fr 1fr}.dockin>div:first-child,.dstrip{grid-column:1/-1}}
-.ptiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.pcard .meta{display:block}.pcard .meta span{display:block;white-space:normal}.pcard{display:flex;flex-direction:column;gap:6px}
+.ptiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.pcard .meta{display:block}.pcard .meta span{display:block;white-space:normal}.pcard{position:relative}
+.addp{position:absolute;top:6px;right:6px;z-index:2;width:30px;height:30px;border-radius:50%;border:1px solid #ffffff99;background:#00000040;backdrop-filter:blur(4px);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s}
+.addp:hover{background:#00000080}.addp.on{background:var(--ink);color:var(--bg);border-color:transparent;font-size:15px}
+@media(hover:none){.addp{width:36px;height:36px}}
 .pswatch{display:flex;height:84px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000000d}.pswatch span{flex:1}
 .big2{height:150px}.big2 span{display:flex;align-items:flex-end;padding:10px;font-size:13px;font-weight:700}
 .own{border:1px solid var(--line);background:var(--card);border-radius:6px;min-height:38px;font-size:14px}.own.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -394,21 +397,21 @@ async function toggleOwned(no){const had=owned.has(no);had?owned.delete(no):owne
  const q=had?sb.from('owned_paints').delete().eq('paint_no',no):sb.from('owned_paints').insert({paint_no:no});const {error}=await q;
  if(error){had?owned.add(no):owned.delete(no);toast('Could not save — check your connection')}
  if(st.tab==='paints')render();if(cur&&cur.paint)openSheet(cur,true)}
-const paintCard=p=>`<div class="pcard"><button class="card" data-paint="${p.no}"><div class="pswatch"><span style="background:${p.masstone}" title="Measured masstone"></span><span style="background:${p.swatch}" title="Chart swatch"></span></div>
+const paintCard=p=>`<div class="pcard">${user?`<button class="addp ${owned.has(p.no)?'on':''}" data-own="${p.no}" aria-pressed="${owned.has(p.no)}" aria-label="${owned.has(p.no)?'Remove '+esc(p.name)+' from':'Add '+esc(p.name)+' to'} your box of paints" title="${owned.has(p.no)?'In your box of paints — click to remove':'Add to your box of paints'}">${owned.has(p.no)?'✓':'+'}</button>`:''}<button class="card" data-paint="${p.no}"><div class="pswatch"><span style="background:${p.masstone}" title="Measured masstone"></span><span style="background:${p.swatch}" title="Chart swatch"></span></div>
  <div class="meta"><b>${esc(p.name)}</b><span>No. ${p.no} · Series ${p.series} · ${esc(p.pigments.join(', '))}</span><span>${esc(p.opacity)} · tint ${esc(p.tint.toLowerCase())}</span></div></button>
- ${user?`<button class="own ${owned.has(p.no)?'on':''}" data-own="${p.no}" aria-pressed="${owned.has(p.no)}">${owned.has(p.no)?'✓ I have this':'+ I have this'}</button>`:''}</div>`;
+</div>`;
 function paintsView(){let L=PAINTS.filter(p=>(!pst.own||owned.has(p.no))&&(!pst.fam||p.family===pst.fam));
  const q=st.q.trim().toLowerCase();if(q)L=L.filter(p=>p.name.toLowerCase().includes(q)||p.no===q.replace(/^no\.?\s*/,'')||p.pigments.some(g=>g.toLowerCase()===q.replace(/\s/g,'')));
  $('#count').textContent='';
  const ctl=`<div class="row-actions"><div class="seg" id="pfam">${['',...FAMS].map(f=>`<button data-v="${esc(f)}" aria-pressed="${pst.fam===f}">${f?esc(f):'All'}</button>`).join('')}</div>
- ${user?`<div class="seg" id="pown"><button data-v="0" aria-pressed="${!pst.own}">All paints</button><button data-v="1" aria-pressed="${pst.own}">Mine (${owned.size})</button></div>`:'<span class="note"><button class="linkc" id="signin">Sign in</button> to tick the paints you own.</span>'}</div>
+ ${user?`<div class="seg" id="pown"><button data-v="0" aria-pressed="${!pst.own}">All paints</button><button data-v="1" aria-pressed="${pst.own}">My box (${owned.size})</button></div>`:'<span class="note"><button class="linkc" id="signin">Sign in</button> to build your box of paints.</span>'}</div>
  <p class="note">Michael Harding Artists Oil Colours: ${PAINTS.length} colours. Left swatch: measured masstone (straight from the tube). Right: the chart swatch. Data from michaelharding.co.uk; measurements by Artist Pigments.</p>`;
- if(!L.length)return ctl+`<p class="empty">${pst.own?'No paints ticked yet. Tick “I have this” on the paints you own.':'No paints match.'}</p>`;
+ if(!L.length)return ctl+`<p class="empty">${pst.own?'Your box of paints is empty. Press + on a paint to add it.':'No paints match.'}</p>`;
  return ctl+FAMS.filter(f=>L.some(p=>p.family===f)).map(f=>`<h2>${esc(f)} <span class="hsub">${L.filter(p=>p.family===f).length}</span></h2><div class="tiles ptiles">${L.filter(p=>p.family===f).map(paintCard).join('')}</div>`).join('')}
 
 function paintHTML(no){const p=PBY[no],nn=nearest(p.masstone,4);
  return `<div class="pswatch big2"><span style="background:${p.masstone};color:${textOn(p.masstone)}">Masstone (measured)</span><span style="background:${p.swatch};color:${textOn(p.swatch)}">Chart swatch</span></div>
- ${user?`<div class="row-actions"><button class="own ${owned.has(no)?'on':''}" data-own="${no}" aria-pressed="${owned.has(no)}">${owned.has(no)?'✓ I have this':'+ I have this'}</button></div>`:''}
+ ${user?`<div class="row-actions"><button class="own ${owned.has(no)?'on':''}" data-own="${no}" aria-pressed="${owned.has(no)}">${owned.has(no)?'✓ In my box of paints':'+ Add to my box of paints'}</button></div>`:''}
  <table class="stack"><tbody>${[['Number',`No. ${p.no} · Series ${p.series}`],['Pigments',p.pigments.join(', ')],['Opacity',p.opacity],['Tint power',p.tint],['Temperature',p.temp],['Drying',p.drying],['Lightfastness',p.lightfast],['Oil',p.oil],['Toxic',p.toxic?'Yes — read the label':'No'],['Masstone CIELAB',p.lab.join(' / ')],['Used for mixing',`${p.mix} (${p.mixSource})`]].map(([k,v])=>`<tr><td class="lbl">${k}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
  ${p.note?`<p class="note">${esc(p.note)}</p>`:''}
  <p><a href="https://michaelharding.co.uk/oil-colours/${p.slug}">View on michaelharding.co.uk</a></p>
@@ -418,7 +421,7 @@ const closeness=de=>de<2?['Near-identical','good']:de<5?['Close','good']:de<10?[
 const fmtParts=n=>n===0.5?'½':n%1?`${Math.floor(n)}½`:String(n);
 function recipeHTML(r,target){const [lab,cls]=closeness(r.de);
  return `<div class="recipe"><div class="rsw"><span style="background:${target}" title="Target"></span><span style="background:${r.hex}" title="Predicted mix"></span></div>
- <div><div class="rings">${r.paints.map(p=>`<span class="ring"><i style="background:${PBY[p.no].swatch}"></i><b>${fmtParts(p.parts)}</b> ${esc(p.name)}${user&&!owned.has(p.no)?' <em class="need">not owned</em>':''}</span>`).join('')}</div>
+ <div><div class="rings">${r.paints.map(p=>`<span class="ring"><i style="background:${PBY[p.no].swatch}"></i><b>${fmtParts(p.parts)}</b> ${esc(p.name)}${user&&!owned.has(p.no)?' <em class="need">not in your box</em>':''}</span>`).join('')}</div>
  <span class="de ${cls}">${lab} · ΔE ${r.de.toFixed(1)}</span></div></div>`}
 function mixSection(hex){return MIXER?`<h2>Mix it in Michael Harding oils</h2><div class="mixout" data-mixhex="${hex}"><p class="note">Working out recipes…</p></div>`:''}
 function fillMix(){const el=document.querySelector('.mixout[data-mixhex]');if(!el||!MIXER)return;const hex=el.dataset.mixhex;
@@ -431,7 +434,7 @@ function fillMix(){const el=document.querySelector('.mixout[data-mixhex]');if(!e
    mixCache[key]={all,mine,tip}}
   const {all,mine,tip}=mixCache[key],cell=document.querySelector(`.mixout[data-mixhex="${hex}"]`);if(!cell)return;
   cell.innerHTML=`<div class="mixcols"><div><p class="cap">With every Michael Harding colour</p>${all.map(r=>recipeHTML(r,hex)).join('')}</div>
-   <div><p class="cap">With your paints</p>${!user?'<p class="note"><button class="linkc" id="signin">Sign in</button> and tick the paints you own to see what you can mix today.</p>':!owned.size?'<p class="note">Tick the paints you own in the <button class="linkc" data-tab="paints">Paints</button> tab.</p>':mine.map(r=>recipeHTML(r,hex)).join('')}
+   <div><p class="cap">With your box of paints</p>${!user?'<p class="note"><button class="linkc" id="signin">Sign in</button> and build your box of paints to see what you can mix today.</p>':!owned.size?'<p class="note">Add paints to your box in the <button class="linkc" data-tab="paints">Paints</button> tab.</p>':mine.map(r=>recipeHTML(r,hex)).join('')}
    ${tip?`<p class="note tip">Adding <button class="linkc" data-paint="${tip.no}">${esc(PBY[tip.no].name)}</button> would get you to ΔE ${tip.de.toFixed(1)}.</p>`:''}</div></div>
    <p class="note">Parts are by volume, adjusted for each paint's tinting strength. The predictions use the Mixbox pigment model and Michael Harding's published masstone data: treat them as a starting point and adjust by eye. ΔE under 2 is near-invisible; over 10 is clearly different.</p>`};
  setTimeout(run,30)}
