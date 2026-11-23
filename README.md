@@ -106,3 +106,14 @@ Changes in this fork:
 - `paints.json`: all 140 Michael Harding Artists Oil Colours (number, series, Colour Index pigments, opacity, tint power, measured masstone CIELAB by Artist Pigments), collected from michaelharding.co.uk. `mix` is the colour fed to the mixing model and `mixSource` says where it came from (measured masstone, a reference pigment colour for very dark transparent paints, or the chart swatch where the published measurement looks wrong).
 - `mix.js`: recipe solver. Tries 1-, 2- and 3-paint combinations, mixing with the Mixbox pigment model, and ranks by CIEDE2000 distance to the target. Parts are adjusted for each paint's tint power.
 - `vendor/mixbox.js`: Mixbox 2.0 by Secret Weapons, CC BY-NC 4.0 (non-commercial use only); see `vendor/MIXBOX-LICENSE`.
+
+### Seen in art (Harvard Art Museums)
+- `api/art.js`: Vercel server function behind the "Seen in art" panel. `GET /api/art?c=HEX,HEX,...&type=Paintings|Prints|Drawings|Textile Arts|Photographs|all&n=12`.
+- Needs the env var `HARVARD_ART_MUSEUMS_API` (free key from Harvard Art Museums; non-commercial use only).
+- Harvard's `color` filter only matches the simplified colours it extracts from each image, where every RGB channel is a multiple of 25. Each palette colour is snapped to its 2 nearest grid colours (1 for palettes over 4 colours), 40 works are fetched per grid colour, and works are ranked by CIEDE2000 match across the whole palette (coverage, closeness, presence, off-palette penalty). Weak matches (average ΔE ≥ 12) are dropped.
+- Only works cleared for display at any size are requested. Images load from the URLs Harvard returns; each result links to harvardartmuseums.org.
+- Answers are cached by Vercel for up to 14 days (Harvard's limit); empty answers aren't cached. A new palette costs up to 8 API calls (limit: 2,500 a day).
+- Not built yet: "show more", saving a work to a palette, tuned scoring weights.
+
+### Supabase
+`supabase/schema.sql` holds the tables for private palettes (`palettes`) and the box of paints (`owned_paints`).
