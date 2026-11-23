@@ -252,7 +252,7 @@ function toast(t){const e=$('#toast');e.textContent=t;e.style.opacity=1;clearTim
 function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v==String(v)))}
 
 /* ---------- palettes (Supabase, private to the signed-in owner) ---------- */
-const SB_URL='https://hisxpmnmffyqnawgguwk.supabase.co',SB_KEY='__SUPABASE_ANON_KEY__';
+const SB_URL='https://hisxpmnmffyqnawgguwk.supabase.co',SB_KEY='sb_publishable_Hs9XKfmvhVIrvncEYPv1Dg_ujN6jWFH';
 const sb=(window.supabase&&!SB_KEY.startsWith('__'))?window.supabase.createClient(SB_URL,SB_KEY):null;
 let user=null,pals=[],active=null,adding=false;
 const byName={};C.forEach((c,i)=>byName[c.n]=i);
