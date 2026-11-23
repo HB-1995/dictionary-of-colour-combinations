@@ -39,6 +39,22 @@ h1{font-size:clamp(32px,5vw,50px);line-height:1.05;margin:0;font-weight:900;lett
 .gd{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
 .gd-l{width:14px;height:14px;margin-right:10px}.hsub{font-size:14px;font-weight:400;color:var(--mute);margin-left:6px}
 .legend{display:flex;gap:0;margin-top:6px}.legend button{border:0;border-top:2px solid var(--line);background:none;padding:6px 6px 0;box-shadow:inset 1px 0 0 var(--line);font-size:13px;color:var(--mute);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:32px}.legend button:hover{color:var(--ink);border-color:var(--ink)}
+.top{display:flex;justify-content:space-between;gap:12px 20px;align-items:flex-start;flex-wrap:wrap}#auth{display:flex;gap:12px;align-items:center;font-size:14px;padding-top:10px}
+.field{height:44px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 12px;font-size:16px;width:100%}textarea.field{height:auto;padding:10px 12px;resize:vertical}
+#pname{font-size:20px;font-weight:700;margin:4px 0 16px}.pstripbig{height:170px}.vstrip{height:40px}
+.row-actions{display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap;margin:18px 0}
+.mini{border:1px solid var(--line);background:var(--card);border-radius:4px;width:36px;height:36px;margin-left:3px}
+.wt{width:64px;height:38px;border:1px solid var(--line);border-radius:4px;background:var(--card);padding:0 6px;font-size:16px}
+.ptable .rec{min-width:150px}.handle{cursor:grab;color:var(--mute);width:22px;user-select:none}tr.dragover td{border-top:2px solid var(--ink)}
+.custom{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.custom .field{width:auto;flex:1 1 140px}
+input[type=color]{width:52px;height:44px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:3px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.schip{border:1px solid var(--line);background:var(--card);border-radius:24px;padding:4px 14px 4px 5px;display:flex;align-items:center;gap:4px;font-size:14px;min-height:44px}.schip .dot{width:32px;height:32px;border-radius:50%;margin-right:6px}
+.danger{color:#c2361f}.newstrip{align-items:center;justify-content:center;border:1.5px dashed var(--line);box-shadow:none;color:var(--mute)}
+.emptystrip{display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;background:var(--chip)}
+#dock{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 24px #0002;padding:10px max(4vw,16px)}
+.dockin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) auto auto;gap:12px;align-items:center}.dstrip{height:44px}
+body.adding{padding-bottom:96px}body.adding .card,body.adding .ribbon button{cursor:copy}
+@media(max-width:700px){.dockin{grid-template-columns:1fr 1fr}.dockin>div:first-child,.dstrip{grid-column:1/-1}}
 .lbl{font-size:13px;color:var(--mute)}
 select{height:42px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 10px}
 #count{margin-left:auto;font-size:14px;color:var(--mute)}
@@ -91,7 +107,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 </head>
 <body>
 <header class="band"><div class="wrap">
-  <h1>A Dictionary of Colour Combinations</h1>
+  <div class="top"><h1>A Dictionary of Colour Combinations</h1><div id="auth"></div></div>
   <p class="sub">Sanzo Wada · Volume 1 · 348 combinations drawn from 159 colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.</p>
   <div class="ribbon" id="ribbon" aria-label="All 159 colours"></div><div class="legend" id="legend"></div>
   <div class="searchrow">
@@ -99,7 +115,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
     <div class="tabs" role="group" aria-label="View">
       <button data-tab="combos" aria-pressed="true">Combinations</button>
       <button data-tab="colours" aria-pressed="false">Colours</button>
-      <button data-tab="mine" aria-pressed="false">My palettes</button>
+      <button data-tab="mine" aria-pressed="false" hidden>My palettes</button>
     </div>
   </div>
 </div></header>
@@ -118,11 +134,13 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   <div class="shead"><h3 id="stitle"></h3><span id="sextra"></span><button class="ibtn" id="close" aria-label="Close">✕</button></div>
   <div class="sbody" id="sbody"></div>
 </aside>
+<div id="dock" hidden></div>
 <div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-Promise.all([fetch('colors.json').then(r=>r.json()),fetch('palettes.json').then(r=>r.json())]).then(([raw,pal])=>{
-const DATA={colors:raw.map(x=>({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations})),mine:pal.groups.map(g=>g.colours.map(n=>raw.findIndex(x=>x.name===n)))};
-const C=DATA.colors, MINE=DATA.mine;
+fetch('colors.json').then(r=>r.json()).then(raw=>{
+const DATA={colors:raw.map(x=>({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations}))};
+const C=DATA.colors;
 const COMBOS={};C.forEach((c,i)=>c.k.forEach(k=>(COMBOS[k]??=[]).push(i)));
 const IDS=Object.keys(COMBOS).map(Number).sort((a,b)=>a-b);
 const $=s=>document.querySelector(s);
@@ -171,23 +189,24 @@ function search(q){q=q.trim();const lq=q.toLowerCase();let m,cols=[],combos=[],n
  return {cols,combos,note}}
 
 function render(){const v=$('#view');
+ $('.bar').hidden=st.tab==='mine'&&!st.q.trim();
  if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
- if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of 348 combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
+ if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
  else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>!st.chap||C[i].s===st.chap);
   if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));
-  $('#count').textContent=`${L.length} of 159 colours`;
+  $('#count').textContent=`${L.length} of ${C.length} colours`;
   v.innerHTML=st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
- else{$('#count').textContent='';
-  v.innerHTML=`<h2>Painting groups</h2><div class="grid">${MINE.map((g,n)=>`<button class="card" data-mine="${n}">${strip(g)}<div class="meta"><b>Group ${n+1}</b><span>${esc(g.map(i=>C[i].n).join(' · '))}</span></div></button>`).join('')}</div>
+ else{$('#count').textContent=`${pals.length} palette${pals.length===1?'':'s'}`;
+  v.innerHTML=`<h2>My palettes</h2><div class="grid"><button class="card" id="newpal"><div class="strip newstrip"><span>+ New palette</span></div><div class="meta"><b>New palette</b></div></button>${pals.map(p=>`<button class="card" data-pal="${p.id}">${pstrip(p)}<div class="meta"><b>${esc(p.name)}</b><span>${p.colours.length} colour${p.colours.length===1?'':'s'}</span></div></button>`).join('')}</div>
   <h2>Saved combinations</h2>${favs.length?`<div class="grid">${favs.map(card).join('')}</div>`:'<p class="empty">Open any combination and press ☆ Save to keep it here.</p>'}`}}
 
 /* wheel graphic */
-function wheel(ids,m){const S=280,c=S/2,R=128,seg=48;let w='';
+function wheel(hs,m){const S=280,c=S/2,R=128,seg=48;let w='';
  for(let k=0;k<seg;k++){const a0=k*360/seg,a1=(k+1)*360/seg,mid=(a0+a1)/2,hh=m==='ryb'?fromRyb(mid):mid,p=a=>[c+R*Math.sin(a*Math.PI/180),c-R*Math.cos(a*Math.PI/180)],[x0,y0]=p(a0),[x1,y1]=p(a1);
   w+=`<path d="M${c},${c}L${x0},${y0}A${R},${R} 0 0 1 ${x1},${y1}Z" fill="${fromHsl(hh,.75,.55)}"/>`}
  w+=`<circle cx="${c}" cy="${c}" r="${R*.82}" fill="var(--bg)"/>`;
- ids.forEach(i=>{const h=C[i].h,a=wheelAngle(h,m),r=R*(.18+.6*Math.min(1,chroma(C[i])/80)),pt=a=>[c+r*Math.sin(a*Math.PI/180),c-r*Math.cos(a*Math.PI/180)],[x,y]=pt(a),[x2,y2]=pt(a+180),ch=comp(h,m);
+ hs.forEach(h=>{const Lb=lab(h),a=wheelAngle(h,m),r=R*(.18+.6*Math.min(1,Math.hypot(Lb[1],Lb[2])/80)),pt=a=>[c+r*Math.sin(a*Math.PI/180),c-r*Math.cos(a*Math.PI/180)],[x,y]=pt(a),[x2,y2]=pt(a+180),ch=comp(h,m);
   w+=`<line x1="${x}" y1="${y}" x2="${x2}" y2="${y2}" stroke="var(--mute)" stroke-dasharray="3 3"/><circle cx="${x2}" cy="${y2}" r="9" fill="${ch}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="${x}" cy="${y}" r="12" fill="${h}" stroke="var(--ink)" stroke-width="1.5"/>`});
  return `<svg class="wheel" viewBox="0 0 ${S} ${S}" role="img" aria-label="${m==='ryb'?"Painter's":'Screen'} colour wheel showing each colour (solid) and its complement (dashed)">${w}</svg>`}
 
@@ -202,7 +221,7 @@ function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show
  return `<div class="big">${ids.map(i=>`<button data-colour="${i}" style="background:${C[i].h};color:${textOn(C[i].h)}">${esc(C[i].n)}</button>`).join('')}</div>
  ${toggles()}
  <div class="duo"><div><p class="cap">Original</p>${strip(ids)}<div class="comp"><p class="cap">Complementary group · ${st.wheel==='ryb'?"painter's wheel":'screen wheel'} · ${st.show==='exact'?'exact complements':'nearest Wada colours'}</p><div class="strip">${shown.map(h=>`<span style="background:${h}"></span>`).join('')}</div></div>
- ${st.show==='wada'?`<p class="note">Built from ${cs.map(x=>`<button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button>`).join(', ')}.</p>`:''}</div>${wheel(ids,st.wheel)}</div>
+ ${st.show==='wada'?`<p class="note">Built from ${cs.map(x=>`<button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button>`).join(', ')}.</p>`:''}</div>${wheel(ids.map(i=>C[i].h),st.wheel)}</div>
  <table class="stack"><thead><tr><th>Colour</th><th>Codes</th><th>Complement</th><th>Nearest Wada</th><th>Tint → shade</th></tr></thead><tbody>
  ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button><br><span class="note"><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></td><td class="code">${C[i].h}${copyBtn(C[i].h)}<br>${C[i].c.join(' / ')}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
  <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>
@@ -213,29 +232,143 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  <table class="stack"><thead><tr><th>Hex</th><th>CMYK</th><th>Hue family</th><th>Tint → shade</th></tr></thead><tbody><tr><td class="code">${c.h}${copyBtn(c.h)}</td><td class="code">${c.c.join(' / ')}${copyBtn(c.c.join(' '))}</td><td><i class="gd" style="background:${GDOT[c.s]}"></i>${GROUPS[c.s]}</td><td>${scale(c.h)}</td></tr></tbody></table>
  <h2>Complements</h2>
  <div class="duo"><table><thead><tr><th>Wheel</th><th>Exact</th><th>Nearest Wada</th></tr></thead><tbody>
- ${[["Painter's (RYB)",pr],['Screen (RGB)',rg]].map(([n,x])=>`<tr><td>${n}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td></tr>`).join('')}</tbody></table>${wheel([i],st.wheel)}</div>
+ ${[["Painter's (RYB)",pr],['Screen (RGB)',rg]].map(([n,x])=>`<tr><td>${n}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td></tr>`).join('')}</tbody></table>${wheel([c.h],st.wheel)}</div>
  ${neutral(i)?'<p class="note">This is a near-neutral colour, so its complement is weak and best treated as a temperature shift.</p>':''}
  <h2>In ${c.k.length} combination${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
-function openSheet(o){cur=o;const fav=o.combo&&favs.includes(o.combo);
- $('#stitle').textContent=o.combo?`Combination ${o.combo}`:o.mine!=null?`Painting group ${o.mine+1}`:C[o.colour].n;
- $('#sextra').innerHTML=o.combo?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'';
- $('#sbody').innerHTML=o.combo?groupHTML(COMBOS[o.combo],o.combo):o.mine!=null?groupHTML(MINE[o.mine]):colourHTML(o.colour);
- document.body.classList.add('open');$('#sheet').scrollTop=0;
- const hsh=o.combo?'combo-'+o.combo:o.mine!=null?'group-'+(o.mine+1):'colour-'+o.colour;if(location.hash.slice(1)!==hsh)location.hash=hsh;$('#close').focus()}
+function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;let title,body,extra='',hsh='';
+ if(o.combo){const fav=favs.includes(o.combo);title=`Combination ${o.combo}`;body=groupHTML(COMBOS[o.combo],o.combo);extra=(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
+ else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
+ else if(o.signin){title='Sign in';body=signinHTML()}
+ else{title=C[o.colour].n;body=colourHTML(o.colour);extra=addBtn('colour');hsh='colour-'+o.colour}
+ $('#stitle').textContent=title;$('#sextra').innerHTML=extra;$('#sbody').innerHTML=body;
+ document.body.classList.add('open');if(hsh&&location.hash.slice(1)!==hsh)location.hash=hsh;
+ if(keep)$('#sheet').scrollTop=y;else{$('#sheet').scrollTop=0;$('#close').focus()}}
 function closeSheet(){cur=null;document.body.classList.remove('open');if(location.hash)location.hash=''}
 function fromHash(){const h=location.hash.slice(1);let m;
- if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if(m=h.match(/^group-(\d)$/))MINE[m[1]-1]&&openSheet({mine:m[1]-1});else if(cur)closeSheet()}
+ if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if(m=h.match(/^palette-([0-9a-f-]+)$/)){if(P(m[1]))openSheet({pal:m[1]})}else if(cur)closeSheet()}
 
 function toast(t){const e=$('#toast');e.textContent=t;e.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.opacity=0,1400)}
 function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v==String(v)))}
+
+/* ---------- palettes (Supabase, private to the signed-in owner) ---------- */
+const SB_URL='https://hisxpmnmffyqnawgguwk.supabase.co',SB_KEY='__SUPABASE_ANON_KEY__';
+const sb=(window.supabase&&!SB_KEY.startsWith('__'))?window.supabase.createClient(SB_URL,SB_KEY):null;
+let user=null,pals=[],active=null,adding=false;
+const byName={};C.forEach((c,i)=>byName[c.n]=i);
+const P=id=>pals.find(p=>p.id===id);
+const itemHex=it=>it.ref!=null&&byName[it.ref]!=null?C[byName[it.ref]].h:it.hex;
+const itemName=it=>it.ref??('Custom '+it.hex);
+const wOf=x=>Math.max(0,+x.weight||0);
+const wsum=p=>p.colours.reduce((s,x)=>s+wOf(x),0)||1;
+const pstrip=(p,cls='strip')=>`<div class="${cls}">${p.colours.length?p.colours.map(x=>`<span style="background:${itemHex(x)};flex:${wOf(x)||.0001}"></span>`).join(''):'<span class="emptystrip">No colours yet</span>'}</div>`;
+const cmykHex=v=>{const [c,m,y,k]=v.map(x=>x/100);return hex([1-c,1-m,1-y].map(x=>255*x*(1-k)))};
+const fromWada=i=>({ref:C[i].n,hex:C[i].h,cmyk:C[i].c,weight:10,recipe:''});
+function greyOf(h){const L=lab(h)[0],Y=L>8?((L+16)/116)**3:L/903.3,v=Y<=.0031308?12.92*Y:1.055*Y**(1/2.4)-.055;return hex([v,v,v].map(x=>x*255))}
+const addBtn=k=>user?`<button class="ibtn" id="add-${k}">${P(active)?'+ Add to '+esc(P(active).name):'+ New palette'}</button>`:'';
+
+function authUI(){const a=$('#auth');if(!sb){a.innerHTML='';return}
+ a.innerHTML=user?`<span class="note">${esc(user.email||'')}</span><button class="linkc" id="signout">Sign out</button>`:`<button class="linkc" id="signin">Sign in</button>`;
+ $('[data-tab="mine"]').hidden=!user;
+ if(!user&&st.tab==='mine'){st.tab='combos';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='combos'))}
+ dock()}
+async function loadPals(){const {data,error}=await sb.from('palettes').select('*').order('position').order('created_at');
+ if(error){toast('Could not load palettes');return}
+ pals=data.map(p=>({...p,colours:Array.isArray(p.colours)?p.colours:[]}));if(active&&!P(active))active=null;render();dock();
+ if(cur&&cur.pal)openSheet(cur,true);else if(/^palette-/.test(location.hash.slice(1)))fromHash()}
+const timers={};
+function save(p){const s=$('#pstatus');if(s)s.textContent='Saving…';clearTimeout(timers[p.id]);
+ timers[p.id]=setTimeout(async()=>{const {error}=await sb.from('palettes').update({name:p.name,notes:p.notes,colours:p.colours,position:p.position,updated_at:new Date().toISOString()}).eq('id',p.id);
+  const s=$('#pstatus');if(s)s.textContent=error?'Not saved — check your connection':'All changes saved';if(error)toast('Save failed')},500)}
+async function newPal(colours=[],name='Untitled palette'){const {data,error}=await sb.from('palettes').insert({name,colours,position:pals.length}).select().single();
+ if(error){toast('Could not create palette');return null}pals.push(data);active=data.id;render();dock();return data}
+function addItems(items){const p=P(active);if(!p)return;let n=0;
+ items.forEach(it=>{if(!(it.ref&&p.colours.some(x=>x.ref===it.ref))){p.colours.push(it);n++}});
+ save(p);dock();if(cur&&cur.pal===p.id)openSheet(cur,true);if(st.tab==='mine'&&!cur)render();toast(n?`Added ${n} to ${p.name}`:'Already in the palette')}
+function dock(){const d=$('#dock'),p=adding&&user&&P(active);d.hidden=!p;document.body.classList.toggle('adding',!!p);if(!p)return;
+ d.innerHTML=`<div class="wrap dockin"><div><b>${esc(p.name)}</b><span class="note"> · ${p.colours.length} colour${p.colours.length===1?'':'s'} · click any colour or combination to add it</span></div>${pstrip(p,'strip dstrip')}<button class="ibtn" id="dockopen">Edit palette</button><button class="ibtn" id="dockdone">Done</button></div>`}
+
+function signinHTML(){return `<form id="signform"><label class="lbl" for="semail">Email</label><input id="semail" class="field" type="email" required autocomplete="email">
+ <div class="row-actions"><button class="ibtn" type="submit">Email me a sign-in link</button></div><p class="note" id="smsg">Only the site owner can sign in. The link signs you in on this device.</p></form>`}
+
+function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=wsum(p);
+ const range=hs.length>1?Math.max(...Ls)-Math.min(...Ls):0;
+ const verdict=hs.length<2?'Add at least two colours to judge value contrast.':range<25?'Low value contrast: the colours are close in lightness, so the painting will read flat in greyscale. Add a much lighter or darker colour.':range<45?'Moderate value contrast.':'Strong value contrast: clear lights and darks.';
+ const inP=new Set(p.colours.map(x=>x.ref).filter(Boolean)),co={};
+ p.colours.forEach(x=>{const i=byName[x.ref];if(i==null)return;C[i].k.forEach(k=>COMBOS[k].forEach(j=>{if(!inP.has(C[j].n))co[j]=(co[j]||0)+1}))});
+ const sugg=Object.entries(co).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>+x[0]);
+ const comps=[...new Set(hs.map(h=>nearest(comp(h,st.wheel),1)[0][0]))].filter(j=>!inP.has(C[j].n));
+ const chip=(j,why)=>`<button class="schip" data-sugg="${j}" title="${esc(why)}"><span class="dot" style="background:${C[j].h}"></span>${esc(C[j].n)}<b>+</b></button>`;
+ return `<label class="lbl" for="pname">Name</label><input id="pname" class="field" value="${esc(p.name)}" maxlength="120">
+ ${pstrip(p,'strip pstripbig')}
+ <p class="cap">Value check · greyscale${hs.length>1?` · lightness ${Math.round(Math.min(...Ls))}–${Math.round(Math.max(...Ls))} of 100`:''}</p>
+ ${hs.length?`<div class="strip vstrip">${p.colours.map((x,n)=>`<span style="background:${greyOf(hs[n])};flex:${wOf(x)||.0001}"></span>`).join('')}</div>`:''}
+ <p class="note">${verdict}</p>
+ <div class="row-actions"><button class="ibtn" id="addmode">+ Add colours from the site</button><span id="pstatus" class="note">All changes saved</span></div>
+ ${p.colours.length?`<table class="stack ptable"><thead><tr><th></th><th>Colour</th><th>Codes</th><th>Share</th><th>Paint mix</th><th></th></tr></thead><tbody>
+ ${p.colours.map((x,n)=>{const h=hs[n],ni=x.ref==null?nearest(h,1)[0][0]:null;return `<tr draggable="true" data-row="${n}"><td class="handle" title="Drag to reorder">⠿</td>
+ <td><span class="dot" style="background:${h}"></span>${x.ref!=null?`<button class="linkc" data-colour="${byName[x.ref]}">${esc(x.ref)}</button>`:`<b>Custom</b><br><span class="note">nearest Wada: <button class="linkc" data-colour="${ni}">${esc(C[ni].n)}</button></span>`}</td>
+ <td class="code">${h}${x.cmyk?`<br>${x.cmyk.join(' / ')}${x.ref==null?' (approx.)':''}`:''}</td>
+ <td class="code"><input class="wt" type="number" min="0" max="100" step="1" value="${wOf(x)}" data-wt="${n}" aria-label="Share of ${esc(itemName(x))}"> ${Math.round(100*wOf(x)/tot)}%</td>
+ <td><input class="field rec" data-rec="${n}" value="${esc(x.recipe||'')}" placeholder="e.g. burnt sienna + white" aria-label="Paint mix for ${esc(itemName(x))}"></td>
+ <td class="code"><button class="mini" data-mv="${n},-1" aria-label="Move up">↑</button><button class="mini" data-mv="${n},1" aria-label="Move down">↓</button><button class="mini" data-rm="${n}" aria-label="Remove">✕</button></td></tr>`}).join('')}
+ </tbody></table>`:'<p class="empty">Empty palette. Add colours from the site, a suggestion, or a custom colour below.</p>'}
+ <p class="note">Share sets how much of the canvas each colour takes; the strips above draw to scale.</p>
+ <h2>Add a custom colour</h2>
+ <div class="custom"><input type="color" id="cpick" value="#a84222" aria-label="Pick a colour"><input class="field" id="chex" placeholder="#RRGGBB" maxlength="7" aria-label="Hex code"><span class="lbl">or CMYK</span><input class="field" id="ccmyk" placeholder="22 84 100 18" aria-label="CMYK values"><button class="ibtn" id="cadd">Add</button></div>
+ <p class="note">For paints you've mixed. CMYK here uses a simple conversion, so its screen colour is approximate.</p>
+ ${sugg.length?`<h2>Wada pairs these with your colours</h2><div class="chips">${sugg.map(j=>chip(j,`Shares ${co[j]} combination${co[j]>1?'s':''} with this palette`)).join('')}</div>`:''}
+ ${comps.length?`<h2>Complements · nearest Wada</h2><div class="chips">${comps.map(j=>chip(j,'Nearest Wada colour to a complement')).join('')}</div>`:''}
+ ${hs.length?`${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>`:''}
+ <h2>Notes</h2><textarea id="pnotes" class="field" rows="4" placeholder="Painting title, ideas, surface, references…">${esc(p.notes||'')}</textarea>
+ <div class="row-actions"><button class="ibtn" id="pdup">Duplicate</button><button class="ibtn danger" id="pdel">Delete palette</button></div>`}
+
+function palAction(t){const p=P(active);
+ if(t.id==='signin'){openSheet({signin:true});return true}
+ if(t.id==='signout'){sb.auth.signOut();return true}
+ if(t.id==='newpal'){newPal().then(p=>p&&openSheet({pal:p.id}));return true}
+ if(t.dataset.pal){openSheet({pal:t.dataset.pal});return true}
+ if(t.id==='add-combo'||t.id==='add-colour'){const items=cur.combo?COMBOS[cur.combo].map(fromWada):[fromWada(cur.colour)];
+  if(p)addItems(items);else newPal(items,cur.combo?`From combination ${cur.combo}`:C[cur.colour].n).then(q=>q&&openSheet({pal:q.id}));return true}
+ if(t.id==='dockopen'){adding=false;dock();openSheet({pal:active});return true}
+ if(t.id==='dockdone'){adding=false;dock();return true}
+ if(!p)return false;
+ if(t.id==='addmode'){adding=true;closeSheet();dock();toast('Click any colour or combination to add it');return true}
+ if(t.dataset.sugg){addItems([fromWada(+t.dataset.sugg)]);return true}
+ if(t.dataset.rm!=null){p.colours.splice(+t.dataset.rm,1);save(p);openSheet(cur,true);return true}
+ if(t.dataset.mv){const [n,d]=t.dataset.mv.split(',').map(Number),m=n+d;if(m<0||m>=p.colours.length)return true;[p.colours[n],p.colours[m]]=[p.colours[m],p.colours[n]];save(p);openSheet(cur,true);return true}
+ if(t.id==='cadd'){const hx=$('#chex').value.trim(),cm=$('#ccmyk').value.trim().split(/[\s,\/]+/).map(Number);let it=null;
+  if(/^#?[0-9a-f]{6}$/i.test(hx))it={ref:null,hex:'#'+hx.replace('#','').toUpperCase(),cmyk:null,weight:10,recipe:''};
+  else if(cm.length===4&&cm.every(v=>v>=0&&v<=100))it={ref:null,hex:cmykHex(cm),cmyk:cm,weight:10,recipe:''};
+  if(!it){toast('Enter a hex code or four CMYK numbers (0–100)');return true}addItems([it]);return true}
+ if(t.id==='pdup'){newPal(JSON.parse(JSON.stringify(p.colours)),p.name+' copy').then(q=>q&&openSheet({pal:q.id}));return true}
+ if(t.id==='pdel'){if(!t.dataset.confirm){t.dataset.confirm=1;t.textContent='Click again to delete for good';return true}
+  sb.from('palettes').delete().eq('id',p.id).then(({error})=>{if(error)return toast('Could not delete');pals=pals.filter(x=>x.id!==p.id);active=null;closeSheet();render();toast('Palette deleted')});return true}
+ return false}
+document.addEventListener('input',e=>{const p=P(active),t=e.target;if(!p||!cur||!cur.pal)return;
+ if(t.id==='pname'){p.name=t.value||'Untitled palette';$('#stitle').textContent=p.name;save(p)}
+ else if(t.id==='pnotes'){p.notes=t.value;save(p)}
+ else if(t.dataset.rec!=null){p.colours[+t.dataset.rec].recipe=t.value;save(p)}
+ else if(t.id==='cpick'){$('#chex').value=t.value.toUpperCase();$('#ccmyk').value=''}});
+document.addEventListener('change',e=>{const p=P(active),t=e.target;if(!p||t.dataset.wt==null)return;p.colours[+t.dataset.wt].weight=Math.max(0,Math.min(100,+t.value||0));save(p);openSheet(cur,true)});
+document.addEventListener('submit',async e=>{if(e.target.id!=='signform')return;e.preventDefault();const m=$('#smsg');m.textContent='Sending…';
+ const {error}=await sb.auth.signInWithOtp({email:$('#semail').value.trim(),options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
+ m.textContent=error?'That email can’t sign in here.':'Check your email for the sign-in link.'});
+let dragFrom=null;
+document.addEventListener('dragstart',e=>{const r=e.target.closest&&e.target.closest('tr[data-row]');if(r){dragFrom=+r.dataset.row;e.dataTransfer.effectAllowed='move'}});
+document.addEventListener('dragover',e=>{const r=e.target.closest&&e.target.closest('tr[data-row]');if(r&&dragFrom!=null){e.preventDefault();document.querySelectorAll('tr.dragover').forEach(x=>x.classList.remove('dragover'));r.classList.add('dragover')}});
+document.addEventListener('drop',e=>{const r=e.target.closest&&e.target.closest('tr[data-row]'),p=P(active);if(!r||dragFrom==null||!p)return;e.preventDefault();
+ const to=+r.dataset.row,[it]=p.colours.splice(dragFrom,1);p.colours.splice(to,0,it);dragFrom=null;save(p);openSheet(cur,true)});
+document.addEventListener('dragend',()=>{dragFrom=null;document.querySelectorAll('tr.dragover').forEach(x=>x.classList.remove('dragover'))});
 
 /* events */
 $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
 $('#fsize').innerHTML=[0,...[...new Set(IDS.map(id=>COMBOS[id].length))].sort((a,b)=>a-b)].map(v=>`<button data-v="${v}" aria-pressed="${v===0}">${v||'All'}</button>`).join('');
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
 $('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
-document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-mine],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim');if(!t)return;
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour');if(!t)return;
+ if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromWada));return}if(t.dataset.colour){addItems([fromWada(+t.dataset.colour)]);return}}
+ if(palAction(t))return;
  if(t.dataset.fam){st.tab='colours';st.chap=+t.dataset.fam;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='colours'));setSeg($('#fchap'),st.chap);render();$('.bar').scrollIntoView({behavior:'smooth'});return}
  if(t.dataset.copy){navigator.clipboard?.writeText(t.dataset.copy).then(()=>toast('Copied '+t.dataset.copy),()=>toast('Copy blocked — select the text instead'));return}
  if(t.id==='close'||t.id==='scrim')return closeSheet();
@@ -246,13 +379,13 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(p.id==='fchap'){st.chap=+t.dataset.v;setSeg(p,st.chap);render();return}
  if(p.id==='twheel'||p.id==='tshow'){st[p.id==='twheel'?'wheel':'show']=t.dataset.v;try{localStorage.setItem('w-wheel',st.wheel);localStorage.setItem('w-show',st.show)}catch(e){}const y=$('#sheet').scrollTop;openSheet(cur);$('#sheet').scrollTop=y;return}
  if(t.dataset.combo)return openSheet({combo:+t.dataset.combo});
- if(t.dataset.colour)return openSheet({colour:+t.dataset.colour});
- if(t.dataset.mine)return openSheet({mine:+t.dataset.mine});});
+ if(t.dataset.colour)return openSheet({colour:+t.dataset.colour});});
 $('#sort').addEventListener('change',e=>{st.sort=e.target.value;render()});
 let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},120)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)closeSheet();if(e.key==='/'&&document.activeElement!==$('#q')){e.preventDefault();$('#q').focus()}});
 window.addEventListener('hashchange',fromHash);
-render();fromHash();
+if(sb)sb.auth.onAuthStateChange((ev,s)=>{const was=user&&user.id;user=s&&s.user||null;authUI();if(user&&user.id!==was)setTimeout(loadPals,0);if(!user){pals=[];active=null;adding=false;dock();if(cur&&cur.pal)closeSheet();render()}});
+authUI();render();fromHash();
 }).catch(()=>{document.getElementById('view').innerHTML='<p class="empty">Could not load the colour data.</p>'});
 </script>
 </body>
