@@ -131,8 +131,8 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 <body>
 <header class="band"><div class="wrap">
   <div class="top"><h1>A Dictionary of Colour Combinations</h1><div id="auth"></div></div>
-  <p class="sub">Sanzo Wada · Volume 1 · 348 combinations drawn from 159 colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.</p>
-  <div class="ribbon" id="ribbon" aria-label="All 159 colours"></div><div class="legend" id="legend"></div>
+  <p class="sub" id="sub">Sanzo Wada · Volume 1 · 348 combinations drawn from 159 colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.</p>
+  <div class="ribbon" id="ribbon" aria-label="All colours"></div><div class="legend" id="legend"></div>
   <div class="searchrow">
     <input id="q" type="search" placeholder="Search a name, combination (#240), hex (#BB451C) or CMYK (22 84 100 18)" autocomplete="off" aria-label="Search">
     <div class="tabs" role="group" aria-label="View">
@@ -144,6 +144,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   </div>
 </div></header>
 <div class="bar"><div class="wrap">
+  <label class="lbl" for="lib" hidden>Library</label><select id="lib" hidden></select>
   <span class="lbl">Size</span>
   <div class="seg" id="fsize"></div>
   <span class="lbl">Hue family</span>
@@ -164,15 +165,37 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 <script src="vendor/mixbox.js"></script>
 <script src="mix.js"></script>
 <script>
-Promise.all([fetch('colors.json').then(r=>r.json()),fetch('paints.json').then(r=>r.json()).catch(()=>[])]).then(([raw,paints])=>{window.__PAINTS=paints;
-const DATA={colors:raw.map(x=>({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations}))};
-const C=DATA.colors;
-const COMBOS={};C.forEach((c,i)=>c.k.forEach(k=>(COMBOS[k]??=[]).push(i)));
-const IDS=Object.keys(COMBOS).map(Number).sort((a,b)=>a-b);
+/* Colour libraries ("sources") are listed in sources.json. Each source is one file of colours and palettes.
+   format "wada": the original colors.json layout. format "palettes": {colours:[{name,hex,cmyk?,family?}],palettes:[{id?,name?,colours:[names]}]}.
+   Palette ids are idBase + the palette's own number, so every source keeps its own numbering without clashing. */
+const DEFAULT_SOURCES=[{id:'wada-1',name:'A Dictionary of Color Combinations, Volume 1',short:'Wada Vol 1',byline:'Sanzo Wada · Volume 1',file:'colors.json',format:'wada',idBase:0}];
+fetch('sources.json').then(r=>r.ok?r.json():DEFAULT_SOURCES).catch(()=>DEFAULT_SOURCES).then(S=>Promise.all([
+ Promise.all(S.map(s=>fetch(s.file).then(r=>r.json()).then(d=>[s,d]).catch(()=>{console.error('Could not load source',s.id);return null}))),
+ fetch('paints.json').then(r=>r.json()).catch(()=>[])])).then(([loaded,paints])=>{window.__PAINTS=paints;
+const SOURCES=[],SBY={},C=[],COMBOS={},PSRC={},PNAME={};
+loaded.filter(Boolean).forEach(([s,d])=>{const base=+s.idBase||0,src={...s,base};SOURCES.push(src);SBY[s.id]=src;
+ if(s.format==='wada')d.forEach(x=>C.push({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations.map(k=>base+k),src:s.id}));
+ else{const idx={};(d.colours||[]).forEach(x=>{const h=x.hex.toUpperCase();idx[x.name]=C.length;C.push({n:x.name,h,c:x.cmyk||null,l:null,s:+x.family||0,k:[],src:s.id})});
+  (d.palettes||[]).forEach((p,pi)=>{const id=base+(+p.id||pi+1);if(p.name)PNAME[id]=p.name;p.colours.forEach(nm=>{const i=idx[nm];if(i!=null&&!C[i].k.includes(id))C[i].k.push(id)})})}});
+if(!C.length)throw new Error('no colours');
+C.forEach((c,i)=>c.k.forEach(k=>{(COMBOS[k]??=[]).push(i);PSRC[k]=c.src}));
+const IDS=Object.keys(COMBOS).map(Number).filter(id=>COMBOS[id].length>1).sort((a,b)=>a-b);
+const PRIMARY=SOURCES[0].id,MULTI=SOURCES.length>1;
+/* hue family for colours that don't come with one: 1 reds/pinks … 6 neutrals */
+function famOf(h){const L=lab(h);if(Math.hypot(L[1],L[2])<10)return 6;const H=hsl(h)[0];return H<15||H>=330?1:H<70?2:H<165?3:H<255?4:5}
 const $=s=>document.querySelector(s);
 const GROUPS=['','Reds & pinks','Yellows & oranges','Greens','Blues','Purples & violets','Neutrals'],GSHORT=['All','Reds','Yellows','Greens','Blues','Purples','Neutrals'],GDESC=['','Including warm red-browns','Including buffs, cinnamons and creams','Including olives and yellow-greens','Including turquoise and blue-greens','Including lavenders and mauves','White, greys and black'],GDOT=['','#C84F41','#F5B82E','#4F8A4B','#1F6FA8','#7B4A8C','#8A8A86'];
-const st={tab:'combos',size:0,chap:0,sort:'book',q:'',wheel:'ryb',show:'exact'};
-try{Object.assign(st,{wheel:localStorage.getItem('w-wheel')||'ryb',show:localStorage.getItem('w-show')||'exact'})}catch(e){}
+const st={tab:'combos',size:0,chap:0,sort:'book',q:'',wheel:'ryb',show:'exact',lib:'all'};
+try{Object.assign(st,{wheel:localStorage.getItem('w-wheel')||'ryb',show:localStorage.getItem('w-show')||'exact',lib:localStorage.getItem('w-lib')||'all'})}catch(e){}
+if(st.lib!=='all'&&!SBY[st.lib])st.lib='all';
+/* the library: which sources you browse, and which colours "nearest", complements and suggestions draw from */
+const inLibC=i=>st.lib==='all'||C[i].src===st.lib,inLibP=id=>st.lib==='all'||PSRC[id]===st.lib;
+const libName=()=>st.lib==='all'?(MULTI?'all libraries':SOURCES[0].short):SBY[st.lib].short;
+const cmykOf=i=>C[i].c?C[i].c.join(' '):'';
+/* palette labels: the primary source keeps its plain numbers (240); others read "Short 12" or their own name */
+const pnum=id=>id-SBY[PSRC[id]].base;
+const plabel=id=>PSRC[id]===PRIMARY?String(id):`${SBY[PSRC[id]].short} ${pnum(id)}`;
+const ptitle=id=>PSRC[id]===PRIMARY?`Combination ${id}`:PNAME[id]||plabel(id);
 let favs=[];try{favs=JSON.parse(localStorage.getItem('w-favs')||'[]')}catch(e){}
 const saveFavs=()=>{try{localStorage.setItem('w-favs',JSON.stringify(favs))}catch(e){}};
 function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];saveFavs();const on=favs.includes(id);
@@ -197,37 +220,38 @@ function mapH(h,f,t){h=((h%360)+360)%360;for(let i=0;i<A.length-1;i++){const a=A
 const toRyb=h=>mapH(h,0,1),fromRyb=h=>mapH(h,1,0);
 const wheelAngle=(h,m)=>m==='ryb'?toRyb(hsl(h)[0]):hsl(h)[0];
 function comp(h,m){const [H,S,L]=hsl(h);return fromHsl(m==='ryb'?fromRyb(toRyb(H)+180):H+180,S,L)}
-function nearest(h,n=1,skip=-1){const L=lab(h);return C.map((c,i)=>[i,dE(L,c.l)]).filter(x=>x[0]!==skip).sort((a,b)=>a[1]-b[1]).slice(0,n)}
+function nearest(h,n=1,skip=-1){const L=lab(h);return C.map((c,i)=>[i,dE(L,c.l)]).filter(x=>x[0]!==skip&&inLibC(x[0])).sort((a,b)=>a[1]-b[1]).slice(0,n)}
 const textOn=h=>lab(h)[0]>60?'#1a1a1a':'#fafafa';
 const mix=(h,t,p)=>hex(rgb(h).map((v,i)=>v+(rgb(t)[i]-v)*p));
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+C.forEach(c=>{if(!c.l)c.l=lab(c.h);if(!c.s)c.s=famOf(c.h)});
 
 /* rendering pieces */
 const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
 const favBtn=id=>{const on=favs.includes(id);return `<button class="addp star ${on?'on':''}" data-fav="${id}" aria-pressed="${on}" aria-label="${on?'Remove combination '+id+' from':'Save combination '+id+' to'} saved combinations" title="${on?'Saved — click to remove':'Save combination'}">${on?'★':'☆'}</button>`};
-const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${id}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="Combination ${id}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${id}</b></div></button></div>`;
-const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h} · ${C[i].c.join(' ')}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
+const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(ptitle(id))}${MULTI?' · '+esc(SBY[PSRC[id]].short):''}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="${esc(ptitle(id))}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${esc(plabel(id))}</b></div></button></div>`;
+const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h}${C[i].c?' · '+cmykOf(i):''}${MULTI&&st.lib==='all'?' · '+esc(SBY[C[i].src].short):''}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
 /* temperature on the painter's (RYB) wheel: orange warmest, blue coolest; weighted by chroma so greys sit near 0 */
 const warmth=c=>Math.hypot(c.l[1],c.l[2])*Math.cos((toRyb(hsl(c.h)[0])-60)*Math.PI/180);
 const tempBand=w=>w>8?'warm':w<-8?'cool':'neutral';
 const sortKey={temp:id=>-COMBOS[id].reduce((s,i)=>s+warmth(C[i]),0)/COMBOS[id].length,book:()=>0,hue:id=>hsl(C[COMBOS[id][0]].h)[0],light:id=>-COMBOS[id].reduce((s,i)=>s+C[i].l[0],0)/COMBOS[id].length,sat:id=>-COMBOS[id].reduce((s,i)=>s+chroma(C[i]),0)/COMBOS[id].length};
-function filtered(){let L=IDS.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));
+function filtered(){let L=IDS.filter(id=>inLibP(id)&&(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));
  if(st.sort!=='book'){const f=sortKey[st.sort];L=L.map(id=>[id,f(id)]).sort((a,b)=>a[1]-b[1]).map(x=>x[0])}return L}
 
 function search(q){q=q.trim();const lq=q.toLowerCase();let m,cols=[],combos=[],note='';
  if((m=lq.match(/^#?(\d{1,3})$/))&&COMBOS[+m[1]]){combos=[+m[1]];cols=COMBOS[+m[1]]}
- else if(m=lq.match(/^#?([0-9a-f]{6})$/)){const h='#'+m[1].toUpperCase();const nn=nearest(h,8);cols=nn.map(x=>x[0]);note=nn[0][1]<1?`Exact match: ${esc(C[nn[0][0]].n)}.`:`No exact match for ${h} — nearest Wada colours, closest first.`;combos=[...new Set(C[cols[0]].k)]}
- else if((m=lq.match(/^(\d{1,3})[\s,\/]+(\d{1,3})[\s,\/]+(\d{1,3})[\s,\/]+(\d{1,3})$/))){const v=m.slice(1,5).map(Number);const nn=C.map((c,i)=>[i,Math.hypot(...c.c.map((x,j)=>x-v[j]))]).sort((a,b)=>a[1]-b[1]).slice(0,8);cols=nn.map(x=>x[0]);note=nn[0][1]===0?`Exact CMYK match: ${esc(C[cols[0]].n)}.`:'Closest CMYK values in the book.';combos=[...new Set(C[cols[0]].k)]}
- else{cols=C.map((c,i)=>i).filter(i=>C[i].n.toLowerCase().includes(lq));combos=[...new Set(cols.flatMap(i=>C[i].k))].sort((a,b)=>a-b)}
+ else if(m=lq.match(/^#?([0-9a-f]{6})$/)){const h='#'+m[1].toUpperCase();const nn=nearest(h,8);cols=nn.map(x=>x[0]);note=!nn.length?'':nn[0][1]<1?`Exact match: ${esc(C[nn[0][0]].n)}.`:`No exact match for ${h}: nearest colours in ${esc(libName())}, closest first.`;combos=nn.length?[...new Set(C[cols[0]].k)]:[]}
+ else if((m=lq.match(/^(\d{1,3})[\s,\/]+(\d{1,3})[\s,\/]+(\d{1,3})[\s,\/]+(\d{1,3})$/))){const v=m.slice(1,5).map(Number);const nn=C.map((c,i)=>[i,c.c?Math.hypot(...c.c.map((x,j)=>x-v[j])):Infinity]).filter(x=>x[1]<Infinity&&inLibC(x[0])).sort((a,b)=>a[1]-b[1]).slice(0,8);cols=nn.map(x=>x[0]);note=!nn.length?'':nn[0][1]===0?`Exact CMYK match: ${esc(C[cols[0]].n)}.`:'Closest CMYK values.';combos=nn.length?[...new Set(C[cols[0]].k)]:[]}
+ else{cols=C.map((c,i)=>i).filter(i=>inLibC(i)&&C[i].n.toLowerCase().includes(lq));combos=[...new Set(cols.flatMap(i=>C[i].k))].sort((a,b)=>a-b)}
  return {cols,combos,note}}
 
 function render(){const v=$('#view');
  $('.bar').hidden=(st.tab==='mine'&&!st.q.trim())||st.tab==='paints';
  if(st.tab==='paints'){v.innerHTML=paintsView();balanceTiles();return}
- if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
+ if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>inLibP(id)&&(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
- if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
- else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>!st.chap||C[i].s===st.chap);
+ if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} ${MULTI?'palettes':'combinations'}`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
+ else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>inLibC(i)&&(!st.chap||C[i].s===st.chap));
   if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));if(st.sort==='temp')L.sort((a,b)=>warmth(C[b])-warmth(C[a]));
   $('#count').textContent=`${L.length} of ${C.length} colours`;
   v.innerHTML=st.sort==='temp'?[['warm','Warm','Reds, oranges and yellows: they advance'],['neutral','Neutral','Greys, earths and muted colours with little pull either way'],['cool','Cool','Greens, blues and violets: they recede']].map(([k,n,d])=>{const g=L.filter(i=>tempBand(warmth(C[i]))===k);return g.length?`<h2>${n} <span class="hsub">${g.length} colours · ${d}</span></h2><div class="tiles">${g.map(tile).join('')}</div>`:''}).join(''):st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
@@ -266,7 +290,7 @@ document.addEventListener('input',e=>{if(!e.target.classList||!e.target.classLis
 
 const scale=h=>`<div class="scale" title="Tints with white, shades with black">${[.75,.5,.25].map(p=>`<span style="background:${mix(h,'#ffffff',p)}"></span>`).join('')}<span class="on" style="background:${h}"></span>${[.25,.5].map(p=>`<span style="background:${mix(h,'#000000',p)}"></span>`).join('')}</div>`;
 const copyBtn=t=>`<button class="copy" data-copy="${t}">Copy</button>`;
-const toggles=()=>`<div class="toggles"><span class="lbl">Wheel</span><div class="seg" id="twheel"><button data-v="ryb" aria-pressed="${st.wheel==='ryb'}">Painter's (RYB)</button><button data-v="rgb" aria-pressed="${st.wheel==='rgb'}">Screen (RGB)</button></div><span class="lbl">Complement as</span><div class="seg" id="tshow"><button data-v="exact" aria-pressed="${st.show==='exact'}">Exact colour</button><button data-v="wada" aria-pressed="${st.show==='wada'}">Nearest Wada</button></div></div>`;
+const toggles=()=>`<div class="toggles"><span class="lbl">Wheel</span><div class="seg" id="twheel"><button data-v="ryb" aria-pressed="${st.wheel==='ryb'}">Painter's (RYB)</button><button data-v="rgb" aria-pressed="${st.wheel==='rgb'}">Screen (RGB)</button></div><span class="lbl">Complement as</span><div class="seg" id="tshow"><button data-v="exact" aria-pressed="${st.show==='exact'}">Exact colour</button><button data-v="wada" aria-pressed="${st.show==='wada'}">Nearest in ${esc(libName())}</button></div></div>`;
 function compOf(i){const ex=comp(C[i].h,st.wheel),[ni,d]=nearest(ex,1,i)[0];return {ex,ni,d}}
 const neutral=i=>chroma(C[i])<12;
 
@@ -274,27 +298,27 @@ let cur=null;
 function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show==='exact'?x.ex:C[x.ni].h);
  return `<div class="big">${ids.map(i=>`<button data-colour="${i}" style="background:${C[i].h};color:${textOn(C[i].h)}">${esc(C[i].n)}</button>`).join('')}</div>
  ${toggles()}
- <div class="duo"><div><p class="cap">Original</p>${strip(ids)}<div class="comp"><p class="cap">Complementary group · ${st.wheel==='ryb'?"painter's wheel":'screen wheel'} · ${st.show==='exact'?'exact complements':'nearest Wada colours'}</p><div class="strip">${shown.map(h=>`<span style="background:${h}"></span>`).join('')}</div></div>
+ <div class="duo"><div><p class="cap">Original</p>${strip(ids)}<div class="comp"><p class="cap">Complementary group · ${st.wheel==='ryb'?"painter's wheel":'screen wheel'} · ${st.show==='exact'?'exact complements':'nearest colours in '+esc(libName())}</p><div class="strip">${shown.map(h=>`<span style="background:${h}"></span>`).join('')}</div></div>
  ${st.show==='wada'?`<p class="note">Built from ${cs.map(x=>`<button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button>`).join(', ')}.</p>`:''}</div>${wheel(ids.map(i=>C[i].h),st.wheel)}</div>
- <table class="stack"><thead><tr><th>Colour</th><th>Codes</th><th>Complement</th><th>Nearest Wada</th><th>Tint → shade</th></tr></thead><tbody>
- ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button><br><span class="note"><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></td><td class="code">${C[i].h}${copyBtn(C[i].h)}<br>${C[i].c.join(' / ')}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
+ <table class="stack"><thead><tr><th>Colour</th><th>Codes</th><th>Complement</th><th>Nearest in ${esc(libName())}</th><th>Tint → shade</th></tr></thead><tbody>
+ ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button><br><span class="note"><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></td><td class="code">${C[i].h}${copyBtn(C[i].h)}${C[i].c?'<br>'+C[i].c.join(' / '):''}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
  <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>
  ${artSection(ids.map(i=>C[i].h))}
  ${comboId?`<h2>Colours here also appear in</h2><div class="grid">${[...new Set(ids.flatMap(i=>C[i].k))].filter(k=>k!==comboId).slice(0,24).map(card).join('')}</div>`:''}`}
 
 function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.h,'rgb');return {ex,ni:nearest(ex,1,i)[0][0]}})();const pr=(()=>{const ex=comp(c.h,'ryb');return {ex,ni:nearest(ex,1,i)[0][0]}})();
  return `<div class="sw-hero" style="background:${c.h};color:${textOn(c.h)}">${esc(c.n)}</div>
- <table class="stack"><thead><tr><th>Hex</th><th>CMYK</th><th>Hue family</th><th>Tint → shade</th></tr></thead><tbody><tr><td class="code">${c.h}${copyBtn(c.h)}</td><td class="code">${c.c.join(' / ')}${copyBtn(c.c.join(' '))}</td><td><i class="gd" style="background:${GDOT[c.s]}"></i>${GROUPS[c.s]}</td><td>${scale(c.h)}</td></tr></tbody></table>
+ <table class="stack"><thead><tr><th>Hex</th><th>CMYK</th><th>Hue family</th><th>Tint → shade</th></tr></thead><tbody><tr><td class="code">${c.h}${copyBtn(c.h)}</td><td class="code">${c.c?c.c.join(' / ')+copyBtn(c.c.join(' ')):'—'}</td><td><i class="gd" style="background:${GDOT[c.s]}"></i>${GROUPS[c.s]}</td><td>${scale(c.h)}</td></tr></tbody></table>
  <h2>Complements</h2>
- <div class="duo"><table><thead><tr><th>Wheel</th><th>Exact</th><th>Nearest Wada</th></tr></thead><tbody>
+ <div class="duo"><table><thead><tr><th>Wheel</th><th>Exact</th><th>Nearest in ${esc(libName())}</th></tr></thead><tbody>
  ${[["Painter's (RYB)",pr],['Screen (RGB)',rg]].map(([n,x])=>`<tr><td>${n}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td></tr>`).join('')}</tbody></table>${wheel([c.h],st.wheel)}</div>
  ${neutral(i)?'<p class="note">This is a near-neutral colour, so its complement is weak and best treated as a temperature shift.</p>':''}
  ${mixSection(c.h)}
  ${artSection([c.h])}
- <h2>In ${c.k.length} combination${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
+ ${MULTI?`<p class="note">From ${esc(SBY[c.src].name)}</p>`:''}<h2>In ${c.k.length} ${PSRC[c.k[0]]===PRIMARY?'combination':'palette'}${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=null;let title,body,extra='',hsh='';
- if(o.combo){const fav=favs.includes(o.combo);title=`Combination ${o.combo}`;body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
+ if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
  else if(o.paint){const p=PBY[o.paint];if(!p)return closeSheet();title=p.name;body=paintHTML(o.paint);hsh='paint-'+o.paint}
@@ -315,15 +339,17 @@ function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('a
 const SB_URL='https://hisxpmnmffyqnawgguwk.supabase.co',SB_KEY='sb_publishable_Hs9XKfmvhVIrvncEYPv1Dg_ujN6jWFH';
 const sb=(window.supabase&&!SB_KEY.startsWith('__'))?window.supabase.createClient(SB_URL,SB_KEY):null;
 let user=null,pals=[],active=null,adding=false,loadErr='';
-const byName={};C.forEach((c,i)=>byName[c.n]=i);
+const byKey={};C.forEach((c,i)=>byKey[c.src+'|'+c.n]=i);
+/* palette items saved before sources existed carry only a name; they belong to the primary source */
+const idxOf=it=>it.ref==null?null:byKey[(it.src||PRIMARY)+'|'+it.ref]??null;
 const P=id=>pals.find(p=>p.id===id);
-const itemHex=it=>it.ref!=null&&byName[it.ref]!=null?C[byName[it.ref]].h:it.hex;
+const itemHex=it=>idxOf(it)!=null?C[idxOf(it)].h:it.hex;
 const itemName=it=>it.ref??('Custom '+it.hex);
 const wOf=x=>Math.max(0,+x.weight||0);
 const wsum=p=>p.colours.reduce((s,x)=>s+wOf(x),0)||1;
 const pstrip=(p,cls='strip')=>`<div class="${cls}">${p.colours.length?p.colours.map(x=>`<span style="background:${itemHex(x)};flex:${wOf(x)||.0001}"></span>`).join(''):'<span class="emptystrip">No colours yet</span>'}</div>`;
 const cmykHex=v=>{const [c,m,y,k]=v.map(x=>x/100);return hex([1-c,1-m,1-y].map(x=>255*x*(1-k)))};
-const fromWada=i=>({ref:C[i].n,hex:C[i].h,cmyk:C[i].c,weight:10,recipe:''});
+const fromLib=i=>({ref:C[i].n,...(C[i].src!==PRIMARY?{src:C[i].src}:{}),hex:C[i].h,cmyk:C[i].c,weight:10,recipe:''});
 function greyOf(h){const L=lab(h)[0],Y=L>8?((L+16)/116)**3:L/903.3,v=Y<=.0031308?12.92*Y:1.055*Y**(1/2.4)-.055;return hex([v,v,v].map(x=>x*255))}
 const addBtn=k=>user?`<button class="ibtn" id="add-${k}">${P(active)?'+ Add to '+esc(P(active).name):'+ New palette'}</button>`:'';
 
@@ -343,7 +369,7 @@ function save(p){const s=$('#pstatus');if(s)s.textContent='Saving…';clearTimeo
 async function newPal(colours=[],name='Untitled palette'){const {data,error}=await sb.from('palettes').insert({name,colours,position:pals.length}).select().single();
  if(error){toast('Could not create palette');return null}pals.push(data);active=data.id;render();dock();return data}
 function addItems(items){const p=P(active);if(!p)return;let n=0;
- items.forEach(it=>{if(!(it.ref&&p.colours.some(x=>x.ref===it.ref))){p.colours.push(it);n++}});
+ items.forEach(it=>{const i=idxOf(it);if(!(i!=null&&p.colours.some(x=>idxOf(x)===i))){p.colours.push(it);n++}});
  save(p);dock();if(cur&&cur.pal===p.id)openSheet(cur,true);if(st.tab==='mine'&&!cur)render();toast(n?`Added ${n} to ${p.name}`:'Already in the palette')}
 function dock(){const d=$('#dock'),p=adding&&user&&P(active);d.hidden=!p;document.body.classList.toggle('adding',!!p);if(!p)return;
  d.innerHTML=`<div class="wrap dockin"><div><b>${esc(p.name)}</b><span class="note"> · ${p.colours.length} colour${p.colours.length===1?'':'s'} · click any colour or combination to add it</span></div>${pstrip(p,'strip dstrip')}<button class="ibtn" id="dockopen">Edit palette</button><button class="ibtn" id="dockdone">Done</button></div>`}
@@ -354,10 +380,10 @@ function signinHTML(){return `<form id="signform"><label class="lbl" for="semail
 function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=wsum(p);
  const range=hs.length>1?Math.max(...Ls)-Math.min(...Ls):0;
  const verdict=hs.length<2?'Add at least two colours to judge value contrast.':range<25?'Low value contrast: the colours are close in lightness, so the painting will read flat in greyscale. Add a much lighter or darker colour.':range<45?'Moderate value contrast.':'Strong value contrast: clear lights and darks.';
- const inP=new Set(p.colours.map(x=>x.ref).filter(Boolean)),co={};
- p.colours.forEach(x=>{const i=byName[x.ref];if(i==null)return;C[i].k.forEach(k=>COMBOS[k].forEach(j=>{if(!inP.has(C[j].n))co[j]=(co[j]||0)+1}))});
+ const inP=new Set(p.colours.map(idxOf).filter(i=>i!=null)),co={};
+ p.colours.forEach(x=>{const i=idxOf(x);if(i==null)return;C[i].k.forEach(k=>inLibP(k)&&COMBOS[k].forEach(j=>{if(!inP.has(j))co[j]=(co[j]||0)+1}))});
  const sugg=Object.entries(co).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>+x[0]);
- const comps=[...new Set(hs.map(h=>nearest(comp(h,st.wheel),1)[0][0]))].filter(j=>!inP.has(C[j].n));
+ const comps=[...new Set(hs.map(h=>nearest(comp(h,st.wheel),1)[0][0]))].filter(j=>!inP.has(j));
  const chip=(j,why)=>`<button class="schip" data-sugg="${j}" title="${esc(why)}"><span class="dot" style="background:${C[j].h}"></span>${esc(C[j].n)}<b>+</b></button>`;
  return `<label class="lbl" for="pname">Name</label><input id="pname" class="field" value="${esc(p.name)}" maxlength="120">
  ${pstrip(p,'strip pstripbig')}
@@ -366,8 +392,8 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  <p class="note">${verdict}</p>
  <div class="row-actions"><button class="ibtn" id="addmode">+ Add colours from the site</button><span id="pstatus" class="note">All changes saved</span></div>
  ${p.colours.length?`<table class="stack ptable"><thead><tr><th></th><th>Colour</th><th>Codes</th><th>Share</th><th></th></tr></thead><tbody>
- ${p.colours.map((x,n)=>{const h=hs[n],ni=x.ref==null?nearest(h,1)[0][0]:null;return `<tr draggable="true" data-row="${n}"><td class="handle" title="Drag to reorder">⠿</td>
- <td><span class="dot" style="background:${h}"></span>${x.ref!=null?`<button class="linkc" data-colour="${byName[x.ref]}">${esc(x.ref)}</button>`:`<b>Custom</b><br><span class="note">nearest Wada: <button class="linkc" data-colour="${ni}">${esc(C[ni].n)}</button></span>`}</td>
+ ${p.colours.map((x,n)=>{const h=hs[n],ni=idxOf(x)==null?nearest(h,1)[0][0]:null;return `<tr draggable="true" data-row="${n}"><td class="handle" title="Drag to reorder">⠿</td>
+ <td><span class="dot" style="background:${h}"></span>${idxOf(x)!=null?`<button class="linkc" data-colour="${idxOf(x)}">${esc(x.ref)}</button>`:`<b>${x.ref?esc(x.ref):'Custom'}</b><br><span class="note">nearest in ${esc(libName())}: <button class="linkc" data-colour="${ni}">${esc(C[ni].n)}</button></span>`}</td>
  <td class="code">${h}${x.cmyk?`<br>${x.cmyk.join(' / ')}${x.ref==null?' (approx.)':''}`:''}</td>
  <td class="code"><input class="wt" type="number" min="0" max="100" step="1" value="${wOf(x)}" data-wt="${n}" aria-label="Share of ${esc(itemName(x))}"> ${Math.round(100*wOf(x)/tot)}%</td>
  <td class="code"><button class="mini" data-mv="${n},-1" aria-label="Move up">↑</button><button class="mini" data-mv="${n},1" aria-label="Move down">↓</button><button class="mini wide" data-mixrow="${n}">Mix</button><button class="mini" data-rm="${n}" aria-label="Remove">✕</button></td></tr>`}).join('')}
@@ -376,8 +402,8 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  <h2>Add a custom colour</h2>
  <div class="custom"><input type="color" id="cpick" value="#a84222" aria-label="Pick a colour"><input class="field" id="chex" placeholder="#RRGGBB" maxlength="7" aria-label="Hex code"><span class="lbl">or CMYK</span><input class="field" id="ccmyk" placeholder="22 84 100 18" aria-label="CMYK values"><button class="ibtn" id="cadd">Add</button></div>
  <p class="note">For paints you've mixed. CMYK here uses a simple conversion, so its screen colour is approximate.</p>
- ${sugg.length?`<h2>Potential additions</h2><div class="chips">${sugg.map(j=>chip(j,`Shares ${co[j]} combination${co[j]>1?'s':''} with this palette`)).join('')}</div>`:''}
- ${comps.length?`<h2>Complements</h2><div class="chips">${comps.map(j=>chip(j,'Nearest Wada colour to a complement')).join('')}</div>`:''}
+ ${sugg.length?`<h2>Potential additions</h2><div class="chips">${sugg.map(j=>chip(j,`Shares ${co[j]} palette${co[j]>1?'s':''} in ${libName()} with this palette`)).join('')}</div>`:''}
+ ${comps.length?`<h2>Complements</h2><div class="chips">${comps.map(j=>chip(j,`Nearest colour in ${libName()} to a complement`)).join('')}</div>`:''}
  ${hs.length?`${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>`:''}
  ${artSection(hs)}
  <h2>Notes</h2><textarea id="pnotes" class="field" rows="4" placeholder="Painting title, ideas, surface, references…">${esc(p.notes||'')}</textarea>
@@ -388,13 +414,13 @@ function palAction(t){const p=P(active);
  if(t.id==='signout'){sb.auth.signOut();return true}
  if(t.id==='newpal'){newPal().then(p=>p&&openSheet({pal:p.id}));return true}
  if(t.dataset.pal){openSheet({pal:t.dataset.pal});return true}
- if(t.id==='add-combo'||t.id==='add-colour'){const items=cur.combo?COMBOS[cur.combo].map(fromWada):[fromWada(cur.colour)];
-  if(p)addItems(items);else newPal(items,cur.combo?`From combination ${cur.combo}`:C[cur.colour].n).then(q=>q&&openSheet({pal:q.id}));return true}
+ if(t.id==='add-combo'||t.id==='add-colour'){const items=cur.combo?COMBOS[cur.combo].map(fromLib):[fromLib(cur.colour)];
+  if(p)addItems(items);else newPal(items,cur.combo?`From ${ptitle(cur.combo).replace(/^Combination/,'combination')}`:C[cur.colour].n).then(q=>q&&openSheet({pal:q.id}));return true}
  if(t.id==='dockopen'){adding=false;dock();openSheet({pal:active});return true}
  if(t.id==='dockdone'){adding=false;dock();return true}
  if(!p)return false;
  if(t.id==='addmode'){adding=true;closeSheet();dock();toast('Click any colour or combination to add it');return true}
- if(t.dataset.sugg){addItems([fromWada(+t.dataset.sugg)]);return true}
+ if(t.dataset.sugg){addItems([fromLib(+t.dataset.sugg)]);return true}
  if(t.dataset.rm!=null){p.colours.splice(+t.dataset.rm,1);save(p);openSheet(cur,true);return true}
  if(t.dataset.mv){const [n,d]=t.dataset.mv.split(',').map(Number),m=n+d;if(m<0||m>=p.colours.length)return true;[p.colours[n],p.colours[m]]=[p.colours[m],p.colours[n]];save(p);openSheet(cur,true);return true}
  if(t.id==='cadd'){const hx=$('#chex').value.trim(),cm=$('#ccmyk').value.trim().split(/[\s,\/]+/).map(Number);let it=null;
@@ -458,7 +484,7 @@ function paintHTML(no){const p=PBY[no],nn=nearest(p.masstone,4);
  <table class="stack"><tbody>${[['Number',`No. ${p.no} · Series ${p.series}`],['Pigments',p.pigments.join(', ')],['Opacity',p.opacity],['Tint power',p.tint],['Temperature',p.temp],['Drying',p.drying],['Lightfastness',p.lightfast],['Oil',p.oil],['Toxic',p.toxic?'Yes — read the label':'No'],['Masstone CIELAB',p.lab.join(' / ')],['Used for mixing',`${p.mix} (${p.mixSource})`]].map(([k,v])=>`<tr><td class="lbl">${k}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
  ${p.note?`<p class="note">${esc(p.note)}</p>`:''}
  <p><a href="https://michaelharding.co.uk/oil-colours/${p.slug}">View on michaelharding.co.uk</a></p>
- <h2>Closest Wada colours</h2><div class="tiles">${nn.map(x=>tile(x[0])).join('')}</div>`}
+ <h2>Closest colours in ${esc(libName())}</h2><div class="tiles">${nn.map(x=>tile(x[0])).join('')}</div>`}
 
 const closeness=de=>de<2?['Near-identical','good']:de<5?['Close','good']:de<10?['Noticeable difference','mid']:['Far: outside what these paints can reach','bad'];
 const fmtParts=n=>n===0.5?'½':n%1?`${Math.floor(n)}½`:String(n);
@@ -519,13 +545,21 @@ function fillArt(){const box=document.querySelector('.artbox');if(!box)return;co
  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();go()}},{rootMargin:'200px'});io.observe(out)}
 
 /* events */
-$('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
-$('#fsize').innerHTML=[0,...[...new Set(IDS.map(id=>COMBOS[id].length))].sort((a,b)=>a-b)].map(v=>`<button data-v="${v}" aria-pressed="${v===0}">${v||'All'}</button>`).join('');
+/* header, ribbon, legend and size filter follow the chosen library */
+function drawChrome(){const ci=C.map((c,i)=>i).filter(inLibC),pi=IDS.filter(inLibP),one=st.lib!=='all'||!MULTI?(SBY[st.lib]||SOURCES[0]):null;
+ $('#sub').textContent=`${one?(one.byline||one.name)+' · ':`${SOURCES.length} libraries · `}${pi.length} ${one&&one.format==='wada'?'combinations':'palettes'} drawn from ${ci.length} colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.`;
+ $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${ci.filter(i=>C[i].s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
+ const sizes=[...new Set(pi.map(id=>COMBOS[id].length))].sort((a,b)=>a-b);if(st.size&&!sizes.includes(st.size))st.size=0;
+ $('#fsize').innerHTML=[0,...sizes].map(v=>`<button data-v="${v}" aria-pressed="${v===st.size}">${v||'All'}</button>`).join('');
+ $('#ribbon').innerHTML=ci.map(i=>[i,C[i]]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
+ const L=$('#lib');L.hidden=L.previousElementSibling.hidden=!MULTI;
+ L.innerHTML=`<option value="all">All libraries</option>`+SOURCES.map(s=>`<option value="${esc(s.id)}">${esc(s.short)}</option>`).join('');L.value=st.lib}
+drawChrome();
+$('#lib').addEventListener('change',e=>{st.lib=e.target.value;try{localStorage.setItem('w-lib',st.lib)}catch(x){}drawChrome();render();if(cur)openSheet(cur,true)});
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
-$('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
 document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
  if(t.id==='pproc'){const p=P(active);if(p)toProcreate(p.name,p.colours.map(itemHex));return}
- if(t.id==='proc-combo'){toProcreate(`Wada ${cur.combo}`,COMBOS[cur.combo].map(i=>C[i].h));return}
+ if(t.id==='proc-combo'){toProcreate(PNAME[cur.combo]||`${SBY[PSRC[cur.combo]].short} ${pnum(cur.combo)}`,COMBOS[cur.combo].map(i=>C[i].h));return}
  if(t.dataset.own){toggleOwned(t.dataset.own);return}
  if(t.dataset.paint&&!adding){openSheet({paint:t.dataset.paint});return}
  if(t.dataset.mixrow!=null){const p=P(active),x=p&&p.colours[+t.dataset.mixrow];if(x)openSheet({mix:itemHex(x),label:itemName(x),back:p.id});return}
@@ -533,7 +567,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(t.parentElement.id==='pown'){pst.own=t.dataset.v==='1';render();return}
  if(t.parentElement&&t.parentElement.classList.contains('artseg')){st.artType=t.dataset.v;setSeg(t.parentElement,st.artType);const o=t.closest('.artbox').querySelector('.artout');o.innerHTML='<p class="note">Looking through Harvard Art Museums…</p>';fillArt();return}
  if(t.dataset.fav){toggleFav(+t.dataset.fav);return}
- if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromWada));return}if(t.dataset.colour){addItems([fromWada(+t.dataset.colour)]);return}}
+ if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromLib));return}if(t.dataset.colour){addItems([fromLib(+t.dataset.colour)]);return}}
  if(palAction(t))return;
  if(t.dataset.fam){st.tab='colours';st.chap=+t.dataset.fam;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='colours'));setSeg($('#fchap'),st.chap);render();$('.bar').scrollIntoView({behavior:'smooth'});return}
  if(t.dataset.copy){navigator.clipboard?.writeText(t.dataset.copy).then(()=>toast('Copied '+t.dataset.copy),()=>toast('Copy blocked — select the text instead'));return}

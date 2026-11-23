@@ -1,0 +1,11 @@
+[
+  {
+    "id": "wada-1",
+    "name": "A Dictionary of Color Combinations, Volume 1",
+    "short": "Wada Vol 1",
+    "byline": "Sanzo Wada · Volume 1",
+    "file": "colors.json",
+    "format": "wada",
+    "idBase": 0
+  }
+]

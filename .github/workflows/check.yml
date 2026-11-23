@@ -15,27 +15,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate colour data
-        run: |
-          python3 - <<'EOF'
-          import json, re, sys
-          from collections import Counter
-          colours = json.load(open('colors.json'))
-          errors = []
-          for c in colours:
-              n = c['name']
-              if len(c['cmyk']) != 4 or any(not 0 <= v <= 100 for v in c['cmyk']):
-                  errors.append(f"{n}: CMYK must be four values from 0 to 100, got {c['cmyk']}")
-              if not re.fullmatch(r'#[0-9a-fA-F]{6}', c['hex']):
-                  errors.append(f"{n}: bad hex {c['hex']}")
-              if not 0 <= c['swatch'] <= 5:
-                  errors.append(f"{n}: hue family must be 0-5, got {c['swatch']}")
-          dupes = [n for n, k in Counter(c['name'] for c in colours).items() if k > 1]
-          errors += [f"Duplicate colour name: {n}" for n in dupes]
-          sizes = Counter(i for c in colours for i in c['combinations'])
-          errors += [f"Combination {i} has only {k} colour; needs at least 2" for i, k in sizes.items() if k < 2]
-          if errors:
-              print('\n'.join(errors)); sys.exit(1)
-          print(f"OK: {len(colours)} colours, {len(sizes)} combinations")
-          EOF
-
+      - name: Validate colour libraries
+        run: python3 scripts/check_sources.py

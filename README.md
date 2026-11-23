@@ -97,10 +97,24 @@ python3 src/augment_sanzo.py
 MIT, see [LICENSE.md](http://github.com/mattdesl/dictionary-of-colour-combinations/blob/master/LICENSE.md) for details.
 ## Colour explorer (this fork)
 
-`index.html` is an interactive explorer for all the combinations, deployed on Vercel. It reads `colors.json` directly, so any data change appears on the site automatically. Signed-in palettes (the palette builder) are stored privately in Supabase, not in this repository. A GitHub Action validates `colors.json` on every push.
+`index.html` is an interactive explorer, deployed on Vercel. It reads the colour libraries listed in `sources.json`, so any data change appears on the site automatically. Signed-in palettes (the palette builder) are stored privately in Supabase, not in this repository. A GitHub Action (`scripts/check_sources.py`) validates every library on each push.
 
 Changes in this fork:
 - Dull Violet Black corrected to CMYK 100 / 90 / 38 / 50 (checked against the printed book); RGB, hex and Lab recalculated with the same SWOP → sRGB conversion as the rest of the data.
+
+### Colour libraries (`sources.json`)
+Wada Volume 1 is the first library, not the only one. Each entry in `sources.json` points at one data file:
+
+```json
+{ "id": "wada-2", "name": "A Dictionary of Color Combinations, Volume 2", "short": "Wada Vol 2",
+  "byline": "Sanzo Wada · Volume 2", "file": "sources/wada-2.json", "format": "palettes", "idBase": 1000 }
+```
+
+- `format: "wada"` is the original `colors.json` layout. `format: "palettes"` is the general one:
+  `{"colours":[{"name":"…","hex":"#RRGGBB","cmyk":[c,m,y,k],"family":1}],"palettes":[{"id":1,"name":"optional","colours":["colour name", …]}]}`. `cmyk` and `family` (1 reds … 6 neutrals) are optional; a missing family is worked out from the hue.
+- Palette ids on the site are `idBase` + the palette's own number. Give each library its own block (0, 1000, 2000 …) so links and saved combinations never clash. Wada Volume 1 keeps its plain numbers (#240).
+- Once there is more than one library, a **Library** menu appears in the filter bar. It sets what you browse and what "nearest colour", complements and "Potential additions" draw from. With one library it stays hidden.
+- Colours added to your palettes remember their library; palettes saved earlier are read as Wada Volume 1.
 
 ### Paints and mixing
 - `paints.json`: all 140 Michael Harding Artists Oil Colours (number, series, Colour Index pigments, opacity, tint power, measured masstone CIELAB by Artist Pigments), collected from michaelharding.co.uk. `mix` is the colour fed to the mixing model and `mixSource` says where it came from (measured masstone, a reference pigment colour for very dark transparent paints, or the chart swatch where the published measurement looks wrong).
