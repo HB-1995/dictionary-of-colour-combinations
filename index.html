@@ -391,11 +391,11 @@ const PBY={};PAINTS.forEach(p=>PBY[p.no]=p);
 let owned=new Set();const mixCache={};
 const FAMS=['Whites','Yellows and Oranges','Reds and Violets','Blues and Greens','Browns','Greys and Blacks'];
 const pst={own:false,fam:''};
-async function loadOwned(){const {data,error}=await sb.from('owned_paints').select('paint_no');if(error){console.error('owned',error);toast('Could not load your paints');return}
+async function loadOwned(){const {data,error}=await sb.from('owned_paints').select('paint_no');if(error){console.error('owned',error);toast('Could not load your box of paints: '+(error.message||error.code));return}
  owned=new Set(data.map(r=>r.paint_no));for(const k in mixCache)delete mixCache[k];if(st.tab==='paints')render();if(cur&&(cur.colour!=null||cur.mix||cur.paint))openSheet(cur,true)}
 async function toggleOwned(no){const had=owned.has(no);had?owned.delete(no):owned.add(no);for(const k in mixCache)delete mixCache[k];
  const q=had?sb.from('owned_paints').delete().eq('paint_no',no):sb.from('owned_paints').insert({paint_no:no});const {error}=await q;
- if(error){had?owned.add(no):owned.delete(no);toast('Could not save — check your connection')}
+ if(error){had?owned.add(no):owned.delete(no);console.error('owned_paints',error);toast(/owned_paints|relation|schema cache|PGRST205|42P01/i.test(error.message+error.code)?'Box of paints isn’t set up in Supabase yet: run the owned_paints SQL':'Could not save: '+(error.message||error.code||'unknown error'))}
  if(st.tab==='paints')render();if(cur&&cur.paint)openSheet(cur,true)}
 const paintCard=p=>`<div class="pcard">${user?`<button class="addp ${owned.has(p.no)?'on':''}" data-own="${p.no}" aria-pressed="${owned.has(p.no)}" aria-label="${owned.has(p.no)?'Remove '+esc(p.name)+' from':'Add '+esc(p.name)+' to'} your box of paints" title="${owned.has(p.no)?'In your box of paints — click to remove':'Add to your box of paints'}">${owned.has(p.no)?'✓':'+'}</button>`:''}<button class="card" data-paint="${p.no}"><div class="pswatch"><span style="background:${p.masstone}" title="Measured masstone"></span><span style="background:${p.swatch}" title="Chart swatch"></span></div>
  <div class="meta"><b>${esc(p.name)}</b><span>No. ${p.no} · Series ${p.series} · ${esc(p.pigments.join(', '))}</span><span>${esc(p.opacity)} · tint ${esc(p.tint.toLowerCase())}</span></div></button>
