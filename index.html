@@ -105,7 +105,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 </div></header>
 <div class="bar"><div class="wrap">
   <span class="lbl">Size</span>
-  <div class="seg" id="fsize"><button data-v="0" aria-pressed="true">All</button><button data-v="2" aria-pressed="false">2</button><button data-v="3" aria-pressed="false">3</button><button data-v="4" aria-pressed="false">4</button></div>
+  <div class="seg" id="fsize"></div>
   <span class="lbl">Hue family</span>
   <div class="seg" id="fchap"></div>
   <label class="lbl" for="sort">Sort</label>
@@ -232,6 +232,7 @@ function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('a
 
 /* events */
 $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
+$('#fsize').innerHTML=[0,...[...new Set(IDS.map(id=>COMBOS[id].length))].sort((a,b)=>a-b)].map(v=>`<button data-v="${v}" aria-pressed="${v===0}">${v||'All'}</button>`).join('');
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
 $('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
 document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-mine],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim');if(!t)return;
