@@ -198,7 +198,7 @@ function render(){const v=$('#view');
   $('#count').textContent=`${L.length} of ${C.length} colours`;
   v.innerHTML=st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
  else{$('#count').textContent=`${pals.length} palette${pals.length===1?'':'s'}`;
-  v.innerHTML=`<h2>My palettes</h2><div class="grid"><button class="card" id="newpal"><div class="strip newstrip"><span>+ New palette</span></div><div class="meta"><b>New palette</b></div></button>${pals.map(p=>`<button class="card" data-pal="${p.id}">${pstrip(p)}<div class="meta"><b>${esc(p.name)}</b><span>${p.colours.length} colour${p.colours.length===1?'':'s'}</span></div></button>`).join('')}</div>
+  v.innerHTML=(loadErr?`<p class="empty" style="color:#c2361f">${esc(loadErr)}</p>`:'')+`<h2>My palettes</h2><div class="grid"><button class="card" id="newpal"><div class="strip newstrip"><span>+ New palette</span></div><div class="meta"><b>New palette</b></div></button>${pals.map(p=>`<button class="card" data-pal="${p.id}">${pstrip(p)}<div class="meta"><b>${esc(p.name)}</b><span>${p.colours.length} colour${p.colours.length===1?'':'s'}</span></div></button>`).join('')}</div>
   <h2>Saved combinations</h2>${favs.length?`<div class="grid">${favs.map(card).join('')}</div>`:'<p class="empty">Open any combination and press ☆ Save to keep it here.</p>'}`}}
 
 /* wheel graphic */
@@ -254,7 +254,7 @@ function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('a
 /* ---------- palettes (Supabase, private to the signed-in owner) ---------- */
 const SB_URL='https://hisxpmnmffyqnawgguwk.supabase.co',SB_KEY='sb_publishable_Hs9XKfmvhVIrvncEYPv1Dg_ujN6jWFH';
 const sb=(window.supabase&&!SB_KEY.startsWith('__'))?window.supabase.createClient(SB_URL,SB_KEY):null;
-let user=null,pals=[],active=null,adding=false;
+let user=null,pals=[],active=null,adding=false,loadErr='';
 const byName={};C.forEach((c,i)=>byName[c.n]=i);
 const P=id=>pals.find(p=>p.id===id);
 const itemHex=it=>it.ref!=null&&byName[it.ref]!=null?C[byName[it.ref]].h:it.hex;
@@ -273,7 +273,7 @@ function authUI(){const a=$('#auth');if(!sb){a.innerHTML='';return}
  if(!user&&st.tab==='mine'){st.tab='combos';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='combos'))}
  dock()}
 async function loadPals(){const {data,error}=await sb.from('palettes').select('*').order('position').order('created_at');
- if(error){toast('Could not load palettes');return}
+ if(error){loadErr=`Could not load palettes: ${error.message||error.code||'unknown error'}${error.code?' ('+error.code+')':''}`;console.error('palettes load',error);render();return}loadErr='';
  pals=data.map(p=>({...p,colours:Array.isArray(p.colours)?p.colours:[]}));if(active&&!P(active))active=null;render();dock();
  if(cur&&cur.pal)openSheet(cur,true);else if(/^palette-/.test(location.hash.slice(1)))fromHash()}
 const timers={};
