@@ -143,7 +143,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   <span class="lbl">Hue family</span>
   <div class="seg" id="fchap"></div>
   <label class="lbl" for="sort">Sort</label>
-  <select id="sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option></select>
+  <select id="sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option><option value="temp">Warm → cool</option></select>
   <span id="count"></span>
 </div></div>
 <main class="band" style="padding-top:22px"><div class="wrap" id="view"></div></main>
@@ -197,7 +197,10 @@ const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
 const card=id=>`<button class="card" data-combo="${id}" title="${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${id}</b><span>${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}</span></div></button>`;
 const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h} · ${C[i].c.join(' ')}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
-const sortKey={book:()=>0,hue:id=>hsl(C[COMBOS[id][0]].h)[0],light:id=>-COMBOS[id].reduce((s,i)=>s+C[i].l[0],0)/COMBOS[id].length,sat:id=>-COMBOS[id].reduce((s,i)=>s+chroma(C[i]),0)/COMBOS[id].length};
+/* temperature on the painter's (RYB) wheel: orange warmest, blue coolest; weighted by chroma so greys sit near 0 */
+const warmth=c=>Math.hypot(c.l[1],c.l[2])*Math.cos((toRyb(hsl(c.h)[0])-60)*Math.PI/180);
+const tempBand=w=>w>8?'warm':w<-8?'cool':'neutral';
+const sortKey={temp:id=>-COMBOS[id].reduce((s,i)=>s+warmth(C[i]),0)/COMBOS[id].length,book:()=>0,hue:id=>hsl(C[COMBOS[id][0]].h)[0],light:id=>-COMBOS[id].reduce((s,i)=>s+C[i].l[0],0)/COMBOS[id].length,sat:id=>-COMBOS[id].reduce((s,i)=>s+chroma(C[i]),0)/COMBOS[id].length};
 function filtered(){let L=IDS.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));
  if(st.sort!=='book'){const f=sortKey[st.sort];L=L.map(id=>[id,f(id)]).sort((a,b)=>a[1]-b[1]).map(x=>x[0])}return L}
 
@@ -215,9 +218,9 @@ function render(){const v=$('#view');
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
  if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
  else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>!st.chap||C[i].s===st.chap);
-  if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));
+  if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));if(st.sort==='temp')L.sort((a,b)=>warmth(C[b])-warmth(C[a]));
   $('#count').textContent=`${L.length} of ${C.length} colours`;
-  v.innerHTML=st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
+  v.innerHTML=st.sort==='temp'?[['warm','Warm','Reds, oranges and yellows: they advance'],['neutral','Neutral','Greys, earths and muted colours with little pull either way'],['cool','Cool','Greens, blues and violets: they recede']].map(([k,n,d])=>{const g=L.filter(i=>tempBand(warmth(C[i]))===k);return g.length?`<h2>${n} <span class="hsub">${g.length} colours · ${d}</span></h2><div class="tiles">${g.map(tile).join('')}</div>`:''}).join(''):st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
  else{$('#count').textContent=`${pals.length} palette${pals.length===1?'':'s'}`;
   v.innerHTML=(loadErr?`<p class="empty" style="color:#c2361f">${esc(loadErr)}</p>`:'')+`<h2>My palettes</h2><div class="grid"><button class="card" id="newpal"><div class="strip newstrip"><span>+ New palette</span></div><div class="meta"><b>New palette</b></div></button>${pals.map(p=>`<button class="card" data-pal="${p.id}">${pstrip(p)}<div class="meta"><b>${esc(p.name)}</b><span>${p.colours.length} colour${p.colours.length===1?'':'s'}</span></div></button>`).join('')}</div>
   <h2>Saved combinations</h2>${favs.length?`<div class="grid">${favs.map(card).join('')}</div>`:'<p class="empty">Open any combination and press ☆ Save to keep it here.</p>'}`}}
