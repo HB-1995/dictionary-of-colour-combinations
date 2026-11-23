@@ -265,6 +265,46 @@ html[data-dir=prev]::view-transition-old(sbody){animation:vt-out-r .22s both}htm
  ::view-transition-new(sheet){animation-name:vt-in-up}
 }
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}#cmdk[open],#peek[open],.skel *{animation:none!important}}
+/* combination panel */
+.ibtn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ctable{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.crow{display:grid;grid-template-columns:44px minmax(0,1fr) auto auto auto;grid-template-areas:"sw nm hx cm in";gap:4px 16px;align-items:center;padding:10px 16px}
+.crow+.crow{border-top:1px solid var(--line)}
+.csw{grid-area:sw;width:44px;height:44px;border-radius:6px;box-shadow:inset 0 0 0 1px #0000000f}
+.cname{grid-area:nm;text-align:left;text-decoration:none;font-weight:600;justify-self:start}.cname:hover{text-decoration:underline}
+.cp{display:inline-flex;align-items:center;gap:6px;border:0;background:none;border-radius:6px;padding:6px 8px;font:500 13px var(--mono);color:var(--ink);white-space:nowrap;justify-self:start}
+.cp.hx{grid-area:hx}.cp.cm{grid-area:cm}button.cp:hover{background:var(--chip)}.cp .cpi{width:14px;height:14px;color:var(--faint)}.cp.none{color:var(--mute)}
+.cin{grid-area:in;justify-self:end;border:0;background:none;padding:6px 0;font-size:13px;color:var(--mute);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line2);white-space:nowrap}.cin:hover{color:var(--ink)}
+.ctabs{display:flex;gap:24px;margin-top:28px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.ctabs button{border:0;background:none;padding:10px 0;color:var(--mute);font-weight:500;white-space:nowrap;box-shadow:inset 0 -2px 0 transparent;transition:box-shadow .15s,color .15s}
+.ctabs button:hover{color:var(--ink)}.ctabs button[aria-selected=true]{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--ink)}
+.cpanel{padding-top:20px}.cpanel>.toggles:first-child{margin-top:0}.cpanel .mixslot>h2:first-child{margin-top:16px}
+.ovw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.cpanel h3{font:600 13px Inter,system-ui,sans-serif;margin:0 0 6px}.cpanel h3 .hsub{font-size:13px;margin-left:4px}.ovw .note{margin:0 0 10px}
+.vbar{display:flex;height:56px;border-radius:var(--r);overflow:hidden}.vbar span{flex:1}
+.minis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:10px}
+.mini-c{border:0;background:none;padding:0;display:flex;flex-direction:column;gap:4px;text-align:left}
+.mstrip{display:flex;height:36px;border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 1px #0000000d;transition:transform .15s}.mstrip span{flex:1}.mini-c:hover .mstrip{transform:translateY(-1px)}
+.mini-c .num{font:500 12px var(--mono);color:var(--mute)}
+.exp{display:flex;flex-wrap:wrap;gap:8px}
+@media(max-width:700px){.crow{grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"sw nm in" "sw hx cm";padding:10px 12px;gap:0 10px}.cp{padding:4px 6px;margin-left:-6px}.cp.cm{justify-self:end;margin:0 -6px 0 0}.ovw{grid-template-columns:1fr}.ctabs{gap:20px}}
+/* colours list */
+.clist{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.lhead,.lrow{display:grid;grid-template-columns:56px minmax(160px,1.4fr) 92px 150px minmax(140px,200px) 120px;gap:20px;align-items:center;padding:8px 20px}
+.lhead{font-size:12px;color:var(--mute);background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px}.lhead .luse-h{text-align:right}
+.lrow{width:100%;border:0;background:none;text-align:left;border-top:1px solid var(--line);transition:background .12s}
+.lhead+.lrow{border-top:0}.lrow:hover{background:var(--bg)}
+.lsw{width:56px;height:40px;border-radius:6px;box-shadow:inset 0 0 0 1px #0000000f}
+.lname{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lname small{font-weight:400;color:var(--mute);margin-left:8px;font-size:12px}
+.lcmyk{color:var(--mute)}
+.lscale{display:flex;height:20px;border-radius:4px;overflow:hidden}.lscale i{flex:1}
+.luse{display:flex;align-items:center;justify-content:flex-end;gap:10px}.luse .code{width:22px;text-align:right}
+.lbar{width:60px;height:4px;border-radius:2px;background:var(--chip);overflow:hidden}.lbar i{display:block;height:100%;background:var(--ink)}
+#count.offcol{display:none}#count.offcol+#cview{margin-left:auto}.luse-h .sm{display:none}.cfilter{flex:0 1 240px;height:36px}.cfilter svg{width:16px;height:16px}.cfilter input{flex:1;border:0;outline:0;background:none;height:100%;padding:0;font-size:14px;min-width:0}
+#cview button{display:grid;place-items:center;width:36px;padding:0}#cview svg{width:16px;height:16px}
+.seg[hidden],.vsep[hidden],.search[hidden]{display:none}
+@media(max-width:900px){.lhead,.lrow{grid-template-columns:48px minmax(0,1fr) 84px minmax(100px,160px) 90px}.lcmyk{display:none}.lsw{width:48px}}
+@media(max-width:700px){.lhead,.lrow{grid-template-columns:40px minmax(0,1fr) auto 44px;gap:12px;padding:8px 12px}.lhead .lscale-h,.lscale{display:none}.luse-h .lg{display:none}.luse-h .sm{display:inline}.lsw{width:40px;height:40px}.lbar{display:none}.cfilter{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -293,11 +333,13 @@ html[data-dir=prev]::view-transition-old(sbody){animation:vt-out-r .22s both}htm
 </div></section>
 <div class="bar"><div class="wrap">
   <label class="lbl" for="lib" hidden>Library</label><select id="lib" hidden></select>
+  <label class="search cfilter" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="cf" type="search" placeholder="Filter colours" autocomplete="off" aria-label="Filter colours by name, hex or CMYK"></label>
   <div class="pills" id="fchap" role="group" aria-label="Hue family"></div>
   <span class="vsep" aria-hidden="true"></span>
   <div class="seg" id="fsize" role="group" aria-label="Colours per combination"></div>
   <button class="ibtn sq" id="barsearch" aria-label="Search (⌘K)" title="Search (⌘K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
   <span id="count"></span>
+  <div class="seg" id="cview" role="group" aria-label="Layout" hidden><button data-v="grid" aria-label="Grid" title="Grid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button data-v="list" aria-label="List" title="List"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button></div>
   <select id="sort" aria-label="Sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option><option value="temp">Warm → cool</option></select>
 </div></div>
 <main class="band" style="padding-top:28px"><div class="wrap" id="view"><div class="grid skel" aria-busy="true" aria-label="Loading"><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div></div></div></main>
@@ -383,7 +425,15 @@ C.forEach(c=>{if(!c.l)c.l=lab(c.h);if(!c.s)c.s=famOf(c.h)});
 const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
 const favBtn=id=>{const on=favs.includes(id);return `<button class="addp star ${on?'on':''}" data-fav="${id}" aria-pressed="${on}" aria-label="${on?'Remove combination '+id+' from':'Save combination '+id+' to'} saved combinations" title="${on?'Saved — click to remove':'Save combination'}">${on?'★':'☆'}</button>`};
 const card=id=>`<div class="ccard" data-id="${id}">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(ptitle(id))}${MULTI?' · '+esc(SBY[PSRC[id]].short):''}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="${esc(ptitle(id))}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b class="num">${PSRC[id]===PRIMARY?'No. ':''}${esc(plabel(id))}</b><span class="cnames">${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}</span></div></button></div>`;
-const hl=n=>{const q=st.q.trim().toLowerCase(),k=q&&!/^[#\d]/.test(q)?n.toLowerCase().indexOf(q):-1;return k<0?esc(n):esc(n.slice(0,k))+'<mark>'+esc(n.slice(k,k+q.length))+'</mark>'+esc(n.slice(k+q.length))};
+/* colours as a list: name, codes, tint → shade and how often each is used */
+try{st.cview=localStorage.getItem('w-cview')||'list'}catch(e){st.cview='list'}st.cf='';
+const cfMatch=i=>{const q=st.cf.trim().toLowerCase();if(!q)return true;const c=C[i];return c.n.toLowerCase().includes(q)||c.h.toLowerCase().includes(q.replace(/^#?/,'#'))||(c.c&&c.c.join(' ').startsWith(q.replace(/[,\/]+/g,' ').replace(/\s+/g,' ')))};
+const useOf=i=>C[i].k.filter(inLibP).length;
+const lscale=h=>`<span class="lscale" aria-hidden="true">${[.6,.4,.2].map(p=>`<i style="background:${mix(h,'#ffffff',p)}"></i>`).join('')}<i style="background:${h}"></i>${[.2,.4,.6].map(p=>`<i style="background:${mix(h,'#000000',p)}"></i>`).join('')}</span>`;
+const lrow=(i,max)=>{const c=C[i],n=useOf(i);return `<button class="lrow" data-colour="${i}"><span class="lsw" style="background:${c.h}"></span><span class="lname">${hl(c.n)}${MULTI&&st.lib==='all'?`<small>${esc(SBY[c.src].short)}</small>`:''}</span><span class="code">${c.h}</span><span class="code lcmyk">${c.c?c.c.join(' / '):'—'}</span>${lscale(c.h)}<span class="luse" title="Appears in ${n} combination${n===1?'':'s'}"><span class="lbar"><i style="width:${Math.round(n/max*100)}%"></i></span><span class="code">${n}</span></span></button>`};
+function cwrap(ids){if(st.cview==='grid')return `<div class="tiles">${ids.map(tile).join('')}</div>`;const max=Math.max(1,...C.map((c,i)=>inLibC(i)?useOf(i):0));
+ return `<div class="clist"><div class="lhead" aria-hidden="true"><span></span><span>Name</span><span>Hex</span><span class="lcmyk">CMYK</span><span class="lscale-h">Tint → shade</span><span class="luse-h"><span class="lg">Combinations</span><span class="sm">Uses</span></span></div>${ids.map(i=>lrow(i,max)).join('')}</div>`}
+const hl=n=>{const q=(st.q.trim()||(st.tab==='colours'?st.cf.trim():'')).toLowerCase(),k=q&&!/^[#\d]/.test(q)?n.toLowerCase().indexOf(q):-1;return k<0?esc(n):esc(n.slice(0,k))+'<mark>'+esc(n.slice(k,k+q.length))+'</mark>'+esc(n.slice(k+q.length))};
 const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${hl(C[i].n)}</b><span>${C[i].h}${C[i].c?' · '+cmykOf(i):''}${MULTI&&st.lib==='all'?' · '+esc(SBY[C[i].src].short):''}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
 /* temperature on the painter's (RYB) wheel: orange warmest, blue coolest; weighted by chroma so greys sit near 0 */
 const warmth=c=>Math.hypot(c.l[1],c.l[2])*Math.cos((toRyb(hsl(c.h)[0])-60)*Math.PI/180);
@@ -400,15 +450,15 @@ function search(q){q=q.trim();const lq=q.toLowerCase();let m,cols=[],combos=[],n
  return {cols,combos,note}}
 
 function render(){const v=$('#view');
- $('.bar').hidden=(st.tab==='mine'&&!st.q.trim())||st.tab==='paints';
+ $('.bar').hidden=(st.tab==='mine'&&!st.q.trim())||st.tab==='paints';{const col=st.tab==='colours'&&!st.q.trim();$('#cview').hidden=$('.cfilter').hidden=!col;$('#count').classList.toggle('offcol',col);$('#fsize').hidden=$('.bar .vsep').hidden=col;setSeg($('#cview'),st.cview)}
  if(st.tab==='paints'){v.innerHTML=paintsView();balanceTiles();return}
  if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>inLibP(id)&&(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
  if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length===IDS.length?L.length:L.length+' of '+IDS.length} ${MULTI?'palettes':'combinations'}`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
- else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>inLibC(i)&&(!st.chap||C[i].s===st.chap));
+ else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>inLibC(i)&&(!st.chap||C[i].s===st.chap)&&cfMatch(i));
   if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));if(st.sort==='temp')L.sort((a,b)=>warmth(C[b])-warmth(C[a]));
   $('#count').textContent=`${L.length} of ${C.length} colours`;
-  v.innerHTML=st.sort==='temp'?[['warm','Warm','Reds, oranges and yellows: they advance'],['neutral','Neutral','Greys, earths and muted colours with little pull either way'],['cool','Cool','Greens, blues and violets: they recede']].map(([k,n,d])=>{const g=L.filter(i=>tempBand(warmth(C[i]))===k);return g.length?`<h2>${n} <span class="hsub">${g.length} colours · ${d}</span></h2><div class="tiles">${g.map(tile).join('')}</div>`:''}).join(''):st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
+  v.innerHTML=!L.length?'<p class="empty">No colours match this filter.</p>':st.sort==='temp'?[['warm','Warm','Reds, oranges and yellows: they advance'],['neutral','Neutral','Greys, earths and muted colours with little pull either way'],['cool','Cool','Greens, blues and violets: they recede']].map(([k,n,d])=>{const g=L.filter(i=>tempBand(warmth(C[i]))===k);return g.length?`<h2>${n} <span class="hsub">${g.length} colours · ${d}</span></h2>${cwrap(g)}`:''}).join(''):st.sort==='book'&&!st.chap?[1,2,3,4,5,6].filter(s=>L.some(i=>C[i].s===s)).map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2>${cwrap(L.filter(i=>C[i].s===s))}`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`${cwrap(L)}`}
  else{$('#count').textContent=`${pals.length} palette${pals.length===1?'':'s'}`;
   v.innerHTML=(loadErr?`<p class="empty" style="color:#c2361f">${esc(loadErr)}</p>`:'')+`<h2>My palettes</h2><div class="grid"><button class="card" id="newpal"><div class="strip newstrip"><span>+ New palette</span></div><div class="meta"><b>New palette</b></div></button>${pals.map(p=>`<button class="card" data-pal="${p.id}">${pstrip(p)}<div class="meta"><b>${esc(p.name)}</b><span>${p.colours.length} colour${p.colours.length===1?'':'s'}</span></div></button>`).join('')}</div>
   <h2>Saved combinations</h2>${favs.length?`<div class="grid">${favs.map(card).join('')}</div>`:'<p class="empty">Open any combination and press ☆ Save to keep it here.</p>'}`}}
@@ -449,16 +499,50 @@ function compOf(i){const ex=comp(C[i].h,st.wheel),[ni,d]=nearest(ex,1,i)[0];retu
 const neutral=i=>chroma(C[i])<12;
 
 let cur=null;
-function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show==='exact'?x.ex:C[x.ni].h);
+const CPI='<svg class="cpi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+const CTABS=[['overview','Overview'],['complements','Complements'],['mix','Mix with paints'],['art','Seen in art'],['export','Export']];
+const slug=s=>s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function valueNote(ids){const L=ids.map(i=>C[i].l[0]),r=Math.max(...L)-Math.min(...L);
+ return r>=50?'Strong contrast between light and dark: it reads clearly even in greyscale.':r>=25?'Moderate value contrast: the colours separate, but gently.':'The colours are close in value, so they can blur together in greyscale. Good for quiet, harmonious pairings.'}
+/* the combination panel: plate, a row per colour, then tabs */
+function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show==='exact'?x.ex:C[x.ni].h),hs=ids.map(i=>C[i].h);
+ const tab=CTABS.some(t=>t[0]===st.ctab)?st.ctab:'overview',mi=Math.min(st.mixi||0,ids.length-1);
+ const rows=ids.map(i=>{const c=C[i],n=c.k.filter(inLibP).length;return `<div class="crow"><span class="csw" style="background:${c.h}"></span>
+  <button class="linkc cname" data-colour="${i}">${esc(c.n)}</button>
+  <button class="cp hx" data-copy="${c.h}" title="Copy hex" aria-label="Copy hex ${c.h}">${c.h}${CPI}</button>
+  ${c.c?`<button class="cp cm" data-copy="${c.c.join(' ')}" title="Copy CMYK" aria-label="Copy CMYK ${c.c.join(' ')}">${c.c.join(' / ')}${CPI}</button>`:'<span class="cp cm none">—</span>'}
+  <button class="cin" data-colour="${i}">${n} combination${n===1?'':'s'}</button></div>`}).join('');
+ const shares=comboId?[...new Set(ids.flatMap(i=>C[i].k))].filter(k=>k!==comboId&&COMBOS[k]&&COMBOS[k].length>1&&inLibP(k)):[];
+ const panel={
+  overview:`<div class="ovw"><div><h3>Value check</h3><p class="note">${valueNote(ids)}</p><div class="vbar">${hs.map(h=>`<span style="background:${greyOf(h)}"></span>`).join('')}</div></div>
+   ${shares.length?`<div><h3>Shares colours with <span class="hsub">${shares.length}</span></h3><div class="minis">${shares.slice(0,12).map(k=>`<button class="mini-c" data-combo="${k}" aria-label="${esc(ptitle(k))}"><span class="mstrip">${COMBOS[k].map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</span><span class="num">${PSRC[k]===PRIMARY?'No. ':''}${esc(plabel(k))}</span></button>`).join('')}</div>${shares.length>12?`<p class="note">Open a colour above to see every combination it appears in.</p>`:''}</div>`:''}</div>`,
+  complements:`${toggles()}
+   <div class="duo"><div><p class="cap">Original</p>${strip(ids)}<div class="comp"><p class="cap">Complementary group · ${st.wheel==='ryb'?"painter's wheel":'screen wheel'} · ${st.show==='exact'?'exact complements':'nearest colours in '+esc(libName())}</p><div class="strip">${shown.map(h=>`<span style="background:${h}"></span>`).join('')}</div></div>
+   ${st.show==='wada'?`<p class="note">Built from ${cs.map(x=>`<button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button>`).join(', ')}.</p>`:''}</div>${wheel(hs,st.wheel)}</div>
+   <table class="stack"><thead><tr><th>Colour</th><th>Complement</th><th>Nearest in ${esc(libName())}</th><th>Tint → shade</th></tr></thead><tbody>
+   ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button></td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
+   <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>`,
+  mix:MIXER?`<div class="seg mixpick" role="group" aria-label="Colour to mix">${ids.map((i,n)=>`<button data-mixi="${n}" aria-pressed="${n===mi}"><i class="gd" style="background:${C[i].h}"></i>${esc(C[i].n)}</button>`).join('')}</div><div class="mixslot">${tab==='mix'?mixSection(hs[mi]):''}</div>`:'<p class="note">Paint mixing isn’t available right now.</p>',
+  art:artSection(hs).replace('<h2>Seen in art</h2>',''),
+  export:`<div class="exp">${comboId!=null?'<button class="btn" id="vmapply" title="Repaint an image in these colours">Apply to an image</button><button class="btn" id="proc-combo">Procreate palette ↓</button>':''}<button class="btn" data-copy="${hs.join(', ')}">Copy hex list</button>
+   <button class="btn" data-copy="${esc(ids.map(i=>`--${slug(C[i].n)}: ${C[i].h};`).join('\n'))}">Copy as CSS variables</button>
+   <button class="btn" data-copy="${esc(JSON.stringify(ids.map(i=>({name:C[i].n,hex:C[i].h,cmyk:C[i].c||null}))))}">Copy as JSON</button></div>
+   <p class="note">Apply to an image repaints a picture in these colours. Procreate palettes open straight into Procreate on the iPad. CSS and JSON go to the clipboard.</p>`};
  return `<div class="big">${ids.map(i=>`<button data-colour="${i}" style="background:${C[i].h};color:${textOn(C[i].h)}">${esc(C[i].n)}</button>`).join('')}</div>
- ${toggles()}
- <div class="duo"><div><p class="cap">Original</p>${strip(ids)}<div class="comp"><p class="cap">Complementary group · ${st.wheel==='ryb'?"painter's wheel":'screen wheel'} · ${st.show==='exact'?'exact complements':'nearest colours in '+esc(libName())}</p><div class="strip">${shown.map(h=>`<span style="background:${h}"></span>`).join('')}</div></div>
- ${st.show==='wada'?`<p class="note">Built from ${cs.map(x=>`<button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button>`).join(', ')}.</p>`:''}</div>${wheel(ids.map(i=>C[i].h),st.wheel)}</div>
- <table class="stack"><thead><tr><th>Colour</th><th>Codes</th><th>Complement</th><th>Nearest in ${esc(libName())}</th><th>Tint → shade</th></tr></thead><tbody>
- ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button><br><span class="note"><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></td><td class="code">${C[i].h}${copyBtn(C[i].h)}${C[i].c?'<br>'+C[i].c.join(' / '):''}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
- <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>
- ${artSection(ids.map(i=>C[i].h))}
- ${comboId?`<h2>Colours here also appear in</h2><div class="grid">${[...new Set(ids.flatMap(i=>C[i].k))].filter(k=>k!==comboId).slice(0,24).map(card).join('')}</div>`:''}`}
+ <div class="ctable">${rows}</div>
+ <div class="ctabs" role="tablist" aria-label="More about this combination">${CTABS.map(([k,n])=>`<button role="tab" id="ct-${k}" data-ctab="${k}" aria-controls="cp-${k}" aria-selected="${k===tab}" tabindex="${k===tab?0:-1}">${n}</button>`).join('')}</div>
+ ${CTABS.map(([k])=>`<div class="cpanel" role="tabpanel" id="cp-${k}" aria-labelledby="ct-${k}" tabindex="0"${k===tab?'':' hidden'}>${panel[k]}</div>`).join('')}`}
+/* switching tabs keeps the panel in place; the choice carries over to the next combination */
+function setCtab(k,focus){const sb_=$('#sbody');if(!sb_.querySelector('.ctabs'))return;st.ctab=k;
+ sb_.querySelectorAll('[data-ctab]').forEach(b=>{const on=b.dataset.ctab===k;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus()});
+ sb_.querySelectorAll('.cpanel').forEach(p=>p.hidden=p.id!=='cp-'+k);
+ if(k==='mix'){const s=sb_.querySelector('.mixslot');if(s&&!s.firstChild&&cur&&cur.combo!=null){s.innerHTML=mixSection(C[COMBOS[cur.combo][Math.min(st.mixi||0,COMBOS[cur.combo].length-1)]].h);fillMix()}}
+ if(k==='art')fillArt()}
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-ctab],[data-mixi]');if(!t)return;
+ if(t.dataset.ctab)return setCtab(t.dataset.ctab);
+ st.mixi=+t.dataset.mixi;setSeg(t.parentElement,st.mixi);const s=$('#sbody .mixslot');if(s&&cur&&cur.combo!=null){s.innerHTML=mixSection(C[COMBOS[cur.combo][st.mixi]].h);fillMix()}});
+document.addEventListener('keydown',e=>{const t=e.target.closest&&e.target.closest('.ctabs [role=tab]');if(!t)return;const ks=CTABS.map(x=>x[0]),i=ks.indexOf(t.dataset.ctab);
+ let j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:e.key==='Home'?0:e.key==='End'?ks.length-1:null;if(j==null)return;e.preventDefault();e.stopPropagation();setCtab(ks[(j+ks.length)%ks.length],true)},true);
 
 function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.h,'rgb');return {ex,ni:nearest(ex,1,i)[0][0]}})();const pr=(()=>{const ex=comp(c.h,'ryb');return {ex,ni:nearest(ex,1,i)[0][0]}})();
  return `<div class="sw-hero" style="background:${c.h};color:${textOn(c.h)}">${esc(c.n)}</div>
@@ -472,7 +556,7 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  ${MULTI?`<p class="note">From ${esc(SBY[c.src].name)}</p>`:''}<h2>In ${c.k.length} ${PSRC[c.k[0]]===PRIMARY?'combination':'palette'}${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=null;let title,body,extra='',hsh='';
- if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn sq" id="cprev" aria-label="Previous combination" title="Previous (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="ibtn sq" id="cnext" aria-label="Next combination" title="Next (→)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button><button class="ibtn" id="vmapply" title="Repaint an image in these colours">Apply to an image</button><button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
+ if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn sq" id="cprev" aria-label="Previous combination" title="Previous (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="ibtn sq" id="cnext" aria-label="Next combination" title="Next (→)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`+(user?`<button class="ibtn" id="fav" aria-pressed="${fav}">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo').replace('class="ibtn"','class="ibtn primary"');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
  else if(o.img){if(!IMG)return closeSheet();title='Palette from '+IMG.name;body=imgHTML();extra=`<button class="ibtn" id="imgproc" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="imgsave">Save as palette</button>`:'')}
@@ -889,7 +973,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(t.dataset.copy){copyText(t.dataset.copy,t);return}
  if(t.id==='close'||t.id==='scrim')return closeSheet();
  if(t.id==='fav'){toggleFav(cur.combo);return}
- if(t.dataset.tab){if(cur)closeSheet();st.tab=t.dataset.tab;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===t));render();return}
+ if(t.dataset.tab){if(cur)closeSheet();st.tab=t.dataset.tab;st.q='';st.cf='';$('#cf').value='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===t));render();return}
  const p=t.parentElement;
  if(p.id==='fsize'){st.size=+t.dataset.v;setSeg(p,st.size);animRender();return}
  if(p.id==='fchap'){st.chap=+t.dataset.v;setSeg(p,st.chap);animRender();return}
@@ -897,6 +981,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(p.id==='twheel'||p.id==='tshow'){st[p.id==='twheel'?'wheel':'show']=t.dataset.v;try{localStorage.setItem('w-wheel',st.wheel);localStorage.setItem('w-show',st.show)}catch(e){}const y=$('#sheet').scrollTop;openSheet(cur);$('#sheet').scrollTop=y;return}
  if(t.dataset.combo)return openCombo(+t.dataset.combo,t);
  if(t.dataset.colour)return openSheet({colour:+t.dataset.colour});});
+$('#cview').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.cview=b.dataset.v;try{localStorage.setItem('w-cview',st.cview)}catch(x){}setSeg($('#cview'),st.cview);animRender()});
+let cft;$('#cf').addEventListener('input',e=>{clearTimeout(cft);cft=setTimeout(()=>{st.cf=e.target.value;render()},100)});
 $('#sort').addEventListener('change',e=>{st.sort=e.target.value;animRender()});
 let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},120)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)closeSheet();if(e.key==='/'&&document.activeElement!==$('#q')){e.preventDefault();$('#q').focus()}});
@@ -966,7 +1052,8 @@ document.addEventListener('keydown',e=>{
  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCmdk();return}
  if(e.metaKey||e.ctrlKey||e.altKey||typing(document.activeElement)||$('#cmdk').open||$('#peek').open)return;
  const a=document.activeElement,open=document.body.classList.contains('open');
- if(open&&cur&&cur.combo!=null&&(e.key==='ArrowLeft'||e.key==='ArrowRight')&&!(a&&a.closest&&a.closest('.seg'))){e.preventDefault();stepCombo(e.key==='ArrowRight'?1:-1);return}
+ if(open&&cur&&cur.combo!=null&&(e.key==='ArrowLeft'||e.key==='ArrowRight')&&!(a&&a.closest&&a.closest('.seg,.ctabs'))){e.preventDefault();stepCombo(e.key==='ArrowRight'?1:-1);return}
+ if(!open&&(e.key==='ArrowDown'||e.key==='ArrowUp')&&a&&a.classList&&a.classList.contains('lrow')){const R=[...document.querySelectorAll('#view .lrow')],t=R[R.indexOf(a)+(e.key==='ArrowDown'?1:-1)];if(t){e.preventDefault();t.focus();t.scrollIntoView({block:'nearest'})}return}
  if(!open&&/^Arrow/.test(e.key)&&a&&a.classList&&a.classList.contains('card')){if(gridMove(a,e.key))e.preventDefault();return}
  if(e.key==='c'||e.key==='C'){let hs=null;
   if(a&&a.dataset&&a.dataset.colour!=null&&C[+a.dataset.colour])hs=C[+a.dataset.colour].h;
