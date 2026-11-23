@@ -114,7 +114,7 @@ select{height:36px;border:1px solid var(--line2);border-radius:var(--r);backgrou
 .card:hover .strip{transform:translateY(-2px);box-shadow:0 8px 20px #0000001f}
 .strip{transition:transform .15s,box-shadow .15s}
 .meta{display:flex;gap:8px;font-size:13px;margin-top:10px;align-items:baseline}
-.meta b{font-size:14px;font-weight:600}.meta b.num{font-family:var(--mono);font-size:13px;font-weight:500}.meta span{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta b{font-size:14px;font-weight:600}.meta b.num{font-family:var(--mono);font-size:13px;font-weight:500;white-space:nowrap;flex:none}#sextra{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.meta span{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px 12px}
 .tiles .card{align-self:start}
 .tile .sw{height:110px;border-radius:var(--r);box-shadow:inset 0 0 0 1px #0000000d}
@@ -181,6 +181,80 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
  #count{display:none}#sort{margin-left:auto}.search kbd{display:none}
  #auth .note{display:none}
 }
+/* ---------- interactions ---------- */
+mark{background:color-mix(in srgb,#f5c542 50%,transparent);color:inherit;border-radius:2px;padding:0 1px}
+.cnames{color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .15s}
+.strip span{transition:margin .2s ease}
+@media(hover:hover){.card:hover .cnames,.card:focus-visible .cnames{opacity:1}.card:hover .strip span+span{margin-left:3px}}
+@media(hover:none){.cnames{display:none}.card{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}}
+.copy.done{color:var(--ink);border-color:var(--ink)}
+/* loading placeholders */
+.skel .strip,.skel .ph,.skel b{background:var(--chip);color:transparent;border-radius:var(--r);animation:pulse 1.4s ease-in-out infinite}
+.skel .strip{box-shadow:none}.skel b{display:block;width:64px;height:14px;border-radius:4px}.skel .ph{display:block;aspect-ratio:1;border-radius:6px}
+.artgrid.skel b{width:80%}
+@keyframes pulse{50%{opacity:.45}}
+/* ribbon label */
+#tip{position:fixed;left:0;top:0;z-index:40;pointer-events:none;opacity:0;transition:opacity .12s;background:var(--ink);color:var(--bg);border-radius:6px;padding:4px 8px;font-size:12px;display:flex;gap:8px;align-items:center;white-space:nowrap}
+#tip span{font-family:var(--mono);opacity:.75}
+#tip.big{padding:8px 12px 8px 8px;font-size:14px;border-radius:10px;box-shadow:0 8px 24px #0004}#tip .tsw{width:40px;height:40px;border-radius:6px;opacity:1;box-shadow:inset 0 0 0 1px #fff4}
+.rs{touch-action:pan-y}
+/* toolbar once stuck */
+.bar{transition:box-shadow .2s}body.scrolled .bar{box-shadow:0 8px 20px -14px #0005}
+#barsearch{display:none;width:36px;min-width:36px;height:36px}body.scrolled #barsearch{display:grid}
+/* command palette and long-press preview */
+#cmdk,#peek{padding:0;border:1px solid var(--line);background:var(--card);color:var(--ink);box-shadow:0 24px 64px #0004;overflow:hidden}
+#cmdk{width:min(600px,calc(100% - 32px));max-height:min(70vh,520px);margin:12vh auto auto;border-radius:12px}
+#cmdk[open]{display:flex;flex-direction:column}#cmdk[open],#peek[open]{animation:pop .18s ease-out}
+#cmdk::backdrop,#peek::backdrop{background:#0006}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}}
+.ck-in{display:flex;align-items:center;gap:10px;padding:0 16px;height:56px;border-bottom:1px solid var(--line);flex:none}.ck-in svg{width:18px;height:18px;color:var(--mute);flex:none}
+#ckq{flex:1;border:0;outline:0;background:none;font-size:16px;height:100%}
+.ck-in kbd{font-family:var(--mono);font-size:11px;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:0 6px}
+#ckl{list-style:none;margin:0;padding:6px;overflow-y:auto}
+#ckl li{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:var(--r);cursor:pointer;min-height:44px}
+#ckl li[aria-selected=true]{background:var(--chip)}
+#ckl li b{font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#ckl li>span:last-child{font-size:12px;color:var(--mute);font-family:var(--mono);white-space:nowrap}
+.ck-sw{display:flex;width:36px;height:24px;border-radius:4px;overflow:hidden;flex:none;background:var(--chip)}.ck-sw i{flex:1}
+#ckl .ck-none{color:var(--mute);cursor:default}
+#peek{width:min(360px,calc(100% - 32px));border-radius:16px}
+.pk-strip{display:flex;height:150px}.pk-strip span{flex:1}
+.pk-body{padding:16px}.pk-body ul{list-style:none;margin:10px 0 16px;padding:0;display:grid;gap:8px}
+.pk-body li{display:flex;align-items:center;gap:10px;font-size:14px}.pk-body li i{width:20px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px #0000001a}.pk-body li .code{margin-left:auto;color:var(--mute)}
+.pk-act{display:flex;gap:8px;flex-wrap:wrap}.pk-act .btn{flex:1;justify-content:center;height:44px}
+/* pull to refresh */
+#ptr{position:fixed;top:0;left:0;right:0;height:0;overflow:hidden;display:grid;place-items:center;z-index:11;transition:height .2s;pointer-events:none}
+#ptr span{width:22px;height:22px;border-radius:50%;border:2px solid var(--line2);border-top-color:var(--ink);transition:transform .2s}
+#ptr.ready span{transform:rotate(180deg)}#ptr.spin span{animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.grab{display:none}
+/* view transitions: card → plate, filters, previous / next */
+::view-transition-group(*){animation-duration:.32s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-old(plate),::view-transition-new(plate){height:100%;width:100%}
+html.vt-open #sheet,html.vt-open #scrim{transition:none}
+html.vt-open #sheet{view-transition-name:sheet}
+::view-transition-new(sheet){animation:vt-in-side .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes vt-in-side{from{transform:translateX(100%)}}@keyframes vt-in-up{from{transform:translateY(100%)}}
+html.vt-grid::view-transition-old(root),html.vt-grid::view-transition-new(root){animation-duration:.18s}
+html[data-dir] #sbody{view-transition-name:sbody}
+html[data-dir=next]::view-transition-old(sbody){animation:vt-out-l .22s both}html[data-dir=next]::view-transition-new(sbody){animation:vt-in-r .26s both}
+html[data-dir=prev]::view-transition-old(sbody){animation:vt-out-r .22s both}html[data-dir=prev]::view-transition-new(sbody){animation:vt-in-l .26s both}
+@keyframes vt-out-l{to{transform:translateX(-48px);opacity:0}}@keyframes vt-out-r{to{transform:translateX(48px);opacity:0}}
+@keyframes vt-in-r{from{transform:translateX(48px);opacity:0}}@keyframes vt-in-l{from{transform:translateX(-48px);opacity:0}}
+/* phone: bottom sheet, hiding tab bar */
+@media(max-width:700px){
+ .tabs{transition:transform .25s ease}body.hidetabs .tabs{transform:translateY(100%)}
+ #sheet{top:auto;left:0;width:100%;height:94dvh;border-radius:16px 16px 0 0;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility .3s}
+ #sheet{transform:translateY(100%)}
+ body.open #sheet{transform:none}
+ body.open #sheet[data-snap=half]{transform:translateY(40dvh)}
+ body.open #sheet{box-shadow:0 -12px 40px #0003}
+ #sheet.dragging{transition:none}
+ .shead{flex-wrap:wrap;padding:22px 16px 12px;touch-action:none;border-radius:16px 16px 0 0}
+ .grab{display:block;position:absolute;top:8px;left:50%;width:40px;height:5px;margin-left:-20px;border-radius:3px;background:var(--line2)}
+ .sbody{padding:16px 16px 60px}.big{touch-action:pan-y}
+ .shead h3{flex:1 1 100%;order:-1}#sextra{flex:1}
+ ::view-transition-new(sheet){animation-name:vt-in-up}
+}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}#cmdk[open],#peek[open],.skel *{animation:none!important}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -212,17 +286,22 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   <div class="pills" id="fchap" role="group" aria-label="Hue family"></div>
   <span class="vsep" aria-hidden="true"></span>
   <div class="seg" id="fsize" role="group" aria-label="Colours per combination"></div>
+  <button class="ibtn sq" id="barsearch" aria-label="Search (⌘K)" title="Search (⌘K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
   <span id="count"></span>
   <select id="sort" aria-label="Sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option><option value="temp">Warm → cool</option></select>
 </div></div>
-<main class="band" style="padding-top:28px"><div class="wrap" id="view"></div></main>
+<main class="band" style="padding-top:28px"><div class="wrap" id="view"><div class="grid skel" aria-busy="true" aria-label="Loading"><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div><div class="card"><div class="strip"></div><div class="meta"><b class="num">&nbsp;</b></div></div></div></div></main>
 <div id="scrim"></div>
 <aside id="sheet" aria-modal="true" role="dialog" aria-labelledby="stitle">
-  <div class="shead"><h3 id="stitle"></h3><span id="sextra"></span><button class="ibtn" id="close" aria-label="Close">✕</button></div>
+  <div class="shead"><span class="grab" aria-hidden="true"></span><h3 id="stitle"></h3><span id="sextra"></span><button class="ibtn" id="close" aria-label="Close">✕</button></div>
   <div class="sbody" id="sbody"></div>
 </aside>
 <div id="dock" hidden></div>
 <div id="toast"></div>
+<div id="tip" aria-hidden="true"></div>
+<div id="ptr" aria-hidden="true"><span></span></div>
+<dialog id="cmdk" aria-label="Go to"><div class="ck-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="ckq" type="text" placeholder="Jump to a colour, combination or section" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="ckl" aria-label="Go to"><kbd>esc</kbd></div><ul id="ckl" role="listbox"></ul></dialog>
+<dialog id="peek" aria-label="Preview"></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="vendor/mixbox.js"></script>
 <script src="mix.js"></script>
@@ -292,8 +371,9 @@ C.forEach(c=>{if(!c.l)c.l=lab(c.h);if(!c.s)c.s=famOf(c.h)});
 /* rendering pieces */
 const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
 const favBtn=id=>{const on=favs.includes(id);return `<button class="addp star ${on?'on':''}" data-fav="${id}" aria-pressed="${on}" aria-label="${on?'Remove combination '+id+' from':'Save combination '+id+' to'} saved combinations" title="${on?'Saved — click to remove':'Save combination'}">${on?'★':'☆'}</button>`};
-const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(ptitle(id))}${MULTI?' · '+esc(SBY[PSRC[id]].short):''}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="${esc(ptitle(id))}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b class="num">${PSRC[id]===PRIMARY?'No. ':''}${esc(plabel(id))}</b></div></button></div>`;
-const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h}${C[i].c?' · '+cmykOf(i):''}${MULTI&&st.lib==='all'?' · '+esc(SBY[C[i].src].short):''}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
+const card=id=>`<div class="ccard" data-id="${id}">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(ptitle(id))}${MULTI?' · '+esc(SBY[PSRC[id]].short):''}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="${esc(ptitle(id))}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b class="num">${PSRC[id]===PRIMARY?'No. ':''}${esc(plabel(id))}</b><span class="cnames">${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}</span></div></button></div>`;
+const hl=n=>{const q=st.q.trim().toLowerCase(),k=q&&!/^[#\d]/.test(q)?n.toLowerCase().indexOf(q):-1;return k<0?esc(n):esc(n.slice(0,k))+'<mark>'+esc(n.slice(k,k+q.length))+'</mark>'+esc(n.slice(k+q.length))};
+const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${hl(C[i].n)}</b><span>${C[i].h}${C[i].c?' · '+cmykOf(i):''}${MULTI&&st.lib==='all'?' · '+esc(SBY[C[i].src].short):''}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
 /* temperature on the painter's (RYB) wheel: orange warmest, blue coolest; weighted by chroma so greys sit near 0 */
 const warmth=c=>Math.hypot(c.l[1],c.l[2])*Math.cos((toRyb(hsl(c.h)[0])-60)*Math.PI/180);
 const tempBand=w=>w>8?'warm':w<-8?'cool':'neutral';
@@ -381,7 +461,7 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  ${MULTI?`<p class="note">From ${esc(SBY[c.src].name)}</p>`:''}<h2>In ${c.k.length} ${PSRC[c.k[0]]===PRIMARY?'combination':'palette'}${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=null;let title,body,extra='',hsh='';
- if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
+ if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn sq" id="cprev" aria-label="Previous combination" title="Previous (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="ibtn sq" id="cnext" aria-label="Next combination" title="Next (→)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button><button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
  else if(o.img){if(!IMG)return closeSheet();title='Palette from '+IMG.name;body=imgHTML();extra=`<button class="ibtn" id="imgproc" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="imgsave">Save as palette</button>`:'')}
@@ -596,8 +676,12 @@ function toProcreate(name,hexes){if(!hexes.length){toast('No colours to export')
 
 /* ---------- Seen in art: Harvard Art Museums works matching a palette (via /api/art) ---------- */
 const ARTTYPES=[['all','All types'],['Paintings','Paintings'],['Prints','Prints'],['Drawings','Drawings'],['Textile Arts','Textiles'],['Photographs','Photographs']];
-st.artType='all';const artCache={};
-const artSection=hs=>hs.length?`<h2>Seen in art</h2><div class="artbox" data-arthexes="${hs.join(',')}"><div class="seg artseg">${ARTTYPES.map(([v,l])=>`<button data-v="${esc(v)}" aria-pressed="${st.artType===v}">${l}</button>`).join('')}</div><div class="artout"><p class="note">Looking through Harvard Art Museums…</p></div></div>`:'';
+st.artType='all';const artCache={},artPend={};
+const artSkel=()=>`<div class="artgrid skel" aria-busy="true" aria-label="Looking through Harvard Art Museums">${'<div class="artcard"><span class="ph"></span><b>&nbsp;</b><span>&nbsp;</span></div>'.repeat(6)}</div>`;
+/* one request per palette and type, shared between a press (prefetch) and the panel */
+function artFetch(hs,type){const key=hs+'|'+type;if(artCache[key])return Promise.resolve(artCache[key]);
+ return artPend[key]??=fetch(`/api/art?c=${encodeURIComponent(hs.replace(/#/g,''))}&type=${encodeURIComponent(type)}`).then(r=>r.json()).catch(()=>({error:'network'})).then(d=>{delete artPend[key];if(!d.error)artCache[key]=d;return d})}
+const artSection=hs=>hs.length?`<h2>Seen in art</h2><div class="artbox" data-arthexes="${hs.join(',')}"><div class="seg artseg">${ARTTYPES.map(([v,l])=>`<button data-v="${esc(v)}" aria-pressed="${st.artType===v}">${l}</button>`).join('')}</div><div class="artout">${artSkel()}</div></div>`:'';
 function drawArt(out,d){const lbl=(ARTTYPES.find(x=>x[0]===st.artType)||[])[1]||'';
  if(d.error){out.innerHTML=`<p class="note">${d.error==='not-configured'?'Seen in art isn’t switched on yet.':'Couldn’t reach Harvard Art Museums just now. Try again later.'}</p>`;return}
  if(!d.results.length){out.innerHTML=`<p class="note">No close matches in Harvard’s ${st.artType==='all'?'collection':lbl.toLowerCase()} for these colours. Try another type, or <a href="https://artsandculture.google.com/story/cQWRLHCd3edAIg">Google Arts &amp; Culture’s Art Palette</a>.</p>`;return}
@@ -605,7 +689,7 @@ function drawArt(out,d){const lbl=(ARTTYPES.find(x=>x[0]===st.artType)||[])[1]||
  <p class="note">Images and data: <a href="https://harvardartmuseums.org">Harvard Art Museums</a>. The strip under each work shows its main colours; outlined ones match your palette.</p>`}
 function fillArt(){const box=document.querySelector('.artbox');if(!box)return;const hs=box.dataset.arthexes,key=hs+'|'+st.artType,out=box.querySelector('.artout');
  if(artCache[key])return drawArt(out,artCache[key]);
- const go=()=>fetch(`/api/art?c=${encodeURIComponent(hs.replace(/#/g,''))}&type=${encodeURIComponent(st.artType)}`).then(r=>r.json()).catch(()=>({error:'network'})).then(d=>{if(!d.error)artCache[key]=d;if(document.contains(out))drawArt(out,d)});
+ const go=()=>artFetch(hs,st.artType).then(d=>{if(document.contains(out))drawArt(out,d)});
  if(!('IntersectionObserver' in window))return go();
  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();go()}},{rootMargin:'200px'});io.observe(out)}
 
@@ -705,29 +789,164 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(t.dataset.mixrow!=null){const p=P(active),x=p&&p.colours[+t.dataset.mixrow];if(x)openSheet({mix:itemHex(x),label:itemName(x),back:p.id});return}
  if(t.parentElement.id==='pfam'){pst.fam=t.dataset.v;render();return}
  if(t.parentElement.id==='pown'){pst.own=t.dataset.v==='1';render();return}
- if(t.parentElement&&t.parentElement.classList.contains('artseg')){st.artType=t.dataset.v;setSeg(t.parentElement,st.artType);const o=t.closest('.artbox').querySelector('.artout');o.innerHTML='<p class="note">Looking through Harvard Art Museums…</p>';fillArt();return}
+ if(t.parentElement&&t.parentElement.classList.contains('artseg')){st.artType=t.dataset.v;setSeg(t.parentElement,st.artType);const o=t.closest('.artbox').querySelector('.artout');o.innerHTML=artSkel();fillArt();return}
  if(t.dataset.fav){toggleFav(+t.dataset.fav);return}
  if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromLib));return}if(t.dataset.colour){addItems([fromLib(+t.dataset.colour)]);return}}
  if(imgAction(t))return;
  if(t.id==='imgback'){openSheet({img:true});return}
  if(palAction(t))return;
  if(t.dataset.fam){st.tab='colours';st.chap=+t.dataset.fam;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='colours'));setSeg($('#fchap'),st.chap);render();$('.bar').scrollIntoView({behavior:'smooth'});return}
- if(t.dataset.copy){navigator.clipboard?.writeText(t.dataset.copy).then(()=>toast('Copied '+t.dataset.copy),()=>toast('Copy blocked — select the text instead'));return}
+ if(t.dataset.copy){copyText(t.dataset.copy,t);return}
  if(t.id==='close'||t.id==='scrim')return closeSheet();
  if(t.id==='fav'){toggleFav(cur.combo);return}
  if(t.dataset.tab){if(cur)closeSheet();st.tab=t.dataset.tab;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===t));render();return}
  const p=t.parentElement;
- if(p.id==='fsize'){st.size=+t.dataset.v;setSeg(p,st.size);render();return}
- if(p.id==='fchap'){st.chap=+t.dataset.v;setSeg(p,st.chap);render();return}
+ if(p.id==='fsize'){st.size=+t.dataset.v;setSeg(p,st.size);animRender();return}
+ if(p.id==='fchap'){st.chap=+t.dataset.v;setSeg(p,st.chap);animRender();return}
  if(p.classList.contains('tval')){st.val=t.dataset.v==='1';if(!st.val)st.wl=null;document.querySelectorAll('.wheelbox').forEach(rewheel);return}
  if(p.id==='twheel'||p.id==='tshow'){st[p.id==='twheel'?'wheel':'show']=t.dataset.v;try{localStorage.setItem('w-wheel',st.wheel);localStorage.setItem('w-show',st.show)}catch(e){}const y=$('#sheet').scrollTop;openSheet(cur);$('#sheet').scrollTop=y;return}
- if(t.dataset.combo)return openSheet({combo:+t.dataset.combo});
+ if(t.dataset.combo)return openCombo(+t.dataset.combo,t);
  if(t.dataset.colour)return openSheet({colour:+t.dataset.colour});});
-$('#sort').addEventListener('change',e=>{st.sort=e.target.value;render()});
+$('#sort').addEventListener('change',e=>{st.sort=e.target.value;animRender()});
 let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},120)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)closeSheet();if(e.key==='/'&&document.activeElement!==$('#q')){e.preventDefault();$('#q').focus()}});
 window.addEventListener('hashchange',fromHash);
 if(sb)sb.auth.onAuthStateChange((ev,s)=>{const was=user&&user.id;user=s&&s.user||null;authUI();if(user&&user.id!==was)setTimeout(()=>{loadPals();loadOwned()},0);if(!user){pals=[];owned=new Set();active=null;adding=false;dock();if(cur&&cur.pal)closeSheet();render()}});
+/* ---------- interactions: motion, keyboard, touch ---------- */
+const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PHONE=()=>matchMedia('(max-width:700px)').matches;
+const VT=()=>!!document.startViewTransition&&!RM();
+
+/* copy with the confirmation on the button itself */
+function copyText(txt,btn){const ok=()=>{if(btn&&btn.isConnected){if(!btn.dataset.label)btn.dataset.label=btn.innerHTML;btn.classList.add('done');btn.textContent='Copied ✓';clearTimeout(btn._t);btn._t=setTimeout(()=>{btn.classList.remove('done');btn.innerHTML=btn.dataset.label},1200)}else toast('Copied '+txt)};
+ if(!navigator.clipboard)return toast('Copy blocked — select the text instead');navigator.clipboard.writeText(txt).then(ok,()=>toast('Copy blocked — select the text instead'))}
+
+/* filters: cards glide to their new places (only the ones on screen are tracked) */
+function nameCards(on){document.querySelectorAll('#view .ccard[data-id]').forEach(c=>{const r=on&&c.getBoundingClientRect();c.style.viewTransitionName=on&&r.bottom>0&&r.top<innerHeight?'c'+c.dataset.id:''})}
+function animRender(){if(!VT())return render();nameCards(true);document.documentElement.classList.add('vt-grid');
+ const t=document.startViewTransition(()=>{render();nameCards(true)});t.finished.finally(()=>{nameCards(false);document.documentElement.classList.remove('vt-grid')})}
+
+/* the count ticks to its new number */
+let lastCount=null;
+function tweenCount(){const el=$('#count'),txt=el.textContent,m=txt.match(/\d+/);if(!m)return;const to=+m[0],from=lastCount;lastCount=to;
+ if(from==null||from===to||RM())return;const t0=performance.now(),D=300;cancelAnimationFrame(tweenCount.f);
+ const step=now=>{const k=Math.min(1,(now-t0)/D),v=Math.round(from+(to-from)*(1-(1-k)**3));el.textContent=txt.replace(m[0],v);if(k<1)tweenCount.f=requestAnimationFrame(step)};tweenCount.f=requestAnimationFrame(step)}
+const render0=render;render=function(){render0();tweenCount()};
+
+/* a card grows into the panel's plate */
+function openCombo(id,src){const strip=src&&src.querySelector&&src.querySelector('.strip');
+ if(!strip||!VT())return openSheet({combo:id});
+ strip.style.viewTransitionName='plate';document.documentElement.classList.add('vt-open');
+ const t=document.startViewTransition(()=>{strip.style.viewTransitionName='';openSheet({combo:id});const b=$('#sbody .big');if(b)b.style.viewTransitionName='plate'});
+ t.finished.finally(()=>{document.documentElement.classList.remove('vt-open');const b=$('#sbody .big');if(b)b.style.viewTransitionName=''})}
+
+/* previous / next combination, in the order you are looking at */
+function navList(){const L=[...new Set([...document.querySelectorAll('#view [data-combo]')].map(b=>+b.dataset.combo))];return L.length?L:IDS}
+function stepCombo(d){if(!cur||cur.combo==null)return;const L=navList(),i=L.indexOf(cur.combo),n=L.length,id=L[i<0?0:(i+d+n)%n];
+ const go=()=>openSheet({combo:id});if(!VT())return go();
+ document.documentElement.dataset.dir=d>0?'next':'prev';const t=document.startViewTransition(go);t.finished.finally(()=>delete document.documentElement.dataset.dir)}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#cprev,#cnext');if(b)stepCombo(b.id==='cnext'?1:-1)});
+
+/* start the art request as soon as a card is pressed */
+document.addEventListener('pointerdown',e=>{const c=e.target.closest&&e.target.closest('[data-combo]');if(c&&COMBOS[+c.dataset.combo]&&!adding)artFetch(COMBOS[+c.dataset.combo].map(i=>C[i].h).join(','),st.artType)},{passive:true});
+
+/* ribbon: a label follows the pointer; on touch, scrub with your thumb and let go to open */
+const tip=$('#tip');let scrub=null,eatClick=false;
+function showTip(b,x,y,big){const c=C[+b.dataset.colour];if(!c)return;tip.className=big?'big':'';tip.innerHTML=`${big?`<span class="tsw" style="background:${c.h}"></span>`:''}<b>${esc(c.n)}</b><span>${c.h}</span>`;tip.style.opacity=1;
+ const w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x-w/2))+'px';tip.style.top=Math.max(8,y-h-(big?36:14))+'px'}
+const hideTip=()=>{tip.style.opacity=0};
+const rib=$('#ribbon');
+rib.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const b=e.target.closest('.rs button');b?showTip(b,e.clientX,e.clientY):hideTip()});
+rib.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch')hideTip()});
+rib.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch'||!e.target.closest('.rs'))return;scrub={x:e.clientX,b:null,moved:false};const b=e.target.closest('.rs button');if(b){scrub.b=b;showTip(b,e.clientX,e.clientY,true)}});
+rib.addEventListener('pointermove',e=>{if(!scrub)return;if(Math.abs(e.clientX-scrub.x)>6)scrub.moved=true;const el=document.elementFromPoint(e.clientX,e.clientY),b=el&&el.closest('.rs button');if(b){scrub.b=b;showTip(b,e.clientX,e.clientY,true)}});
+rib.addEventListener('pointerup',()=>{if(!scrub)return;const s=scrub;scrub=null;hideTip();if(s.moved&&s.b){eatClick=true;setTimeout(()=>eatClick=false,400);openSheet({colour:+s.b.dataset.colour})}});
+rib.addEventListener('pointercancel',()=>{scrub=null;hideTip()});
+document.addEventListener('click',e=>{if(eatClick){eatClick=false;e.stopPropagation();e.preventDefault()}},true);
+
+/* keyboard: arrows move through the grid, ← → step in the panel, C copies, ⌘K jumps */
+const typing=el=>el&&(el.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))&&el.type!=='range';
+function gridMove(card,key){const box=card.closest('.grid,.tiles');if(!box)return false;const all=[...box.querySelectorAll('.card')],i=all.indexOf(card);let t=null;
+ if(key==='ArrowLeft')t=all[i-1];else if(key==='ArrowRight')t=all[i+1];
+ else{const r=card.getBoundingClientRect(),cx=r.left+r.width/2,down=key==='ArrowDown',row=all.filter(c=>{const q=c.getBoundingClientRect();return down?q.top>r.top+4:q.top<r.top-4});
+  if(row.length){const y=down?Math.min(...row.map(c=>c.getBoundingClientRect().top)):Math.max(...row.map(c=>c.getBoundingClientRect().top));
+   t=row.filter(c=>Math.abs(c.getBoundingClientRect().top-y)<4).sort((a,b)=>{const A=a.getBoundingClientRect(),B=b.getBoundingClientRect();return Math.abs(A.left+A.width/2-cx)-Math.abs(B.left+B.width/2-cx)})[0]}}
+ if(t){t.focus();t.scrollIntoView({block:'nearest',behavior:RM()?'auto':'smooth'})}return true}
+document.addEventListener('keydown',e=>{
+ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCmdk();return}
+ if(e.metaKey||e.ctrlKey||e.altKey||typing(document.activeElement)||$('#cmdk').open||$('#peek').open)return;
+ const a=document.activeElement,open=document.body.classList.contains('open');
+ if(open&&cur&&cur.combo!=null&&(e.key==='ArrowLeft'||e.key==='ArrowRight')&&!(a&&a.closest&&a.closest('.seg'))){e.preventDefault();stepCombo(e.key==='ArrowRight'?1:-1);return}
+ if(!open&&/^Arrow/.test(e.key)&&a&&a.classList&&a.classList.contains('card')){if(gridMove(a,e.key))e.preventDefault();return}
+ if(e.key==='c'||e.key==='C'){let hs=null;
+  if(a&&a.dataset&&a.dataset.colour!=null&&C[+a.dataset.colour])hs=C[+a.dataset.colour].h;
+  else if(a&&a.dataset&&a.dataset.combo!=null&&COMBOS[+a.dataset.combo])hs=COMBOS[+a.dataset.combo].map(i=>C[i].h).join(', ');
+  else if(open&&cur&&cur.colour!=null)hs=C[cur.colour].h;else if(open&&cur&&cur.combo!=null)hs=COMBOS[cur.combo].map(i=>C[i].h).join(', ');
+  if(hs){e.preventDefault();copyText(hs)}}});
+
+/* command palette */
+const ck=$('#cmdk'),ckq=$('#ckq'),ckl=$('#ckl');let ckItems=[],ckSel=0;
+const swatchHTML=hs=>`<span class="ck-sw">${hs.map(h=>`<i style="background:${h}"></i>`).join('')}</span>`;
+function ckSearch(q){q=q.trim();const lq=q.toLowerCase(),out=[];let m;
+ const secs=[['combos','Combinations'],['colours','Colours'],['paints','Paints'],...(user?[['mine','My palettes']]:[])].map(([v,n])=>({label:n,kind:'Section',run:()=>$(`[data-tab="${v}"]`).click()}));
+ secs.push({label:'Palette from an image',kind:'Action',run:()=>$('#imgfile').click()});
+ if(!q)return secs;
+ if((m=lq.match(/^(?:no\.?\s*)?#?(\d{1,4})$/))&&COMBOS[+m[1]])out.push({label:ptitle(+m[1]),kind:'Combination',sw:COMBOS[+m[1]].map(i=>C[i].h),run:()=>openSheet({combo:+m[1]})});
+ if(m=lq.match(/^#?([0-9a-f]{6})$/)){nearest('#'+m[1],3).forEach(([i,d])=>out.push({label:C[i].n,kind:d<1?'Exact match':'Nearest · ΔE '+d.toFixed(1),sw:[C[i].h],run:()=>openSheet({colour:i})}))}
+ C.forEach((c,i)=>{if(out.length<9&&inLibC(i)&&c.n.toLowerCase().includes(lq))out.push({label:c.n,kind:c.h,sw:[c.h],run:()=>openSheet({colour:i})})});
+ secs.forEach(x=>{if(x.label.toLowerCase().includes(lq))out.push(x)});return out}
+function ckDraw(){ckl.innerHTML=ckItems.length?ckItems.map((x,n)=>`<li role="option" id="ck${n}" aria-selected="${n===ckSel}" data-ck="${n}">${x.sw?swatchHTML(x.sw):'<span class="ck-sw"></span>'}<b>${esc(x.label)}</b><span>${esc(x.kind)}</span></li>`).join(''):'<li class="ck-none">Nothing matches</li>';
+ ckq.setAttribute('aria-activedescendant',ckItems.length?'ck'+ckSel:'');const s=ckl.querySelector('[aria-selected=true]');s&&s.scrollIntoView({block:'nearest'})}
+function openCmdk(){if(ck.open)return;ckq.value='';ckItems=ckSearch('');ckSel=0;ckDraw();ck.showModal();ckq.focus()}
+function ckRun(n){const x=ckItems[n];if(!x)return;ck.close();if(cur&&!/^(Combination|Exact|Nearest|#)/.test(x.kind))closeSheet();x.run()}
+ckq.addEventListener('input',()=>{ckItems=ckSearch(ckq.value);ckSel=0;ckDraw()});
+ckq.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=ckItems.length;if(n){ckSel=(ckSel+(e.key==='ArrowDown'?1:-1)+n)%n;ckDraw()}}else if(e.key==='Enter'){e.preventDefault();ckRun(ckSel)}});
+ckl.addEventListener('click',e=>{const li=e.target.closest('[data-ck]');if(li)ckRun(+li.dataset.ck)});
+ck.addEventListener('click',e=>{if(e.target===ck)ck.close()});
+$('#barsearch').addEventListener('click',openCmdk);
+
+/* scrolled past the intro: the toolbar lifts and gains a search button */
+if('IntersectionObserver' in window)new IntersectionObserver(([en])=>document.body.classList.toggle('scrolled',!en.isIntersecting),{rootMargin:'-1px 0px 0px 0px'}).observe($('.intro'));
+
+/* phone: the tab bar slides away while you scroll down and returns when you scroll up */
+let lastY=scrollY;addEventListener('scroll',()=>{const y=scrollY,d=y-lastY;if(Math.abs(d)<8)return;document.body.classList.toggle('hidetabs',d>0&&y>240);lastY=y},{passive:true});
+
+/* phone: long-press a card for a quick preview */
+const peek=$('#peek');let lp=null;
+function openPeek(id){const ids=COMBOS[id];peek.innerHTML=`<div class="pk-strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>
+ <div class="pk-body"><b class="num">${esc(ptitle(id))}</b><ul>${ids.map(i=>`<li><i style="background:${C[i].h}"></i>${esc(C[i].n)}<span class="code">${C[i].h}</span></li>`).join('')}</ul>
+ <div class="pk-act"><button class="btn primary" data-pk="open">Open</button><button class="btn" data-pk="copy">Copy hexes</button>${user?`<button class="btn" data-pk="save">${favs.includes(id)?'Saved ✓':'Save'}</button>`:''}</div></div>`;
+ peek.dataset.id=id;peek.showModal()}
+peek.addEventListener('click',e=>{if(e.target===peek)return peek.close();const b=e.target.closest('[data-pk]');if(!b)return;const id=+peek.dataset.id;
+ if(b.dataset.pk==='open'){peek.close();openSheet({combo:id})}else if(b.dataset.pk==='copy')copyText(COMBOS[id].map(i=>C[i].h).join(', '),b);else{toggleFav(id);b.textContent=favs.includes(id)?'Saved ✓':'Save'}});
+document.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch'||adding)return;const c=e.target.closest&&e.target.closest('#view .card[data-combo]');if(!c)return;
+ lp={x:e.clientX,y:e.clientY,t:setTimeout(()=>{lp=null;eatClick=true;setTimeout(()=>eatClick=false,600);openPeek(+c.dataset.combo)},450)}},{passive:true});
+const lpCancel=e=>{if(lp&&(!e||e.type!=='pointermove'||Math.hypot(e.clientX-lp.x,e.clientY-lp.y)>10)){clearTimeout(lp.t);lp=null}};
+['pointerup','pointercancel','pointermove','scroll'].forEach(t=>addEventListener(t,lpCancel,{passive:true}));
+document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('#view .card[data-combo]')&&matchMedia('(hover:none)').matches)e.preventDefault()});
+
+/* phone: the panel is a bottom sheet — opens half way, sdrag up for full, down to close; swipe the plate for previous / next */
+const sheet=$('#sheet');let sdrag=null;
+const snap=v=>{sheet.dataset.snap=v;sheet.style.transform=''};
+new MutationObserver(()=>{if(document.body.classList.contains('open')){if(!sheet.dataset.snap)snap(cur&&(cur.combo!=null||cur.colour!=null)?'half':'full')}else delete sheet.dataset.snap}).observe(document.body,{attributes:true,attributeFilter:['class']});
+sheet.addEventListener('scroll',()=>{if(PHONE()&&sheet.dataset.snap==='half'&&sheet.scrollTop>4)snap('full')},{passive:true});
+$('.shead').addEventListener('pointerdown',e=>{if(!PHONE()||e.target.closest('button,input'))return;const r=sheet.getBoundingClientRect();sdrag={y:e.clientY,top:r.top,t:performance.now(),h:innerHeight};sheet.classList.add('dragging');$('.shead').setPointerCapture(e.pointerId)});
+$('.shead').addEventListener('pointermove',e=>{if(!sdrag)return;const base=sdrag.h-sheet.offsetHeight,top=Math.max(base,sdrag.top+e.clientY-sdrag.y);sheet.style.transform=`translateY(${top-base}px)`});
+const endDrag=e=>{if(!sdrag)return;const dy=e.clientY-sdrag.y,v=dy/Math.max(1,performance.now()-sdrag.t),was=sheet.dataset.snap;sdrag=null;sheet.classList.remove('dragging');
+ if(dy>140||v>.6&&dy>30)was==='full'&&dy<sheet.offsetHeight*.45&&v<1.2?snap('half'):(sheet.style.transform='',closeSheet());else if(dy<-50||v<-.5)snap('full');else snap(was)};
+$('.shead').addEventListener('pointerup',endDrag);$('.shead').addEventListener('pointercancel',endDrag);
+let sw=null;
+sheet.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&e.target.closest('.big')&&cur&&cur.combo!=null)sw={x:e.clientX,y:e.clientY}},{passive:true});
+sheet.addEventListener('pointerup',e=>{if(!sw)return;const dx=e.clientX-sw.x,dy=e.clientY-sw.y;sw=null;if(Math.abs(dx)>60&&Math.abs(dy)<40){eatClick=true;setTimeout(()=>eatClick=false,400);stepCombo(dx<0?1:-1)}},{passive:true});
+sheet.addEventListener('pointercancel',()=>sw=null);
+
+/* phone: pull down on My palettes to refresh */
+const ptr=$('#ptr');let pull=null;
+addEventListener('touchstart',e=>{if(st.tab==='mine'&&user&&sb&&scrollY<=0&&!document.body.classList.contains('open'))pull={y:e.touches[0].clientY,d:0}},{passive:true});
+addEventListener('touchmove',e=>{if(!pull)return;pull.d=Math.max(0,e.touches[0].clientY-pull.y);ptr.style.height=Math.min(70,pull.d/2)+'px';ptr.classList.toggle('ready',pull.d>120)},{passive:true});
+addEventListener('touchend',()=>{if(!pull)return;const go=pull.d>120;pull=null;if(!go){ptr.style.height='';ptr.classList.remove('ready');return}
+ ptr.classList.add('spin');ptr.style.height='44px';Promise.resolve(loadPals()).finally(()=>{ptr.classList.remove('spin','ready');ptr.style.height=''})},{passive:true});
+
 authUI();render();fromHash();
 }).catch(()=>{document.getElementById('view').innerHTML='<p class="empty">Could not load the colour data.</p>'});
 </script>
