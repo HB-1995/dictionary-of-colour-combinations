@@ -140,6 +140,16 @@ body.dragging::after{content:'Drop an image to get its palette';position:fixed;i
 .imgside{display:flex;flex-direction:column;gap:12px}.imgside label{display:flex;gap:8px;align-items:center}
 .imgside input[type=range]{flex:1}
 .picked{font-size:12px;color:var(--mute)}#imgout{margin-top:18px}
+#vmbox{margin-top:34px;border-top:1px solid var(--line);padding-top:6px}
+.vmctl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:10px 0}
+.vmctl label{display:flex;gap:6px;align-items:center}.vmctl select,.vmctl input[type=number]{height:36px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 8px;font-size:14px}
+.vmctl input[type=range]{width:110px}
+#vmc{width:100%;border-radius:2px;display:block;cursor:pointer;touch-action:none}
+.vmkey{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-top:12px}
+.vmkey .k{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:6px 8px;background:var(--card);font-size:13px}
+.vmkey .k i{width:28px;height:28px;border-radius:2px;flex:none}.vmkey .k span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vmkey .k.on{outline:2px solid var(--ink)}
+.warn{background:#fff4d6;border:1px solid #e8c766;border-radius:6px;padding:8px 12px;font-size:14px}
 @media(max-width:700px){.imgtop{grid-template-columns:1fr}}
 .big{display:flex;height:min(36vh,260px);border-radius:12px;overflow:hidden}
 .big button{flex:1;border:0;padding:16px;display:flex;align-items:flex-end;font-size:13px;font-weight:600}
@@ -348,6 +358,7 @@ html[data-dir=prev]::view-transition-old(sbody){animation:vt-out-r .22s both}htm
 <script src="vendor/mixbox.js"></script>
 <script src="mix.js"></script>
 <script src="extract.js"></script>
+<script src="valuemap.js"></script>
 <script>
 /* Colour libraries ("sources") are listed in sources.json. Each source is one file of colours and palettes.
    format "wada": the original colors.json layout. format "palettes": {colours:[{name,hex,cmyk?,family?}],palettes:[{id?,name?,colours:[names]}]}.
@@ -513,10 +524,10 @@ function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show
    <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>`,
   mix:MIXER?`<div class="seg mixpick" role="group" aria-label="Colour to mix">${ids.map((i,n)=>`<button data-mixi="${n}" aria-pressed="${n===mi}"><i class="gd" style="background:${C[i].h}"></i>${esc(C[i].n)}</button>`).join('')}</div><div class="mixslot">${tab==='mix'?mixSection(hs[mi]):''}</div>`:'<p class="note">Paint mixing isn’t available right now.</p>',
   art:artSection(hs).replace('<h2>Seen in art</h2>',''),
-  export:`<div class="exp">${comboId!=null?'<button class="btn" id="proc-combo">Procreate palette ↓</button>':''}<button class="btn" data-copy="${hs.join(', ')}">Copy hex list</button>
+  export:`<div class="exp">${comboId!=null?'<button class="btn" id="vmapply" title="Repaint an image in these colours">Apply to an image</button><button class="btn" id="proc-combo">Procreate palette ↓</button>':''}<button class="btn" data-copy="${hs.join(', ')}">Copy hex list</button>
    <button class="btn" data-copy="${esc(ids.map(i=>`--${slug(C[i].n)}: ${C[i].h};`).join('\n'))}">Copy as CSS variables</button>
    <button class="btn" data-copy="${esc(JSON.stringify(ids.map(i=>({name:C[i].n,hex:C[i].h,cmyk:C[i].c||null}))))}">Copy as JSON</button></div>
-   <p class="note">Procreate palettes open straight into Procreate on the iPad. CSS and JSON go to the clipboard.</p>`};
+   <p class="note">Apply to an image repaints a picture in these colours. Procreate palettes open straight into Procreate on the iPad. CSS and JSON go to the clipboard.</p>`};
  return `<div class="big">${ids.map(i=>`<button data-colour="${i}" style="background:${C[i].h};color:${textOn(C[i].h)}">${esc(C[i].n)}</button>`).join('')}</div>
  <div class="ctable">${rows}</div>
  <div class="ctabs" role="tablist" aria-label="More about this combination">${CTABS.map(([k,n])=>`<button role="tab" id="ct-${k}" data-ctab="${k}" aria-controls="cp-${k}" aria-selected="${k===tab}" tabindex="${k===tab?0:-1}">${n}</button>`).join('')}</div>
@@ -559,7 +570,7 @@ function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=nu
  fillMix();fillArt()}
 function closeSheet(){cur=null;document.body.classList.remove('open');if(location.hash)location.hash=''}
 function fromHash(){const h=location.hash.slice(1);let m;
- if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if((m=h.match(/^paint-(\d+)$/))&&PBY&&PBY[m[1]])openSheet({paint:m[1]});else if(m=h.match(/^palette-([0-9a-f-]+)$/)){if(P(m[1]))openSheet({pal:m[1]})}else if(cur)closeSheet()}
+ if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if((m=h.match(/^paint-(\d+)$/))&&PBY&&PBY[m[1]])openSheet({paint:m[1]});else if(m=h.match(/^palette-([0-9a-f-]+)$/)){if(P(m[1]))openSheet({pal:m[1]})}else if(cur&&!cur.img&&!cur.mix)closeSheet()}
 
 function toast(t){const e=$('#toast');e.textContent=t;e.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.opacity=0,1400)}
 function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v==String(v)))}
@@ -636,7 +647,7 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  ${hs.length?`${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>`:''}
  ${artSection(hs)}
  <h2>Notes</h2><textarea id="pnotes" class="field" rows="4" placeholder="Painting title, ideas, surface, references…">${esc(p.notes||'')}</textarea>
- <div class="row-actions"><button class="ibtn" id="pproc">Download for Procreate</button><button class="ibtn" id="pdup">Duplicate</button><button class="ibtn danger" id="pdel">Delete palette</button></div>`}
+ <div class="row-actions"><button class="ibtn" id="vmapply">Apply to an image</button><button class="ibtn" id="pproc">Download for Procreate</button><button class="ibtn" id="pdup">Duplicate</button><button class="ibtn danger" id="pdel">Delete palette</button></div>`}
 
 function palAction(t){const p=P(active);
  if(t.id==='signin'){openSheet({signin:true});return true}
@@ -782,9 +793,9 @@ let IMG=null;
 function loadImage(f){if(!f)return;if(!/^image\//.test(f.type)&&!/\.(hei[cf]|jpe?g|png|webp|gif)$/i.test(f.name)){toast('That file isn’t an image');return}
  const url=URL.createObjectURL(f),im=new Image();
  im.onload=()=>{const fit=(m)=>{const s=Math.min(1,m/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.naturalWidth*s));c.height=Math.max(1,Math.round(im.naturalHeight*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);return c};
-  const big=fit(1000),small=fit(200),sd=small.getContext('2d').getImageData(0,0,small.width,small.height);URL.revokeObjectURL(url);
-  IMG={name:f.name.replace(/\.[^.]+$/,'')||'image',big,data:sd.data,w:small.width,h:small.height,k:IMG?IMG.k:6,ignore:IMG?IMG.ignore:false,crop:null,picks:[],snap:false};
-  extractNow();if(cur)closeSheet();openSheet({img:true})};
+  const big=fit(1000),full=fit(1600),small=fit(200),sd=small.getContext('2d').getImageData(0,0,small.width,small.height);URL.revokeObjectURL(url);
+  IMG={name:f.name.replace(/\.[^.]+$/,'')||'image',big,full,data:sd.data,w:small.width,h:small.height,k:IMG?IMG.k:6,ignore:IMG?IMG.ignore:false,crop:null,picks:[],snap:false};
+  extractNow();if(cur)closeSheet();openSheet({img:true});if(VM.scroll){VM.scroll=false;setTimeout(()=>$('#vmbox')?.scrollIntoView({behavior:'smooth'}),50)}};
  im.onerror=()=>{URL.revokeObjectURL(url);toast(/hei[cf]$/i.test(f.name)?'This browser can’t open HEIC. Use Safari or the iPad, or export as JPEG.':'Could not open this image')};
  im.src=url}
 function extractNow(){const c=IMG.crop;IMG.res=Extract.extract(IMG.data,IMG.w,IMG.h,{k:IMG.k,ignoreExtremes:IMG.ignore,crop:c&&{x0:c.x0*IMG.w,x1:c.x1*IMG.w,y0:c.y0*IMG.h,y1:c.y1*IMG.h}})}
@@ -801,7 +812,8 @@ function imgHTML(){return `<div class="imgtop"><div class="imgwrap"><canvas id="
  <button class="ibtn" id="imgcrop0" ${IMG.crop?'':'hidden'}>Use the whole image</button>
  <p class="note">Drag on the image to use part of it. Click to pick a colour by hand. Photos shift colour with lighting: daylight and no flash work best.</p>
  <button class="linkc" id="imgnew">Choose another image</button></div></div>
- <div id="imgout">${imgOut()}</div>`}
+ <div id="imgout">${imgOut()}</div>
+ ${vmHTML()}`}
 function imgOut(){const cols=imgCols(),shown=imgShown(),hs=shown.map(x=>x.hex);if(!cols.length)return '<p class="empty">No colours left: try turning off “Leave out near-white and near-black” or widen the crop.</p>';
  const tot=cols.reduce((s,x)=>s+x.w,0),Ls=hs.map(h=>lab(h)[0]),sim=similarPals(cols);
  return `<div class="strip pstripbig">${shown.map(x=>`<span style="background:${x.hex};flex:${x.w}" title="${x.hex}"></span>`).join('')}</div>
@@ -817,9 +829,9 @@ function imgOut(){const cols=imgCols(),shown=imgShown(),hs=shown.map(x=>x.hex);i
  ${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>
  ${sim.length?`<h2>Similar palettes <span class="hsub">in ${esc(libName())}, closest first</span></h2><div class="grid">${sim.map(x=>card(x[0])).join('')}</div>`:''}
  ${artSection(hs.slice(0,6))}`}
-function imgMount(){const c=$('#imgc');if(!c)return;c.width=IMG.big.width;c.height=IMG.big.height;c.getContext('2d').drawImage(IMG.big,0,0);drawCrop()}
+function imgMount(){const c=$('#imgc');if(!c)return;c.width=IMG.big.width;c.height=IMG.big.height;c.getContext('2d').drawImage(IMG.big,0,0);drawCrop();vmCompute()}
 function drawCrop(r=IMG.crop){const b=$('#cropbox'),c=$('#imgc');if(!b)return;b.hidden=!r;if(!r)return;const W=c.clientWidth,H=c.clientHeight;Object.assign(b.style,{left:r.x0*W+'px',top:r.y0*H+'px',width:(r.x1-r.x0)*W+'px',height:(r.y1-r.y0)*H+'px'})}
-function imgRefresh(){const o=$('#imgout');if(!o)return;const y=$('#sheet').scrollTop;o.innerHTML=imgOut();$('#imgcrop0').hidden=!IMG.crop;$('#sheet').scrollTop=y;fillArt()}
+function imgRefresh(){const o=$('#imgout');if(!o)return;const y=$('#sheet').scrollTop;o.innerHTML=imgOut();$('#imgcrop0').hidden=!IMG.crop;$('#sheet').scrollTop=y;fillArt();if(VM.pal==='self'||IMG.crop!==VM.crop)vmCompute()}
 let drag=null;
 const fracAt=(e,c)=>{const r=c.getBoundingClientRect();return [Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))]};
 document.addEventListener('pointerdown',e=>{if(e.target.id!=='imgc')return;e.preventDefault();e.target.setPointerCapture(e.pointerId);drag={a:fracAt(e,e.target),px:[e.clientX,e.clientY]}});
@@ -848,6 +860,83 @@ function imgAction(t){if(!IMG||!cur||!cur.img)return false;
   newPal(items,IMG.name).then(q=>q&&(toast('Saved as '+q.name),openSheet({pal:q.id})));return true}
  return false}
 
+/* ---------- value map: repaint the image in a palette's colours, following its values ---------- */
+const VM={pal:'self',mode:null,ties:true,stretch:true,darks:0,lights:0,clean:2,bw:false,grid:0,view:'map',hi:-1,out:null,crop:null};
+function vmPalette(){let L=[];const v=VM.pal;
+ if(v==='self'&&IMG)L=imgCols().map(x=>({hex:x.hex,name:x.hex,share:x.w}));
+ else if(v.startsWith('pal:')){const p=P(v.slice(4));if(p)L=p.colours.map(x=>({hex:itemHex(x),name:itemName(x),share:wOf(x)}))}
+ else if(v.startsWith('combo:')){const id=+v.slice(6);if(COMBOS[id])L=COMBOS[id].map(i=>({hex:C[i].h,name:C[i].n,share:0}))}
+ if(VM.bw&&L.length){const t=L.reduce((a,x)=>a+x.share,0)||0;L=[...L,{hex:'#F7F5F0',name:'White',share:t*.05},{hex:'#161616',name:'Black',share:t*.05}]}
+ return L.slice(0,250)}
+const vmMode=()=>VM.mode||(VM.pal==='self'?'share':'value');
+const vmPalName=()=>VM.pal==='self'?'this image’s palette':VM.pal.startsWith('pal:')?(P(VM.pal.slice(4))||{}).name||'palette':ptitle(+VM.pal.slice(6));
+/* pixels of the (cropped) image, scaled so the long side is at most max */
+function vmSource(max){const c=IMG.crop||{x0:0,y0:0,x1:1,y1:1},F=IMG.full,sw=(c.x1-c.x0)*F.width,sh=(c.y1-c.y0)*F.height,k=Math.min(1,max/Math.max(sw,sh)),w=Math.max(1,Math.round(sw*k)),h=Math.max(1,Math.round(sh*k));
+ const cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');g.drawImage(F,c.x0*F.width,c.y0*F.height,sw,sh,0,0,w,h);return {cv,w,h,data:g.getImageData(0,0,w,h).data}}
+function vmRun(max){const pal=vmPalette();if(pal.length<2)return null;const src=vmSource(max);
+ const res=ValueMap.map(src.data,src.w,src.h,pal.map(x=>({hex:x.hex,share:x.share})),{mode:vmMode(),ties:VM.ties,stretch:VM.stretch,darks:VM.darks,lights:VM.lights,clean:VM.clean});
+ return {...src,pal,res}}
+function vmHTML(){const own=user?pals:[],cs=[...new Set([...favs,...(VM.pal.startsWith('combo:')?[+VM.pal.slice(6)]:[])])].filter(id=>COMBOS[id]);
+ const opt=(v,t)=>`<option value="${esc(v)}" ${VM.pal===v?'selected':''}>${esc(t)}</option>`;
+ const seg=(id,cur,items)=>`<div class="seg" id="${id}">${items.map(([v,t])=>`<button data-v="${v}" aria-pressed="${String(cur)===String(v)}">${t}</button>`).join('')}</div>`;
+ return `<div id="vmbox"><h2>Recolour with a palette</h2>
+ <p class="note">Keeps this image’s lights and darks and paints it using only the colours of the palette you choose.</p>
+ <div class="vmctl"><label class="lbl">Palette <select id="vmpal">${opt('self','This image’s palette')}${own.length?`<optgroup label="My palettes">${own.map(p=>opt('pal:'+p.id,p.name)).join('')}</optgroup>`:''}${cs.length?`<optgroup label="Combinations">${cs.map(id=>opt('combo:'+id,ptitle(id))).join('')}</optgroup>`:''}</select></label>
+ <label class="lbl">or combination <input type="number" id="vmcombo" min="1" placeholder="#" style="width:80px"></label></div>
+ <div class="vmctl"><span class="lbl">Map</span>${seg('vmmode',vmMode(),[['value','Nearest value'],['share','By share']])}
+ <label class="lbl"><input type="checkbox" id="vmties" ${VM.ties?'checked':''}> Warm/cool on ties</label>
+ <label class="lbl"><input type="checkbox" id="vmstretch" ${VM.stretch?'checked':''}> Stretch to the palette’s range</label>
+ <label class="lbl"><input type="checkbox" id="vmbw" ${VM.bw?'checked':''}> Add white and black</label></div>
+ <div class="vmctl"><label class="lbl">Darks <input type="range" id="vmdarks" min="0" max="25" value="${VM.darks}"></label><label class="lbl">Lights <input type="range" id="vmlights" min="0" max="25" value="${VM.lights}"></label>
+ <span class="lbl">Clean-up</span>${seg('vmclean',VM.clean,[[0,'Off'],[1,'Light'],[2,'Medium'],[3,'Bold']])}
+ <label class="lbl">Grid <select id="vmgrid">${[0,3,4,6,8,12].map(g=>`<option value="${g}" ${VM.grid===g?'selected':''}>${g?g+' × '+g:'Off'}</option>`).join('')}</select></label></div>
+ <div class="vmctl">${seg('vmview',VM.view,[['orig','Original'],['grey','Greyscale'],['map','Palette reference'],['side','Side by side']])}</div>
+ <div id="vmwarn"></div>
+ <canvas id="vmc" aria-label="The image recoloured with the chosen palette. Press and hold to see the original."></canvas>
+ <p class="note">Press and hold the picture to compare with the original. Hover a colour below to see where it goes.</p>
+ <div id="vmkey"></div>
+ <div class="row-actions"><button class="ibtn" id="vmsave">Download PNG</button><button class="ibtn" id="vmproc">Palette for Procreate</button></div></div>`}
+const greyLUT=[...Array(101)].map((_,L)=>rgb(greyOf2(L)));
+function vmPaint(cv,o,view,hi,scale=1){const {w,h,res,pal}=o,pc=pal.map(x=>rgb(x.hex)),side=view==='side',gap=side?Math.round(12*scale):0;
+ cv.width=side?w*2+gap:w;cv.height=h;const g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cv.width,cv.height);
+ const img=g.createImageData(w,h),d=img.data;
+ if(view==='orig')g.drawImage(o.cv,0,0);
+ else{for(let p=0;p<w*h;p++){const c=view==='grey'?greyLUT[res.grey[p]]:pc[res.index[p]],dim=view!=='grey'&&hi>=0&&res.index[p]!==hi;d[p*4]=dim?c[0]*.25+191:c[0];d[p*4+1]=dim?c[1]*.25+191:c[1];d[p*4+2]=dim?c[2]*.25+191:c[2];d[p*4+3]=255}
+  g.putImageData(img,side?w+gap:0,0);if(side)g.drawImage(o.cv,0,0)}
+ if(VM.grid&&view!=='orig'){g.strokeStyle='rgba(0,0,0,.55)';g.lineWidth=Math.max(1,scale);const x0=side?w+gap:0;
+  for(let i=1;i<VM.grid;i++){g.beginPath();g.moveTo(x0+i*w/VM.grid,0);g.lineTo(x0+i*w/VM.grid,h);g.moveTo(x0,i*h/VM.grid);g.lineTo(x0+w,i*h/VM.grid);g.stroke()}}}
+function vmCompute(){if(!$('#vmbox')||!IMG)return;VM.crop=IMG.crop;VM.out=vmRun(600);const cv=$('#vmc'),k=$('#vmkey'),wn=$('#vmwarn');
+ if(!VM.out){cv.hidden=true;k.innerHTML='<p class="empty">Choose a palette with at least two colours.</p>';wn.innerHTML='';return}cv.hidden=false;
+ const {pal,res}=VM.out,Ls=pal.map(x=>lab(x.hex)[0]),rng=Math.max(...Ls)-Math.min(...Ls),n=res.index.length;
+ wn.innerHTML=rng<30?`<p class="warn">This palette only spans values ${Math.round(Math.min(...Ls))}–${Math.round(Math.max(...Ls))} of 100, so the picture will read flat.${VM.bw?'':' Try <b>Add white and black</b>.'}</p>`:'';
+ vmPaint(cv,VM.out,VM.view,VM.hi);
+ k.innerHTML=`<p class="cap">Key · ${esc(vmPalName())} · darkest to lightest · ${vmMode()==='share'?'by share':'by nearest value'}</p><div class="vmkey">${pal.map((x,i)=>[x,i]).sort((a,b)=>Ls[a[1]]-Ls[b[1]]).map(([x,i])=>`<div class="k ${VM.hi===i?'on':''}" data-vmkey="${i}" title="${esc(x.name)}"><i style="background:${x.hex}"></i><span><b>${esc(x.name)}</b><br><span class="note">value ${Math.round(Ls[i])} · ${res.counts[i]&&100*res.counts[i]/n<1?'&lt;1':Math.round(100*res.counts[i]/n)}%</span></span><button class="mini wide" data-vmmix="${i}">Mix</button></div>`).join('')}</div>`}
+document.addEventListener('mouseover',e=>{const k=e.target.closest&&e.target.closest('[data-vmkey]'),i=k?+k.dataset.vmkey:-1;if(!VM.out||i===VM.hi)return;if(!k&&!e.target.closest?.('#vmkey'))return;VM.hi=i;document.querySelectorAll('[data-vmkey]').forEach(x=>x.classList.toggle('on',+x.dataset.vmkey===i));vmPaint($('#vmc'),VM.out,VM.view==='orig'?'map':VM.view,i)});
+document.addEventListener('mouseout',e=>{if(e.target.closest&&e.target.closest('#vmkey')&&!e.relatedTarget?.closest?.('#vmkey')&&VM.hi>=0){VM.hi=-1;document.querySelectorAll('[data-vmkey].on').forEach(x=>x.classList.remove('on'));vmPaint($('#vmc'),VM.out,VM.view,-1)}});
+document.addEventListener('pointerdown',e=>{if(e.target.id==='vmc'&&VM.out&&VM.view!=='orig')vmPaint(e.target,VM.out,'orig',-1)});
+['pointerup','pointercancel','pointerleave'].forEach(t=>document.addEventListener(t,e=>{if(e.target.id==='vmc'&&VM.out)vmPaint(e.target,VM.out,VM.view,VM.hi)},true));
+document.addEventListener('change',e=>{const t=e.target;if(!t.id||!t.id.startsWith('vm'))return;
+ if(t.id==='vmpal'){VM.pal=t.value;VM.mode=null;VM.hi=-1;openSheet(cur,true);return}
+ if(t.id==='vmcombo'){const id=+t.value;if(!COMBOS[id]){toast('No combination '+t.value);return}VM.pal='combo:'+id;VM.mode=null;VM.hi=-1;openSheet(cur,true);return}
+ if(t.id==='vmgrid'){VM.grid=+t.value;vmPaint($('#vmc'),VM.out,VM.view,VM.hi);return}
+ if(t.id==='vmties'||t.id==='vmstretch'||t.id==='vmbw'){VM[t.id.slice(2)==='ties'?'ties':t.id.slice(2)]=t.checked;VM.hi=-1;vmCompute()}});
+document.addEventListener('input',e=>{if(e.target.id==='vmdarks'||e.target.id==='vmlights'){VM[e.target.id.slice(2)]=+e.target.value;clearTimeout(vmCompute.t);vmCompute.t=setTimeout(vmCompute,80)}});
+function vmAction(t){const p=t.parentElement;
+ if(t.id==='vmapply'){VM.pal=cur.combo?'combo:'+cur.combo:'pal:'+active;VM.mode=null;VM.hi=-1;if(IMG){openSheet({img:true});setTimeout(()=>$('#vmbox')?.scrollIntoView({behavior:'smooth'}),50)}else{VM.scroll=true;$('#imgfile').click();toast('Choose an image to recolour')}return true}
+ if(!cur||!cur.img)return false;
+ if(p&&p.id==='vmmode'){VM.mode=t.dataset.v;setSeg(p,VM.mode);vmCompute();return true}
+ if(p&&p.id==='vmclean'){VM.clean=+t.dataset.v;setSeg(p,VM.clean);vmCompute();return true}
+ if(p&&p.id==='vmview'){VM.view=t.dataset.v;setSeg(p,VM.view);if(VM.out)vmPaint($('#vmc'),VM.out,VM.view,VM.hi);return true}
+ if(t.dataset.vmmix!=null&&VM.out){const x=VM.out.pal[+t.dataset.vmmix];openSheet({mix:x.hex,label:x.name,backImg:true});return true}
+ if(t.id==='vmproc'){const pal=vmPalette();toProcreate(`${IMG.name} · ${vmPalName()}`.slice(0,60),pal.map(x=>x.hex));return true}
+ if(t.id==='vmsave'){t.textContent='Rendering…';setTimeout(()=>{const o=vmRun(1600);t.textContent='Download PNG';if(!o)return;
+  const cv=document.createElement('canvas');vmPaint(cv,o,VM.view==='orig'||VM.view==='grey'?'map':VM.view,-1,o.w/600);
+  const kh=Math.round(o.w*.08),out=document.createElement('canvas');out.width=cv.width;out.height=cv.height+kh;const g=out.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,out.width,out.height);g.drawImage(cv,0,0);
+  const order=o.pal.map((x,i)=>i).sort((a,b)=>lab(o.pal[a].hex)[0]-lab(o.pal[b].hex)[0]),bw=out.width/order.length;
+  order.forEach((i,n)=>{g.fillStyle=o.pal[i].hex;g.fillRect(n*bw,cv.height,bw,kh);g.fillStyle=textOn(o.pal[i].hex);g.font=`${Math.round(kh*.22)}px system-ui,sans-serif`;g.fillText(`${o.pal[i].name.slice(0,22)} · ${Math.round(lab(o.pal[i].hex)[0])}`,n*bw+kh*.15,cv.height+kh*.6)});
+  out.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`${IMG.name} - ${vmPalName()}.png`.replace(/[\/:*?"<>|]/g,'');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)},'image/png')},30);return true}
+ return false}
+
 /* events */
 /* header, ribbon and size filter follow the chosen library */
 function drawChrome(){const ci=C.map((c,i)=>i).filter(inLibC),pi=IDS.filter(inLibP),one=st.lib!=='all'||!MULTI?(SBY[st.lib]||SOURCES[0]):null;
@@ -865,7 +954,7 @@ $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v
 /* light / dark: follows the system until chosen, then remembered */
 {const set=t=>{if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme};try{set(localStorage.getItem('w-theme'))}catch(e){}
  $('#theme').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches,t=dark?'light':'dark';set(t);try{localStorage.setItem('w-theme',t)}catch(e){}})}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button,#imgnew,#imgcrop0,#imgsnap button,[data-imgrm],[data-imgmix],#imgproc,#imgsave,#imgback');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button,#imgnew,#imgcrop0,#imgsnap button,[data-imgrm],[data-imgmix],#imgproc,#imgsave,#imgback,#vmapply,#vmmode button,#vmclean button,#vmview button,[data-vmmix],#vmproc,#vmsave');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
  if(t.id==='pproc'){const p=P(active);if(p)toProcreate(p.name,p.colours.map(itemHex));return}
  if(t.id==='proc-combo'){toProcreate(PNAME[cur.combo]||`${SBY[PSRC[cur.combo]].short} ${pnum(cur.combo)}`,COMBOS[cur.combo].map(i=>C[i].h));return}
  if(t.dataset.own){toggleOwned(t.dataset.own);return}
@@ -876,6 +965,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(t.parentElement&&t.parentElement.classList.contains('artseg')){st.artType=t.dataset.v;setSeg(t.parentElement,st.artType);const o=t.closest('.artbox').querySelector('.artout');o.innerHTML=artSkel();fillArt();return}
  if(t.dataset.fav){toggleFav(+t.dataset.fav);return}
  if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromLib));return}if(t.dataset.colour){addItems([fromLib(+t.dataset.colour)]);return}}
+ if(vmAction(t))return;
  if(imgAction(t))return;
  if(t.id==='imgback'){openSheet({img:true});return}
  if(palAction(t))return;
