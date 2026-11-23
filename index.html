@@ -350,12 +350,11 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  ${hs.length?`<div class="strip vstrip">${p.colours.map((x,n)=>`<span style="background:${greyOf(hs[n])};flex:${wOf(x)||.0001}"></span>`).join('')}</div>`:''}
  <p class="note">${verdict}</p>
  <div class="row-actions"><button class="ibtn" id="addmode">+ Add colours from the site</button><span id="pstatus" class="note">All changes saved</span></div>
- ${p.colours.length?`<table class="stack ptable"><thead><tr><th></th><th>Colour</th><th>Codes</th><th>Share</th><th>Paint mix</th><th></th></tr></thead><tbody>
+ ${p.colours.length?`<table class="stack ptable"><thead><tr><th></th><th>Colour</th><th>Codes</th><th>Share</th><th></th></tr></thead><tbody>
  ${p.colours.map((x,n)=>{const h=hs[n],ni=x.ref==null?nearest(h,1)[0][0]:null;return `<tr draggable="true" data-row="${n}"><td class="handle" title="Drag to reorder">⠿</td>
  <td><span class="dot" style="background:${h}"></span>${x.ref!=null?`<button class="linkc" data-colour="${byName[x.ref]}">${esc(x.ref)}</button>`:`<b>Custom</b><br><span class="note">nearest Wada: <button class="linkc" data-colour="${ni}">${esc(C[ni].n)}</button></span>`}</td>
  <td class="code">${h}${x.cmyk?`<br>${x.cmyk.join(' / ')}${x.ref==null?' (approx.)':''}`:''}</td>
  <td class="code"><input class="wt" type="number" min="0" max="100" step="1" value="${wOf(x)}" data-wt="${n}" aria-label="Share of ${esc(itemName(x))}"> ${Math.round(100*wOf(x)/tot)}%</td>
- <td><input class="field rec" data-rec="${n}" value="${esc(x.recipe||'')}" placeholder="e.g. burnt sienna + white" aria-label="Paint mix for ${esc(itemName(x))}"></td>
  <td class="code"><button class="mini" data-mv="${n},-1" aria-label="Move up">↑</button><button class="mini" data-mv="${n},1" aria-label="Move down">↓</button><button class="mini wide" data-mixrow="${n}">Mix</button><button class="mini" data-rm="${n}" aria-label="Remove">✕</button></td></tr>`}).join('')}
  </tbody></table>`:'<p class="empty">Empty palette. Add colours from the site, a suggestion, or a custom colour below.</p>'}
  <p class="note">Share sets how much of the canvas each colour takes; the strips above draw to scale.</p>
