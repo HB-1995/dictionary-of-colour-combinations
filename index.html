@@ -55,7 +55,13 @@ input[type=color]{width:52px;height:44px;border:1px solid var(--line);border-rad
 .dockin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) auto auto;gap:12px;align-items:center}.dstrip{height:44px}
 body.adding{padding-bottom:96px}body.adding .card,body.adding .ribbon button{cursor:copy}
 @media(max-width:700px){.dockin{grid-template-columns:1fr 1fr}.dockin>div:first-child,.dstrip{grid-column:1/-1}}
-.ptiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.pcard .meta{display:block}.pcard .meta span{display:block;white-space:normal}.pcard{position:relative}.ccard{position:relative}.addp.star,.addp.star.on{border:0;background:none;backdrop-filter:none;font-size:22px;color:#fff;text-shadow:0 0 3px #0009,0 1px 2px #0006}.addp.star:hover{background:none;transform:scale(1.15)}.addp.star.on{color:#f5c542}@media(hover:hover){.ccard .addp.star:not(.on){opacity:0;transition:opacity .15s}.ccard:hover .addp.star,.ccard:focus-within .addp.star{opacity:1}}
+.ptiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.pcard .meta{display:block}.pcard .meta span{display:block;white-space:normal}.artgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 14px;margin-top:14px}
+.artcard{display:flex;flex-direction:column;gap:3px;color:inherit;text-decoration:none;font-size:13px;line-height:1.35}
+.artcard img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;background:var(--chip)}
+.artcard:hover img{opacity:.88}.artcard b{font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.artcard span{color:var(--mute)}
+.acols{display:flex;height:12px;border-radius:2px;overflow:hidden;margin:6px 0 4px}.acols span.hit{box-shadow:inset 0 0 0 2px var(--ink)}
+.artcard .de{font-size:12px}.artseg{margin-top:4px}
+.pcard{position:relative}.ccard{position:relative}.addp.star,.addp.star.on{border:0;background:none;backdrop-filter:none;font-size:22px;color:#fff;text-shadow:0 0 3px #0009,0 1px 2px #0006}.addp.star:hover{background:none;transform:scale(1.15)}.addp.star.on{color:#f5c542}@media(hover:hover){.ccard .addp.star:not(.on){opacity:0;transition:opacity .15s}.ccard:hover .addp.star,.ccard:focus-within .addp.star{opacity:1}}
 .addp{position:absolute;top:6px;right:6px;z-index:2;width:30px;height:30px;border-radius:50%;border:1px solid #ffffff99;background:#00000040;backdrop-filter:blur(4px);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s}
 .addp:hover{background:#00000080}.addp.on{background:var(--ink);color:var(--bg);border-color:transparent;font-size:15px}
 @media(hover:none){.addp{width:36px;height:36px}}
@@ -273,6 +279,7 @@ function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show
  <table class="stack"><thead><tr><th>Colour</th><th>Codes</th><th>Complement</th><th>Nearest Wada</th><th>Tint → shade</th></tr></thead><tbody>
  ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button><br><span class="note"><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></td><td class="code">${C[i].h}${copyBtn(C[i].h)}<br>${C[i].c.join(' / ')}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
  <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>
+ ${artSection(ids.map(i=>C[i].h))}
  ${comboId?`<h2>Colours here also appear in</h2><div class="grid">${[...new Set(ids.flatMap(i=>C[i].k))].filter(k=>k!==comboId).slice(0,24).map(card).join('')}</div>`:''}`}
 
 function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.h,'rgb');return {ex,ni:nearest(ex,1,i)[0][0]}})();const pr=(()=>{const ex=comp(c.h,'ryb');return {ex,ni:nearest(ex,1,i)[0][0]}})();
@@ -283,6 +290,7 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  ${[["Painter's (RYB)",pr],['Screen (RGB)',rg]].map(([n,x])=>`<tr><td>${n}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td></tr>`).join('')}</tbody></table>${wheel([c.h],st.wheel)}</div>
  ${neutral(i)?'<p class="note">This is a near-neutral colour, so its complement is weak and best treated as a temperature shift.</p>':''}
  ${mixSection(c.h)}
+ ${artSection([c.h])}
  <h2>In ${c.k.length} combination${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=null;let title,body,extra='',hsh='';
@@ -295,7 +303,7 @@ function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=nu
  $('#stitle').textContent=title;$('#sextra').innerHTML=extra;$('#sbody').innerHTML=body;
  document.body.classList.add('open');if(hsh&&location.hash.slice(1)!==hsh)location.hash=hsh;
  if(keep)$('#sheet').scrollTop=y;else{$('#sheet').scrollTop=0;$('#close').focus()}
- fillMix()}
+ fillMix();fillArt()}
 function closeSheet(){cur=null;document.body.classList.remove('open');if(location.hash)location.hash=''}
 function fromHash(){const h=location.hash.slice(1);let m;
  if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if((m=h.match(/^paint-(\d+)$/))&&PBY&&PBY[m[1]])openSheet({paint:m[1]});else if(m=h.match(/^palette-([0-9a-f-]+)$/)){if(P(m[1]))openSheet({pal:m[1]})}else if(cur)closeSheet()}
@@ -371,6 +379,7 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  ${sugg.length?`<h2>Potential additions</h2><div class="chips">${sugg.map(j=>chip(j,`Shares ${co[j]} combination${co[j]>1?'s':''} with this palette`)).join('')}</div>`:''}
  ${comps.length?`<h2>Complements</h2><div class="chips">${comps.map(j=>chip(j,'Nearest Wada colour to a complement')).join('')}</div>`:''}
  ${hs.length?`${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>`:''}
+ ${artSection(hs)}
  <h2>Notes</h2><textarea id="pnotes" class="field" rows="4" placeholder="Painting title, ideas, surface, references…">${esc(p.notes||'')}</textarea>
  <div class="row-actions"><button class="ibtn" id="pproc">Download for Procreate</button><button class="ibtn" id="pdup">Duplicate</button><button class="ibtn danger" id="pdel">Delete palette</button></div>`}
 
@@ -494,12 +503,27 @@ function toProcreate(name,hexes){if(!hexes.length){toast('No colours to export')
   setTimeout(()=>downloadBytes(nm.replace(/[\\/:*?"<>|]+/g,'').trim()+'.swatches',swatchesFile(nm,hs)),k*700)});
  toast(parts.length>1?`Downloading ${parts.length} Procreate palettes (30 colours max each)`:'Downloaded for Procreate')}
 
+/* ---------- Seen in art: Harvard Art Museums works matching a palette (via /api/art) ---------- */
+const ARTTYPES=[['Paintings','Paintings'],['Prints','Prints'],['Drawings','Drawings'],['Textile Arts','Textiles'],['Photographs','Photographs'],['all','All types']];
+st.artType='Paintings';const artCache={};
+const artSection=hs=>hs.length?`<h2>Seen in art</h2><div class="artbox" data-arthexes="${hs.join(',')}"><div class="seg artseg">${ARTTYPES.map(([v,l])=>`<button data-v="${esc(v)}" aria-pressed="${st.artType===v}">${l}</button>`).join('')}</div><div class="artout"><p class="note">Looking through Harvard Art Museums…</p></div></div>`:'';
+function drawArt(out,d){const lbl=(ARTTYPES.find(x=>x[0]===st.artType)||[])[1]||'';
+ if(d.error){out.innerHTML=`<p class="note">${d.error==='not-configured'?'Seen in art isn’t switched on yet.':'Couldn’t reach Harvard Art Museums just now. Try again later.'}</p>`;return}
+ if(!d.results.length){out.innerHTML=`<p class="note">No close matches in Harvard’s ${st.artType==='all'?'collection':lbl.toLowerCase()} for these colours. Try another type, or <a href="https://artsandculture.google.com/story/cQWRLHCd3edAIg">Google Arts &amp; Culture’s Art Palette</a>.</p>`;return}
+ out.innerHTML=`<div class="artgrid">${d.results.map(r=>`<a class="artcard" href="${esc(r.url)}" target="_blank" rel="noopener" title="${esc(r.title)}${r.artist?' — '+esc(r.artist):''}"><img loading="lazy" src="${esc(r.image)}?height=360" alt="${esc(r.title)}"><div class="acols">${r.colors.map(c=>`<span class="${c.hit?'hit':''}" style="background:${esc(c.hex)};flex:${Math.max(c.pct,4)}"></span>`).join('')}</div><b>${esc(r.title)}</b><span>${esc(r.artist)}${r.dated?(r.artist?' · ':'')+esc(r.dated):''}</span><span class="de">Matches ${r.matched} colour${r.matched===1?'':'s'} · ΔE ${r.de}</span></a>`).join('')}</div>
+ <p class="note">Images and data: <a href="https://harvardartmuseums.org">Harvard Art Museums</a>. The strip under each work shows its main colours; outlined ones match your palette.</p>`}
+function fillArt(){const box=document.querySelector('.artbox');if(!box)return;const hs=box.dataset.arthexes,key=hs+'|'+st.artType,out=box.querySelector('.artout');
+ if(artCache[key])return drawArt(out,artCache[key]);
+ const go=()=>fetch(`/api/art?c=${encodeURIComponent(hs.replace(/#/g,''))}&type=${encodeURIComponent(st.artType)}`).then(r=>r.json()).catch(()=>({error:'network'})).then(d=>{if(!d.error)artCache[key]=d;if(document.contains(out))drawArt(out,d)});
+ if(!('IntersectionObserver' in window))return go();
+ const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();go()}},{rootMargin:'200px'});io.observe(out)}
+
 /* events */
 $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
 $('#fsize').innerHTML=[0,...[...new Set(IDS.map(id=>COMBOS[id].length))].sort((a,b)=>a-b)].map(v=>`<button data-v="${v}" aria-pressed="${v===0}">${v||'All'}</button>`).join('');
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
 $('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
-document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav]');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
  if(t.id==='pproc'){const p=P(active);if(p)toProcreate(p.name,p.colours.map(itemHex));return}
  if(t.id==='proc-combo'){toProcreate(`Wada ${cur.combo}`,COMBOS[cur.combo].map(i=>C[i].h));return}
  if(t.dataset.own){toggleOwned(t.dataset.own);return}
@@ -507,6 +531,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(t.dataset.mixrow!=null){const p=P(active),x=p&&p.colours[+t.dataset.mixrow];if(x)openSheet({mix:itemHex(x),label:itemName(x),back:p.id});return}
  if(t.parentElement.id==='pfam'){pst.fam=t.dataset.v;render();return}
  if(t.parentElement.id==='pown'){pst.own=t.dataset.v==='1';render();return}
+ if(t.parentElement&&t.parentElement.classList.contains('artseg')){st.artType=t.dataset.v;setSeg(t.parentElement,st.artType);const o=t.closest('.artbox').querySelector('.artout');o.innerHTML='<p class="note">Looking through Harvard Art Museums…</p>';fillArt();return}
  if(t.dataset.fav){toggleFav(+t.dataset.fav);return}
  if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromWada));return}if(t.dataset.colour){addItems([fromWada(+t.dataset.colour)]);return}}
  if(palAction(t))return;
