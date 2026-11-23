@@ -108,7 +108,7 @@ Changes in this fork:
 - `vendor/mixbox.js`: Mixbox 2.0 by Secret Weapons, CC BY-NC 4.0 (non-commercial use only); see `vendor/MIXBOX-LICENSE`.
 
 ### Seen in art (Harvard Art Museums)
-- `api/art.js`: Vercel server function behind the "Seen in art" panel. `GET /api/art?c=HEX,HEX,...&type=Paintings|Prints|Drawings|Textile Arts|Photographs|all&n=12`.
+- `api/art.js`: Vercel server function behind the "Seen in art" panel. `GET /api/art?c=HEX,HEX,...&type=all|Paintings|Prints|Drawings|Textile Arts|Photographs&n=12` (default: all types).
 - Needs the env var `HARVARD_ART_MUSEUMS_API` (free key from Harvard Art Museums; non-commercial use only).
 - Harvard's `color` filter only matches the simplified colours it extracts from each image, where every RGB channel is a multiple of 25. Each palette colour is snapped to its 2 nearest grid colours (1 for palettes over 4 colours), 40 works are fetched per grid colour, and works are ranked by CIEDE2000 match across the whole palette (coverage, closeness, presence, off-palette penalty). Weak matches (average ΔE ≥ 12) are dropped.
 - Only works cleared for display at any size are requested. Images load from the URLs Harvard returns; each result links to harvardartmuseums.org.

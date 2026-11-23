@@ -1,5 +1,5 @@
 /* Seen in art: finds Harvard Art Museums works whose colours match a palette.
-   GET /api/art?c=HEX,HEX,...&type=Paintings|Prints|Drawings|Textile Arts|Photographs|all&n=12
+   GET /api/art?c=HEX,HEX,...&type=all|Paintings|Prints|Drawings|Textile Arts|Photographs&n=12 (default all)
    The Harvard key stays here (HARVARD_ART_MUSEUMS_API env var). Responses are cached by Vercel for up to 14 days,
    within Harvard's terms (non-commercial, cache < 2 weeks, link back, images from returned URLs). */
 const M = require('../mix.js')({ LATENT_SIZE: 7 });
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
   const q = req.query || Object.fromEntries(new URL(req.url, 'http://x').searchParams);
   const hexes = String(q.c || '').split(',').map(h => h.trim().replace(/^#?/, '#').toUpperCase()).filter(h => /^#[0-9A-F]{6}$/.test(h)).slice(0, 12);
   if (!hexes.length) { res.statusCode = 400; return res.end(JSON.stringify({ error: 'no-colours' })) }
-  const type = TYPES.includes(q.type) ? q.type : (q.type === 'all' ? 'all' : 'Paintings');
+  const type = TYPES.includes(q.type) ? q.type : 'all';
   const n = Math.max(1, Math.min(24, +q.n || 12));
   const pal = hexes.map(h => ({ hex: h, lab: labOf(h) }));
   try {

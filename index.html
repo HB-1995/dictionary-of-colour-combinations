@@ -504,8 +504,8 @@ function toProcreate(name,hexes){if(!hexes.length){toast('No colours to export')
  toast(parts.length>1?`Downloading ${parts.length} Procreate palettes (30 colours max each)`:'Downloaded for Procreate')}
 
 /* ---------- Seen in art: Harvard Art Museums works matching a palette (via /api/art) ---------- */
-const ARTTYPES=[['Paintings','Paintings'],['Prints','Prints'],['Drawings','Drawings'],['Textile Arts','Textiles'],['Photographs','Photographs'],['all','All types']];
-st.artType='Paintings';const artCache={};
+const ARTTYPES=[['all','All types'],['Paintings','Paintings'],['Prints','Prints'],['Drawings','Drawings'],['Textile Arts','Textiles'],['Photographs','Photographs']];
+st.artType='all';const artCache={};
 const artSection=hs=>hs.length?`<h2>Seen in art</h2><div class="artbox" data-arthexes="${hs.join(',')}"><div class="seg artseg">${ARTTYPES.map(([v,l])=>`<button data-v="${esc(v)}" aria-pressed="${st.artType===v}">${l}</button>`).join('')}</div><div class="artout"><p class="note">Looking through Harvard Art Museums…</p></div></div>`:'';
 function drawArt(out,d){const lbl=(ARTTYPES.find(x=>x[0]===st.artType)||[])[1]||'';
  if(d.error){out.innerHTML=`<p class="note">${d.error==='not-configured'?'Seen in art isn’t switched on yet.':'Couldn’t reach Harvard Art Museums just now. Try again later.'}</p>`;return}
