@@ -122,6 +122,12 @@ Wada Volume 1 is the first library, not the only one. Each entry in `sources.jso
 - In the panel: 3–10 colours (default 6), leave out near-white and near-black, drag to crop, click to pick a colour by hand, and snap to the chosen library. Each colour shows its nearest library colour with ΔE and a Mix link. Below: value check, complements, **Similar palettes** from the chosen library (optional) and Seen in art.
 - Save as palette (signed in) stores the colours with their shares; with snap on, it stores the library colours instead. Procreate export works as elsewhere.
 
+### Recolour with a palette (value map)
+- In the image panel, **Recolour with a palette** repaints the picture using only the colours of a chosen palette: this image's own, one of your palettes, or any combination (also from **Apply to an image** on combination and palette panels).
+- `valuemap.js`: works out each pixel's lightness (CIELAB L*), stretches the image's values to the palette's range, and gives each pixel the palette colour at the matching position: **Nearest value**, or **By share** (the darkest x% of the image takes the darkest colour, x = its share). When colours are close in value (within 8 L*), temperature on the painter's wheel (warm vs cool), then hue, decides between them, weighed against value so the tonal structure always holds. A majority filter and minimum patch size clean up specks.
+- Controls: mapping, warm/cool on ties, stretch, darks and lights, clean-up, add white and black, grid (3–12), and views (original, greyscale, palette reference, side by side; press and hold to see the original). The key lists colours darkest to lightest with value, coverage and Mix; hovering one highlights where it's used. A warning appears when the palette spans under 30 L*.
+- Download PNG renders at 1600 px with the key along the bottom; nothing is uploaded or stored.
+
 ### Paints and mixing
 - `paints.json`: all 140 Michael Harding Artists Oil Colours (number, series, Colour Index pigments, opacity, tint power, measured masstone CIELAB by Artist Pigments), collected from michaelharding.co.uk. `mix` is the colour fed to the mixing model and `mixSource` says where it came from (measured masstone, a reference pigment colour for very dark transparent paints, or the chart swatch where the published measurement looks wrong).
 - `mix.js`: recipe solver. Tries 1-, 2- and 3-paint combinations, mixing with the Mixbox pigment model, and ranks by CIEDE2000 distance to the target. Parts are adjusted for each paint's tint power.
