@@ -199,7 +199,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 /* rendering pieces */
 const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
 const favBtn=id=>{const on=favs.includes(id);return `<button class="addp star ${on?'on':''}" data-fav="${id}" aria-pressed="${on}" aria-label="${on?'Remove combination '+id+' from':'Save combination '+id+' to'} saved combinations" title="${on?'Saved — click to remove':'Save combination'}">${on?'★':'☆'}</button>`};
-const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${id}</b><span>${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}</span></div></button></div>`;
+const card=id=>`<div class="ccard">${user?favBtn(id):''}<button class="card" data-combo="${id}" title="${id}: ${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}" aria-label="Combination ${id}: ${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${id}</b></div></button></div>`;
 const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h} · ${C[i].c.join(' ')}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
 /* temperature on the painter's (RYB) wheel: orange warmest, blue coolest; weighted by chroma so greys sit near 0 */
 const warmth=c=>Math.hypot(c.l[1],c.l[2])*Math.cos((toRyb(hsl(c.h)[0])-60)*Math.PI/180);
