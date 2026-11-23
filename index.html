@@ -279,7 +279,7 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  <h2>In ${c.k.length} combination${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=null;let title,body,extra='',hsh='';
- if(o.combo){const fav=favs.includes(o.combo);title=`Combination ${o.combo}`;body=groupHTML(COMBOS[o.combo],o.combo);extra=(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
+ if(o.combo){const fav=favs.includes(o.combo);title=`Combination ${o.combo}`;body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
  else if(o.paint){const p=PBY[o.paint];if(!p)return closeSheet();title=p.name;body=paintHTML(o.paint);hsh='paint-'+o.paint}
@@ -366,7 +366,7 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  ${comps.length?`<h2>Complements · nearest Wada</h2><div class="chips">${comps.map(j=>chip(j,'Nearest Wada colour to a complement')).join('')}</div>`:''}
  ${hs.length?`${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>`:''}
  <h2>Notes</h2><textarea id="pnotes" class="field" rows="4" placeholder="Painting title, ideas, surface, references…">${esc(p.notes||'')}</textarea>
- <div class="row-actions"><button class="ibtn" id="pdup">Duplicate</button><button class="ibtn danger" id="pdel">Delete palette</button></div>`}
+ <div class="row-actions"><button class="ibtn" id="pproc">Download for Procreate</button><button class="ibtn" id="pdup">Duplicate</button><button class="ibtn danger" id="pdel">Delete palette</button></div>`}
 
 function palAction(t){const p=P(active);
  if(t.id==='signin'){openSheet({signin:true});return true}
@@ -467,12 +467,35 @@ function fillMix(){const el=document.querySelector('.mixout[data-mixhex]');if(!e
    <p class="note">Parts are by volume, adjusted for each paint's tinting strength. The predictions use the Mixbox pigment model and Michael Harding's published masstone data: treat them as a starting point and adjust by eye. ΔE under 2 is near-invisible; over 10 is clearly different.</p>`};
  setTimeout(run,30)}
 
+/* ---------- Procreate export (.swatches = zip holding Swatches.json, HSB 0-1, max 30 per palette) ---------- */
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc32=b=>{let c=0xFFFFFFFF;for(const x of b)c=CRC[(c^x)&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0};
+function zipOne(fname,data){const nm=new TextEncoder().encode(fname),crc=crc32(data),n=data.length,d=new Date(),
+ tm=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1),dt=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+ const out=new Uint8Array(30+nm.length+n+46+nm.length+22),v=new DataView(out.buffer);let o=0;
+ const u32=x=>{v.setUint32(o,x,true);o+=4},u16=x=>{v.setUint16(o,x,true);o+=2};
+ u32(0x04034b50);u16(20);u16(0x0800);u16(0);u16(tm);u16(dt);u32(crc);u32(n);u32(n);u16(nm.length);u16(0);out.set(nm,o);o+=nm.length;out.set(data,o);o+=n;
+ const cd=o;u32(0x02014b50);u16(20);u16(20);u16(0x0800);u16(0);u16(tm);u16(dt);u32(crc);u32(n);u32(n);u16(nm.length);u16(0);u16(0);u16(0);u16(0);u32(0);u32(0);out.set(nm,o);o+=nm.length;
+ const cdl=o-cd;u32(0x06054b50);u16(0);u16(0);u16(1);u16(1);u32(cdl);u32(cd);u16(0);return out}
+function hsvOf(h){const [r,g,b]=rgb(h).map(x=>x/255),mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;let H=0;
+ if(d)H=mx===r?((g-b)/d)%6:mx===g?(b-r)/d+2:(r-g)/d+4;H=(H*60+360)%360;return [H/360,mx?d/mx:0,mx]}
+function swatchesFile(name,hexes){const json=JSON.stringify([{name,swatches:hexes.map(h=>{const [hu,s,v]=hsvOf(h);return {hue:hu,saturation:s,brightness:v,alpha:1,colorSpace:0}})}]);
+ return zipOne('Swatches.json',new TextEncoder().encode(json))}
+function downloadBytes(fname,bytes){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bytes],{type:'application/zip'}));a.download=fname;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+function toProcreate(name,hexes){if(!hexes.length){toast('No colours to export');return}
+ const parts=[];for(let i=0;i<hexes.length;i+=30)parts.push(hexes.slice(i,i+30));
+ parts.forEach((hs,k)=>{const nm=parts.length>1?`${name} (${k+1} of ${parts.length})`:name;
+  setTimeout(()=>downloadBytes(nm.replace(/[\\/:*?"<>|]+/g,'').trim()+'.swatches',swatchesFile(nm,hs)),k*700)});
+ toast(parts.length>1?`Downloading ${parts.length} Procreate palettes (30 colours max each)`:'Downloaded for Procreate')}
+
 /* events */
 $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
 $('#fsize').innerHTML=[0,...[...new Set(IDS.map(id=>COMBOS[id].length))].sort((a,b)=>a-b)].map(v=>`<button data-v="${v}" aria-pressed="${v===0}">${v||'All'}</button>`).join('');
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
 $('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
-document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
+ if(t.id==='pproc'){const p=P(active);if(p)toProcreate(p.name,p.colours.map(itemHex));return}
+ if(t.id==='proc-combo'){toProcreate(`Wada ${cur.combo}`,COMBOS[cur.combo].map(i=>C[i].h));return}
  if(t.dataset.own){toggleOwned(t.dataset.own);return}
  if(t.dataset.paint&&!adding){openSheet({paint:t.dataset.paint});return}
  if(t.dataset.mixrow!=null){const p=P(active),x=p&&p.colours[+t.dataset.mixrow];if(x)openSheet({mix:itemHex(x),label:itemName(x),back:p.id});return}
