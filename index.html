@@ -207,7 +207,7 @@ function search(q){q=q.trim();const lq=q.toLowerCase();let m,cols=[],combos=[],n
 
 function render(){const v=$('#view');
  $('.bar').hidden=(st.tab==='mine'&&!st.q.trim())||st.tab==='paints';
- if(st.tab==='paints'){v.innerHTML=paintsView();return}
+ if(st.tab==='paints'){v.innerHTML=paintsView();balanceTiles();return}
  if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
  if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
@@ -397,6 +397,11 @@ async function toggleOwned(no){const had=owned.has(no);had?owned.delete(no):owne
  const q=had?sb.from('owned_paints').delete().eq('paint_no',no):sb.from('owned_paints').insert({paint_no:no});const {error}=await q;
  if(error){had?owned.add(no):owned.delete(no);console.error('owned_paints',error);toast(/owned_paints|relation|schema cache|PGRST205|42P01/i.test(error.message+error.code)?'Box of paints isn’t set up in Supabase yet: run the owned_paints SQL':'Could not save: '+(error.message||error.code||'unknown error'))}
  if(st.tab==='paints')render();if(cur&&cur.paint)openSheet(cur,true)}
+/* spread each family's paints over even rows (9 paints -> 5 + 4, not 8 + 1), keeping one card width */
+function balanceTiles(){const gap=12,minW=180;document.querySelectorAll('.ptiles').forEach(g=>{const W=g.clientWidth,n=g.children.length;if(!W||!n)return;
+ const max=Math.max(1,Math.floor((W+gap)/(minW+gap))),w=(W-gap*(max-1))/max,rows=Math.ceil(n/max),cols=Math.ceil(n/rows);
+ g.style.gridTemplateColumns=`repeat(${cols},${w}px)`})}
+let balT;window.addEventListener('resize',()=>{clearTimeout(balT);balT=setTimeout(balanceTiles,100)});
 const paintCard=p=>`<div class="pcard">${user?`<button class="addp ${owned.has(p.no)?'on':''}" data-own="${p.no}" aria-pressed="${owned.has(p.no)}" aria-label="${owned.has(p.no)?'Remove '+esc(p.name)+' from':'Add '+esc(p.name)+' to'} your box of paints" title="${owned.has(p.no)?'In your box of paints — click to remove':'Add to your box of paints'}">${owned.has(p.no)?'✓':'+'}</button>`:''}<button class="card" data-paint="${p.no}"><div class="pswatch"><span style="background:${p.masstone}" title="Measured masstone"></span><span style="background:${p.swatch}" title="Chart swatch"></span></div>
  <div class="meta"><b>${esc(p.name)}</b><span>No. ${p.no} · Series ${p.series} · ${esc(p.pigments.join(', '))}</span><span>${esc(p.opacity)} · tint ${esc(p.tint.toLowerCase())}</span></div></button>
 </div>`;
