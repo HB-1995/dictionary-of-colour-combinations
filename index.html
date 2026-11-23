@@ -361,7 +361,7 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  <h2>Add a custom colour</h2>
  <div class="custom"><input type="color" id="cpick" value="#a84222" aria-label="Pick a colour"><input class="field" id="chex" placeholder="#RRGGBB" maxlength="7" aria-label="Hex code"><span class="lbl">or CMYK</span><input class="field" id="ccmyk" placeholder="22 84 100 18" aria-label="CMYK values"><button class="ibtn" id="cadd">Add</button></div>
  <p class="note">For paints you've mixed. CMYK here uses a simple conversion, so its screen colour is approximate.</p>
- ${sugg.length?`<h2>Wada pairs these with your colours</h2><div class="chips">${sugg.map(j=>chip(j,`Shares ${co[j]} combination${co[j]>1?'s':''} with this palette`)).join('')}</div>`:''}
+ ${sugg.length?`<h2>Potential additions</h2><div class="chips">${sugg.map(j=>chip(j,`Shares ${co[j]} combination${co[j]>1?'s':''} with this palette`)).join('')}</div>`:''}
  ${comps.length?`<h2>Complements · nearest Wada</h2><div class="chips">${comps.map(j=>chip(j,'Nearest Wada colour to a complement')).join('')}</div>`:''}
  ${hs.length?`${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>`:''}
  <h2>Notes</h2><textarea id="pnotes" class="field" rows="4" placeholder="Painting title, ideas, surface, references…">${esc(p.notes||'')}</textarea>
