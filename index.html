@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wada Colour Combinations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: quiet, gallery-like; the colours speak, the frame stays out of the way.
+   IDEA: Wada's pocket swatch book — flat printed chips, numbered plates, tiny captions.
+   PICTURE: a full-width ribbon of all 159 colours, then a wall of 348 combination plates.
+   COLOUR and TYPE: paper white / ink black only, no accent; Zen Kaku Gothic New throughout.
+   LAYOUT: ribbon + search up top, sticky filters, dense grid, a side sheet for detail. */
+:root{color-scheme:light dark;--bg:light-dark(#fbfbfa,#141414);--ink:light-dark(#191919,#ececea);--mute:light-dark(#6d6d69,#9a9a96);--line:light-dark(#e3e2de,#2c2c2b);--card:light-dark(#fff,#1d1d1c);--chip:light-dark(#efeeea,#262625)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Zen Kaku Gothic New",system-ui,sans-serif;overflow-x:clip}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.band{padding:clamp(20px,3vw,44px) max(4vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font-size:clamp(32px,5vw,50px);line-height:1.05;margin:0;font-weight:900;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--mute);margin:.5em 0 0}
+.ribbon{display:flex;height:clamp(90px,14vw,150px);margin-top:24px;border-radius:2px;overflow:hidden}
+.ribbon button{flex:1;border:0;padding:0;transition:flex .25s}
+.ribbon button:hover{flex:5}
+.searchrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+#q{flex:1 1 320px;height:50px;border:1px solid var(--line);background:var(--card);border-radius:6px;padding:0 16px;font-size:16px}
+.tabs{display:flex;gap:4px;background:var(--chip);border-radius:8px;padding:4px}
+.tabs button,.seg button{border:0;background:none;border-radius:6px;padding:8px 14px;min-height:40px}
+.tabs button[aria-pressed=true],.seg button[aria-pressed=true]{background:var(--card);box-shadow:0 1px 2px #0002;font-weight:700}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(4vw,16px)}
+.bar .wrap{display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;gap:2px;background:var(--chip);border-radius:8px;padding:3px;flex-wrap:wrap}
+.seg button{padding:6px 11px;min-height:36px;font-size:14px}
+.gd{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.gd-l{width:14px;height:14px;margin-right:10px}.hsub{font-size:14px;font-weight:400;color:var(--mute);margin-left:6px}
+.legend{display:flex;gap:0;margin-top:6px}.legend button{border:0;border-top:2px solid var(--line);background:none;padding:6px 6px 0;box-shadow:inset 1px 0 0 var(--line);font-size:13px;color:var(--mute);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:32px}.legend button:hover{color:var(--ink);border-color:var(--ink)}
+.lbl{font-size:13px;color:var(--mute)}
+select{height:42px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 10px}
+#count{margin-left:auto;font-size:14px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px 14px}
+.card{border:0;background:none;padding:0;text-align:left;display:block;width:100%}
+.strip{display:flex;height:96px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000000d}
+.strip span{flex:1}
+.card:hover .strip{transform:translateY(-2px);box-shadow:0 6px 16px #0002}
+.strip{transition:transform .15s,box-shadow .15s}
+.meta{display:flex;gap:8px;font-size:13px;margin-top:6px;align-items:baseline}
+.meta b{font-size:15px}.meta span{color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px 12px}
+.tiles .card{align-self:start}
+.tile .sw{height:110px;border-radius:2px;box-shadow:0 0 0 1px #0000000d}
+.tile .meta{display:block}.tile .meta span{display:block}
+h2{font-size:22px;margin:34px 0 14px;font-weight:700}
+h2:first-child{margin-top:4px}
+.empty{color:var(--mute);padding:40px 0}
+/* sheet */
+#scrim{position:fixed;inset:0;background:#0006;z-index:20;display:none}
+#sheet{position:fixed;top:0;right:0;bottom:0;width:min(820px,100%);background:var(--bg);z-index:21;overflow-y:auto;transform:translateX(100%);transition:transform .25s ease;box-shadow:-10px 0 40px #0003}
+body.open #scrim{display:block}body.open #sheet{transform:none}
+.shead{display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--bg);padding:14px 22px;border-bottom:1px solid var(--line);z-index:2}
+.shead h3{margin:0;font-size:20px;flex:1}
+.ibtn{border:1px solid var(--line);background:var(--card);border-radius:6px;min-width:44px;height:44px;padding:0 12px}
+.sbody{padding:20px 22px 60px}
+.big{display:flex;height:min(36vh,260px);border-radius:2px;overflow:hidden}
+.big button{flex:1;border:0;padding:10px;display:flex;align-items:flex-end;font-size:13px;font-weight:700}
+.toggles{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;margin:22px 0 12px}
+.duo{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:22px;align-items:start}
+.cap{font-size:13px;color:var(--mute);margin:14px 0 6px}
+.comp .strip{height:120px}
+.wheel{width:100%;aspect-ratio:1;max-width:280px}
+table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+th{font-weight:500;color:var(--mute);text-align:left;font-size:13px;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.dot{display:inline-block;width:34px;height:34px;border-radius:3px;vertical-align:middle;margin-right:8px;box-shadow:0 0 0 1px #0000001a}
+.code{font-variant-numeric:tabular-nums;white-space:nowrap}
+.copy{border:0;background:var(--chip);border-radius:4px;padding:3px 8px;font-size:12px;margin-left:4px}
+.scale{display:flex;height:34px;border-radius:2px;overflow:hidden;min-width:150px}
+.scale span{flex:1}.scale span.on{flex:1.6;box-shadow:inset 0 0 0 2px var(--bg)}
+.note{font-size:13px;color:var(--mute)}
+.linkc{border:0;background:none;padding:0;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:6px;font-size:14px;opacity:0;transition:opacity .2s;z-index:30;pointer-events:none}
+.sw-hero{height:220px;border-radius:2px;display:flex;align-items:flex-end;padding:14px;font-weight:700}
+@media(max-width:700px){.duo{grid-template-columns:1fr}.wheel{margin:0 auto;display:block}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}.strip{height:80px}#count{margin-left:0;width:100%}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="band"><div class="wrap">
+  <h1>A Dictionary of Colour Combinations</h1>
+  <p class="sub">Sanzo Wada · Volume 1 · 348 combinations drawn from 159 colours. Colours are arranged in six hue families — click a family below the ribbon to browse it.</p>
+  <div class="ribbon" id="ribbon" aria-label="All 159 colours"></div><div class="legend" id="legend"></div>
+  <div class="searchrow">
+    <input id="q" type="search" placeholder="Search a name, combination (#240), hex (#BB451C) or CMYK (22 84 100 18)" autocomplete="off" aria-label="Search">
+    <div class="tabs" role="group" aria-label="View">
+      <button data-tab="combos" aria-pressed="true">Combinations</button>
+      <button data-tab="colours" aria-pressed="false">Colours</button>
+      <button data-tab="mine" aria-pressed="false">My palettes</button>
+    </div>
+  </div>
+</div></header>
+<div class="bar"><div class="wrap">
+  <span class="lbl">Size</span>
+  <div class="seg" id="fsize"><button data-v="0" aria-pressed="true">All</button><button data-v="2" aria-pressed="false">2</button><button data-v="3" aria-pressed="false">3</button><button data-v="4" aria-pressed="false">4</button></div>
+  <span class="lbl">Hue family</span>
+  <div class="seg" id="fchap"></div>
+  <label class="lbl" for="sort">Sort</label>
+  <select id="sort"><option value="book">Book order</option><option value="hue">Hue</option><option value="light">Light → dark</option><option value="sat">Most vivid</option></select>
+  <span id="count"></span>
+</div></div>
+<main class="band" style="padding-top:22px"><div class="wrap" id="view"></div></main>
+<div id="scrim"></div>
+<aside id="sheet" aria-modal="true" role="dialog" aria-labelledby="stitle">
+  <div class="shead"><h3 id="stitle"></h3><span id="sextra"></span><button class="ibtn" id="close" aria-label="Close">✕</button></div>
+  <div class="sbody" id="sbody"></div>
+</aside>
+<div id="toast"></div>
+<script>
+Promise.all([fetch('colors.json').then(r=>r.json()),fetch('palettes.json').then(r=>r.json())]).then(([raw,pal])=>{
+const DATA={colors:raw.map(x=>({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations})),mine:pal.groups.map(g=>g.colours.map(n=>raw.findIndex(x=>x.name===n)))};
+const C=DATA.colors, MINE=DATA.mine;
+const COMBOS={};C.forEach((c,i)=>c.k.forEach(k=>(COMBOS[k]??=[]).push(i)));
+const IDS=Object.keys(COMBOS).map(Number).sort((a,b)=>a-b);
+const $=s=>document.querySelector(s);
+const GROUPS=['','Reds & pinks','Yellows & oranges','Greens','Blues','Purples & violets','Neutrals'],GSHORT=['All','Reds','Yellows','Greens','Blues','Purples','Neutrals'],GDESC=['','Including warm red-browns','Including buffs, cinnamons and creams','Including olives and yellow-greens','Including turquoise and blue-greens','Including lavenders and mauves','White, greys and black'],GDOT=['','#C84F41','#F5B82E','#4F8A4B','#1F6FA8','#7B4A8C','#8A8A86'];
+const st={tab:'combos',size:0,chap:0,sort:'book',q:'',wheel:'ryb',show:'exact'};
+try{Object.assign(st,{wheel:localStorage.getItem('w-wheel')||'ryb',show:localStorage.getItem('w-show')||'exact'})}catch(e){}
+let favs=[];try{favs=JSON.parse(localStorage.getItem('w-favs')||'[]')}catch(e){}
+const saveFavs=()=>{try{localStorage.setItem('w-favs',JSON.stringify(favs))}catch(e){}};
+
+/* colour maths */
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const hex=a=>'#'+a.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('').toUpperCase();
+function hsl(h){const [r,g,b]=rgb(h).map(v=>v/255),mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,d=mx-mn;let H=0,S=0;
+ if(d){S=d/(1-Math.abs(2*l-1));H=mx===r?((g-b)/d)%6:mx===g?(b-r)/d+2:(r-g)/d+4;H*=60;if(H<0)H+=360}return [H,S,l]}
+function fromHsl(H,S,L){H=((H%360)+360)%360;const c=(1-Math.abs(2*L-1))*S,x=c*(1-Math.abs((H/60)%2-1)),m=L-c/2;
+ const [r,g,b]=H<60?[c,x,0]:H<120?[x,c,0]:H<180?[0,c,x]:H<240?[0,x,c]:H<300?[x,0,c]:[c,0,x];return hex([r,g,b].map(v=>(v+m)*255))}
+function lab(h){const v=rgb(h).map(x=>{x/=255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4});
+ const X=(v[0]*.4124+v[1]*.3576+v[2]*.1805)/.95047,Y=v[0]*.2126+v[1]*.7152+v[2]*.0722,Z=(v[0]*.0193+v[1]*.1192+v[2]*.9505)/1.08883;
+ const f=t=>t>.008856?Math.cbrt(t):7.787*t+16/116;return [116*f(Y)-16,500*(f(X)-f(Y)),200*(f(Y)-f(Z))]}
+const dE=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+const chroma=c=>Math.hypot(c.l[1],c.l[2]);
+/* painter's (RYB) wheel: piecewise map between screen hue and artist hue */
+const A=[[0,0],[30,60],[60,120],[120,180],[240,240],[285,300],[360,360]];
+function mapH(h,f,t){h=((h%360)+360)%360;for(let i=0;i<A.length-1;i++){const a=A[i],b=A[i+1];if(h>=a[f]&&h<=b[f])return a[t]+(h-a[f])/(b[f]-a[f])*(b[t]-a[t])}return h}
+const toRyb=h=>mapH(h,0,1),fromRyb=h=>mapH(h,1,0);
+const wheelAngle=(h,m)=>m==='ryb'?toRyb(hsl(h)[0]):hsl(h)[0];
+function comp(h,m){const [H,S,L]=hsl(h);return fromHsl(m==='ryb'?fromRyb(toRyb(H)+180):H+180,S,L)}
+function nearest(h,n=1,skip=-1){const L=lab(h);return C.map((c,i)=>[i,dE(L,c.l)]).filter(x=>x[0]!==skip).sort((a,b)=>a[1]-b[1]).slice(0,n)}
+const textOn=h=>lab(h)[0]>60?'#1a1a1a':'#fafafa';
+const mix=(h,t,p)=>hex(rgb(h).map((v,i)=>v+(rgb(t)[i]-v)*p));
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+/* rendering pieces */
+const strip=ids=>`<div class="strip">${ids.map(i=>`<span style="background:${C[i].h}"></span>`).join('')}</div>`;
+const card=id=>`<button class="card" data-combo="${id}" title="${esc(COMBOS[id].map(i=>C[i].n).join(', '))}">${strip(COMBOS[id])}<div class="meta"><b>${id}</b><span>${esc(COMBOS[id].map(i=>C[i].n).join(' · '))}</span></div></button>`;
+const tile=i=>`<button class="card tile" data-colour="${i}"><div class="sw" style="background:${C[i].h}"></div><div class="meta"><b>${esc(C[i].n)}</b><span>${C[i].h} · ${C[i].c.join(' ')}</span><span><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></div></button>`;
+const sortKey={book:()=>0,hue:id=>hsl(C[COMBOS[id][0]].h)[0],light:id=>-COMBOS[id].reduce((s,i)=>s+C[i].l[0],0)/COMBOS[id].length,sat:id=>-COMBOS[id].reduce((s,i)=>s+chroma(C[i]),0)/COMBOS[id].length};
+function filtered(){let L=IDS.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));
+ if(st.sort!=='book'){const f=sortKey[st.sort];L=L.map(id=>[id,f(id)]).sort((a,b)=>a[1]-b[1]).map(x=>x[0])}return L}
+
+function search(q){q=q.trim();const lq=q.toLowerCase();let m,cols=[],combos=[],note='';
+ if((m=lq.match(/^#?(\d{1,3})$/))&&COMBOS[+m[1]]){combos=[+m[1]];cols=COMBOS[+m[1]]}
+ else if(m=lq.match(/^#?([0-9a-f]{6})$/)){const h='#'+m[1].toUpperCase();const nn=nearest(h,8);cols=nn.map(x=>x[0]);note=nn[0][1]<1?`Exact match: ${esc(C[nn[0][0]].n)}.`:`No exact match for ${h} — nearest Wada colours, closest first.`;combos=[...new Set(C[cols[0]].k)]}
+ else if((m=lq.match(/^(\d{1,3})[\s,\/]+(\d{1,3})[\s,\/]+(\d{1,3})[\s,\/]+(\d{1,3})$/))){const v=m.slice(1,5).map(Number);const nn=C.map((c,i)=>[i,Math.hypot(...c.c.map((x,j)=>x-v[j]))]).sort((a,b)=>a[1]-b[1]).slice(0,8);cols=nn.map(x=>x[0]);note=nn[0][1]===0?`Exact CMYK match: ${esc(C[cols[0]].n)}.`:'Closest CMYK values in the book.';combos=[...new Set(C[cols[0]].k)]}
+ else{cols=C.map((c,i)=>i).filter(i=>C[i].n.toLowerCase().includes(lq));combos=[...new Set(cols.flatMap(i=>C[i].k))].sort((a,b)=>a-b)}
+ return {cols,combos,note}}
+
+function render(){const v=$('#view');
+ if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
+  v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
+ if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of 348 combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
+ else if(st.tab==='colours'){let L=C.map((c,i)=>i).filter(i=>!st.chap||C[i].s===st.chap);
+  if(st.sort==='hue')L.sort((a,b)=>hsl(C[a].h)[0]-hsl(C[b].h)[0]);if(st.sort==='light')L.sort((a,b)=>C[b].l[0]-C[a].l[0]);if(st.sort==='sat')L.sort((a,b)=>chroma(C[b])-chroma(C[a]));
+  $('#count').textContent=`${L.length} of 159 colours`;
+  v.innerHTML=st.sort==='book'&&!st.chap?[1,2,3,4,5,6].map(s=>`<h2><i class="gd gd-l" style="background:${GDOT[s]}"></i>${GROUPS[s]} <span class="hsub">${L.filter(i=>C[i].s===s).length} colours · ${GDESC[s]}</span></h2><div class="tiles">${L.filter(i=>C[i].s===s).map(tile).join('')}</div>`).join(''):(st.chap&&st.sort==='book'?`<h2><i class="gd gd-l" style="background:${GDOT[st.chap]}"></i>${GROUPS[st.chap]} <span class="hsub">${L.length} colours · ${GDESC[st.chap]}</span></h2>`:'')+`<div class="tiles">${L.map(tile).join('')}</div>`}
+ else{$('#count').textContent='';
+  v.innerHTML=`<h2>Painting groups</h2><div class="grid">${MINE.map((g,n)=>`<button class="card" data-mine="${n}">${strip(g)}<div class="meta"><b>Group ${n+1}</b><span>${esc(g.map(i=>C[i].n).join(' · '))}</span></div></button>`).join('')}</div>
+  <h2>Saved combinations</h2>${favs.length?`<div class="grid">${favs.map(card).join('')}</div>`:'<p class="empty">Open any combination and press ☆ Save to keep it here.</p>'}`}}
+
+/* wheel graphic */
+function wheel(ids,m){const S=280,c=S/2,R=128,seg=48;let w='';
+ for(let k=0;k<seg;k++){const a0=k*360/seg,a1=(k+1)*360/seg,mid=(a0+a1)/2,hh=m==='ryb'?fromRyb(mid):mid,p=a=>[c+R*Math.sin(a*Math.PI/180),c-R*Math.cos(a*Math.PI/180)],[x0,y0]=p(a0),[x1,y1]=p(a1);
+  w+=`<path d="M${c},${c}L${x0},${y0}A${R},${R} 0 0 1 ${x1},${y1}Z" fill="${fromHsl(hh,.75,.55)}"/>`}
+ w+=`<circle cx="${c}" cy="${c}" r="${R*.82}" fill="var(--bg)"/>`;
+ ids.forEach(i=>{const h=C[i].h,a=wheelAngle(h,m),r=R*(.18+.6*Math.min(1,chroma(C[i])/80)),pt=a=>[c+r*Math.sin(a*Math.PI/180),c-r*Math.cos(a*Math.PI/180)],[x,y]=pt(a),[x2,y2]=pt(a+180),ch=comp(h,m);
+  w+=`<line x1="${x}" y1="${y}" x2="${x2}" y2="${y2}" stroke="var(--mute)" stroke-dasharray="3 3"/><circle cx="${x2}" cy="${y2}" r="9" fill="${ch}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="${x}" cy="${y}" r="12" fill="${h}" stroke="var(--ink)" stroke-width="1.5"/>`});
+ return `<svg class="wheel" viewBox="0 0 ${S} ${S}" role="img" aria-label="${m==='ryb'?"Painter's":'Screen'} colour wheel showing each colour (solid) and its complement (dashed)">${w}</svg>`}
+
+const scale=h=>`<div class="scale" title="Tints with white, shades with black">${[.75,.5,.25].map(p=>`<span style="background:${mix(h,'#ffffff',p)}"></span>`).join('')}<span class="on" style="background:${h}"></span>${[.25,.5].map(p=>`<span style="background:${mix(h,'#000000',p)}"></span>`).join('')}</div>`;
+const copyBtn=t=>`<button class="copy" data-copy="${t}">Copy</button>`;
+const toggles=()=>`<div class="toggles"><span class="lbl">Wheel</span><div class="seg" id="twheel"><button data-v="ryb" aria-pressed="${st.wheel==='ryb'}">Painter's (RYB)</button><button data-v="rgb" aria-pressed="${st.wheel==='rgb'}">Screen (RGB)</button></div><span class="lbl">Complement as</span><div class="seg" id="tshow"><button data-v="exact" aria-pressed="${st.show==='exact'}">Exact colour</button><button data-v="wada" aria-pressed="${st.show==='wada'}">Nearest Wada</button></div></div>`;
+function compOf(i){const ex=comp(C[i].h,st.wheel),[ni,d]=nearest(ex,1,i)[0];return {ex,ni,d}}
+const neutral=i=>chroma(C[i])<12;
+
+let cur=null;
+function groupHTML(ids,comboId){const cs=ids.map(compOf),shown=cs.map(x=>st.show==='exact'?x.ex:C[x.ni].h);
+ return `<div class="big">${ids.map(i=>`<button data-colour="${i}" style="background:${C[i].h};color:${textOn(C[i].h)}">${esc(C[i].n)}</button>`).join('')}</div>
+ ${toggles()}
+ <div class="duo"><div><p class="cap">Original</p>${strip(ids)}<div class="comp"><p class="cap">Complementary group · ${st.wheel==='ryb'?"painter's wheel":'screen wheel'} · ${st.show==='exact'?'exact complements':'nearest Wada colours'}</p><div class="strip">${shown.map(h=>`<span style="background:${h}"></span>`).join('')}</div></div>
+ ${st.show==='wada'?`<p class="note">Built from ${cs.map(x=>`<button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button>`).join(', ')}.</p>`:''}</div>${wheel(ids,st.wheel)}</div>
+ <table class="stack"><thead><tr><th>Colour</th><th>Codes</th><th>Complement</th><th>Nearest Wada</th><th>Tint → shade</th></tr></thead><tbody>
+ ${ids.map((i,n)=>{const x=cs[n];return `<tr><td><span class="dot" style="background:${C[i].h}"></span><button class="linkc" data-colour="${i}">${esc(C[i].n)}</button><br><span class="note"><i class="gd" style="background:${GDOT[C[i].s]}"></i>${GSHORT[C[i].s]}</span></td><td class="code">${C[i].h}${copyBtn(C[i].h)}<br>${C[i].c.join(' / ')}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}${neutral(i)?'<br><span class="note">near-neutral: weak</span>':''}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td><td>${scale(C[i].h)}</td></tr>`}).join('')}</tbody></table>
+ <p class="note">Complements keep each colour's lightness and strength and swing its hue to the opposite side of the chosen wheel. Painter's wheel pairs red–green, yellow–violet, blue–orange. Very grey colours have no strong complement. Screen colours are approximate: check against the printed book when mixing.</p>
+ ${comboId?`<h2>Colours here also appear in</h2><div class="grid">${[...new Set(ids.flatMap(i=>C[i].k))].filter(k=>k!==comboId).slice(0,24).map(card).join('')}</div>`:''}`}
+
+function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.h,'rgb');return {ex,ni:nearest(ex,1,i)[0][0]}})();const pr=(()=>{const ex=comp(c.h,'ryb');return {ex,ni:nearest(ex,1,i)[0][0]}})();
+ return `<div class="sw-hero" style="background:${c.h};color:${textOn(c.h)}">${esc(c.n)}</div>
+ <table class="stack"><thead><tr><th>Hex</th><th>CMYK</th><th>Hue family</th><th>Tint → shade</th></tr></thead><tbody><tr><td class="code">${c.h}${copyBtn(c.h)}</td><td class="code">${c.c.join(' / ')}${copyBtn(c.c.join(' '))}</td><td><i class="gd" style="background:${GDOT[c.s]}"></i>${GROUPS[c.s]}</td><td>${scale(c.h)}</td></tr></tbody></table>
+ <h2>Complements</h2>
+ <div class="duo"><table><thead><tr><th>Wheel</th><th>Exact</th><th>Nearest Wada</th></tr></thead><tbody>
+ ${[["Painter's (RYB)",pr],['Screen (RGB)',rg]].map(([n,x])=>`<tr><td>${n}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td></tr>`).join('')}</tbody></table>${wheel([i],st.wheel)}</div>
+ ${neutral(i)?'<p class="note">This is a near-neutral colour, so its complement is weak and best treated as a temperature shift.</p>':''}
+ <h2>In ${c.k.length} combination${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
+
+function openSheet(o){cur=o;const fav=o.combo&&favs.includes(o.combo);
+ $('#stitle').textContent=o.combo?`Combination ${o.combo}`:o.mine!=null?`Painting group ${o.mine+1}`:C[o.colour].n;
+ $('#sextra').innerHTML=o.combo?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'';
+ $('#sbody').innerHTML=o.combo?groupHTML(COMBOS[o.combo],o.combo):o.mine!=null?groupHTML(MINE[o.mine]):colourHTML(o.colour);
+ document.body.classList.add('open');$('#sheet').scrollTop=0;
+ const hsh=o.combo?'combo-'+o.combo:o.mine!=null?'group-'+(o.mine+1):'colour-'+o.colour;if(location.hash.slice(1)!==hsh)location.hash=hsh;$('#close').focus()}
+function closeSheet(){cur=null;document.body.classList.remove('open');if(location.hash)location.hash=''}
+function fromHash(){const h=location.hash.slice(1);let m;
+ if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if(m=h.match(/^group-(\d)$/))MINE[m[1]-1]&&openSheet({mine:m[1]-1});else if(cur)closeSheet()}
+
+function toast(t){const e=$('#toast');e.textContent=t;e.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.opacity=0,1400)}
+function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v==String(v)))}
+
+/* events */
+$('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
+$('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
+$('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-mine],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim');if(!t)return;
+ if(t.dataset.fam){st.tab='colours';st.chap=+t.dataset.fam;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='colours'));setSeg($('#fchap'),st.chap);render();$('.bar').scrollIntoView({behavior:'smooth'});return}
+ if(t.dataset.copy){navigator.clipboard?.writeText(t.dataset.copy).then(()=>toast('Copied '+t.dataset.copy),()=>toast('Copy blocked — select the text instead'));return}
+ if(t.id==='close'||t.id==='scrim')return closeSheet();
+ if(t.id==='fav'){const id=cur.combo;favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];saveFavs();t.textContent=favs.includes(id)?'★ Saved':'☆ Save';if(st.tab==='mine')render();return}
+ if(t.dataset.tab){st.tab=t.dataset.tab;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===t));render();return}
+ const p=t.parentElement;
+ if(p.id==='fsize'){st.size=+t.dataset.v;setSeg(p,st.size);render();return}
+ if(p.id==='fchap'){st.chap=+t.dataset.v;setSeg(p,st.chap);render();return}
+ if(p.id==='twheel'||p.id==='tshow'){st[p.id==='twheel'?'wheel':'show']=t.dataset.v;try{localStorage.setItem('w-wheel',st.wheel);localStorage.setItem('w-show',st.show)}catch(e){}const y=$('#sheet').scrollTop;openSheet(cur);$('#sheet').scrollTop=y;return}
+ if(t.dataset.combo)return openSheet({combo:+t.dataset.combo});
+ if(t.dataset.colour)return openSheet({colour:+t.dataset.colour});
+ if(t.dataset.mine)return openSheet({mine:+t.dataset.mine});});
+$('#sort').addEventListener('change',e=>{st.sort=e.target.value;render()});
+let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},120)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)closeSheet();if(e.key==='/'&&document.activeElement!==$('#q')){e.preventDefault();$('#q').focus()}});
+window.addEventListener('hashchange',fromHash);
+render();fromHash();
+}).catch(()=>{document.getElementById('view').innerHTML='<p class="empty">Could not load the colour data.</p>'});
+</script>
+</body>
+</html>

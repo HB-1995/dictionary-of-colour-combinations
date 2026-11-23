@@ -95,3 +95,9 @@ python3 src/augment_sanzo.py
 ## License
 
 MIT, see [LICENSE.md](http://github.com/mattdesl/dictionary-of-colour-combinations/blob/master/LICENSE.md) for details.
+## Colour explorer (this fork)
+
+`index.html` is an interactive explorer for all 348 combinations, served with GitHub Pages. It reads `colors.json` directly, so any data change appears on the site automatically. `palettes.json` holds personal painting groups shown under "My palettes".
+
+Changes in this fork:
+- Dull Violet Black corrected to CMYK 100 / 90 / 38 / 50 (checked against the printed book); RGB, hex and Lab recalculated with the same SWOP → sRGB conversion as the rest of the data.
