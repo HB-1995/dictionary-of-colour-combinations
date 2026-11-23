@@ -101,6 +101,17 @@ body.open #scrim{display:block}body.open #sheet{transform:none}
 .shead h3{margin:0;font-size:20px;flex:1}
 .ibtn{border:1px solid var(--line);background:var(--card);border-radius:6px;min-width:44px;height:44px;padding:0 12px}
 .sbody{padding:20px 22px 60px}
+.imgbtn{height:50px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:700}
+.imgbtn svg{width:20px;height:20px}
+body.dragging::after{content:'Drop an image to get its palette';position:fixed;inset:12px;border:3px dashed var(--ink);border-radius:12px;background:#fffd;display:grid;place-items:center;font-size:22px;font-weight:700;z-index:40;pointer-events:none}
+.imgtop{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:20px;align-items:start}
+.imgwrap{position:relative;line-height:0;touch-action:none;cursor:crosshair;user-select:none}
+#imgc{width:100%;max-height:460px;object-fit:contain;border-radius:2px}
+#cropbox{position:absolute;border:2px solid #fff;outline:1px solid #000;box-shadow:0 0 0 9999px #0006;pointer-events:none}
+.imgside{display:flex;flex-direction:column;gap:12px}.imgside label{display:flex;gap:8px;align-items:center}
+.imgside input[type=range]{flex:1}
+.picked{font-size:12px;color:var(--mute)}#imgout{margin-top:18px}
+@media(max-width:700px){.imgtop{grid-template-columns:1fr}}
 .big{display:flex;height:min(36vh,260px);border-radius:2px;overflow:hidden}
 .big button{flex:1;border:0;padding:10px;display:flex;align-items:flex-end;font-size:13px;font-weight:700}
 .toggles{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;margin:22px 0 12px}
@@ -135,6 +146,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   <div class="ribbon" id="ribbon" aria-label="All colours"></div><div class="legend" id="legend"></div>
   <div class="searchrow">
     <input id="q" type="search" placeholder="Search a name, combination (#240), hex (#BB451C) or CMYK (22 84 100 18)" autocomplete="off" aria-label="Search">
+    <label class="ibtn imgbtn" title="Get a palette from a painting or photo (or drop an image anywhere)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>Image<input type="file" id="imgfile" accept="image/*,.heic,.heif" hidden></label>
     <div class="tabs" role="group" aria-label="View">
       <button data-tab="combos" aria-pressed="true">Combinations</button>
       <button data-tab="colours" aria-pressed="false">Colours</button>
@@ -164,6 +176,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="vendor/mixbox.js"></script>
 <script src="mix.js"></script>
+<script src="extract.js"></script>
 <script>
 /* Colour libraries ("sources") are listed in sources.json. Each source is one file of colours and palettes.
    format "wada": the original colors.json layout. format "palettes": {colours:[{name,hex,cmyk?,family?}],palettes:[{id?,name?,colours:[names]}]}.
@@ -321,12 +334,14 @@ function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=nu
  if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn" id="proc-combo" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
+ else if(o.img){if(!IMG)return closeSheet();title='Palette from '+IMG.name;body=imgHTML();extra=`<button class="ibtn" id="imgproc" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="imgsave">Save as palette</button>`:'')}
  else if(o.paint){const p=PBY[o.paint];if(!p)return closeSheet();title=p.name;body=paintHTML(o.paint);hsh='paint-'+o.paint}
- else if(o.mix){title='Mix: '+o.label;body=(o.back?`<p><button class="linkc" data-pal="${o.back}">← Back to palette</button></p>`:'')+`<div class="sw-hero" style="background:${o.mix};color:${textOn(o.mix)}">${esc(o.label)} · ${o.mix}</div>`+mixSection(o.mix)}
+ else if(o.mix){title='Mix: '+o.label;body=(o.back?`<p><button class="linkc" data-pal="${o.back}">← Back to palette</button></p>`:o.backImg?`<p><button class="linkc" id="imgback">← Back to image</button></p>`:'')+`<div class="sw-hero" style="background:${o.mix};color:${textOn(o.mix)}">${esc(o.label)} · ${o.mix}</div>`+mixSection(o.mix)}
  else{title=C[o.colour].n;body=colourHTML(o.colour);extra=addBtn('colour');hsh='colour-'+o.colour}
  $('#stitle').textContent=title;$('#sextra').innerHTML=extra;$('#sbody').innerHTML=body;
  document.body.classList.add('open');if(hsh&&location.hash.slice(1)!==hsh)location.hash=hsh;
  if(keep)$('#sheet').scrollTop=y;else{$('#sheet').scrollTop=0;$('#close').focus()}
+ if(o.img)imgMount();
  fillMix();fillArt()}
 function closeSheet(){cur=null;document.body.classList.remove('open');if(location.hash)location.hash=''}
 function fromHash(){const h=location.hash.slice(1);let m;
@@ -544,6 +559,77 @@ function fillArt(){const box=document.querySelector('.artbox');if(!box)return;co
  if(!('IntersectionObserver' in window))return go();
  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();go()}},{rootMargin:'200px'});io.observe(out)}
 
+/* ---------- palette from an image (upload / drop) ---------- */
+let IMG=null;
+function loadImage(f){if(!f)return;if(!/^image\//.test(f.type)&&!/\.(hei[cf]|jpe?g|png|webp|gif)$/i.test(f.name)){toast('That file isn’t an image');return}
+ const url=URL.createObjectURL(f),im=new Image();
+ im.onload=()=>{const fit=(m)=>{const s=Math.min(1,m/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.naturalWidth*s));c.height=Math.max(1,Math.round(im.naturalHeight*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);return c};
+  const big=fit(1000),small=fit(200),sd=small.getContext('2d').getImageData(0,0,small.width,small.height);URL.revokeObjectURL(url);
+  IMG={name:f.name.replace(/\.[^.]+$/,'')||'image',big,data:sd.data,w:small.width,h:small.height,k:IMG?IMG.k:6,ignore:IMG?IMG.ignore:false,crop:null,picks:[],snap:false};
+  extractNow();if(cur)closeSheet();openSheet({img:true})};
+ im.onerror=()=>{URL.revokeObjectURL(url);toast(/hei[cf]$/i.test(f.name)?'This browser can’t open HEIC. Use Safari or the iPad, or export as JPEG.':'Could not open this image')};
+ im.src=url}
+function extractNow(){const c=IMG.crop;IMG.res=Extract.extract(IMG.data,IMG.w,IMG.h,{k:IMG.k,ignoreExtremes:IMG.ignore,crop:c&&{x0:c.x0*IMG.w,x1:c.x1*IMG.w,y0:c.y0*IMG.h,y1:c.y1*IMG.h}})}
+/* every colour in the image palette, extracted then hand-picked; weights are shares */
+const imgCols=()=>[...IMG.res.map(r=>({hex:r.hex,w:r.pct})),...IMG.picks.map(h=>({hex:h,w:5,picked:true}))];
+const imgShown=()=>imgCols().map(x=>IMG.snap?{...x,hex:C[nearest(x.hex,1)[0][0]].h}:x);
+/* palettes in the chosen library that resemble the image: for each library colour, its distance to the nearest image colour (weighted by
+   share so tiny accents don't carry a palette alone); lower is closer */
+function similarPals(cols,n=8){const L=cols.map(x=>({l:lab(x.hex),w:x.w}));return IDS.filter(inLibP).map(id=>{const ds=COMBOS[id].map(i=>Math.min(...L.map(p=>dE(C[i].l,p.l)+(p.w<2?6:0))));return [id,ds.reduce((a,b)=>a+b,0)/ds.length,Math.max(...ds)]}).filter(x=>x[2]<28).sort((a,b)=>a[1]-b[1]).slice(0,n)}
+function imgHTML(){return `<div class="imgtop"><div class="imgwrap"><canvas id="imgc" aria-label="Your image. Drag to use part of it; click to pick a colour."></canvas><div id="cropbox" hidden></div></div>
+ <div class="imgside"><label class="lbl">Colours <input type="range" id="imgk" min="3" max="10" value="${IMG.k}"> <b id="imgkv">${IMG.k}</b></label>
+ <label class="lbl"><input type="checkbox" id="imgx" ${IMG.ignore?'checked':''}> Leave out near-white and near-black</label>
+ <div class="seg" id="imgsnap"><button data-v="0" aria-pressed="${!IMG.snap}">As extracted</button><button data-v="1" aria-pressed="${IMG.snap}">Snap to ${esc(libName())}</button></div>
+ <button class="ibtn" id="imgcrop0" ${IMG.crop?'':'hidden'}>Use the whole image</button>
+ <p class="note">Drag on the image to use part of it. Click to pick a colour by hand. Photos shift colour with lighting: daylight and no flash work best.</p>
+ <button class="linkc" id="imgnew">Choose another image</button></div></div>
+ <div id="imgout">${imgOut()}</div>`}
+function imgOut(){const cols=imgCols(),shown=imgShown(),hs=shown.map(x=>x.hex);if(!cols.length)return '<p class="empty">No colours left: try turning off “Leave out near-white and near-black” or widen the crop.</p>';
+ const tot=cols.reduce((s,x)=>s+x.w,0),Ls=hs.map(h=>lab(h)[0]),sim=similarPals(cols);
+ return `<div class="strip pstripbig">${shown.map(x=>`<span style="background:${x.hex};flex:${x.w}" title="${x.hex}"></span>`).join('')}</div>
+ ${IMG.snap?`<p class="cap">As extracted</p><div class="strip vstrip" style="height:24px">${cols.map(x=>`<span style="background:${x.hex};flex:${x.w}"></span>`).join('')}</div>`:''}
+ <p class="cap">Value check · greyscale · lightness ${Math.round(Math.min(...Ls))}–${Math.round(Math.max(...Ls))} of 100</p>
+ <div class="strip vstrip">${shown.map((x,n)=>`<span style="background:${greyOf(hs[n])};flex:${x.w}"></span>`).join('')}</div>
+ <table class="stack"><thead><tr><th>Colour</th><th>Share</th><th>Nearest in ${esc(libName())}</th><th></th></tr></thead><tbody>
+ ${cols.map((x,n)=>{const [ni,d]=nearest(x.hex,1)[0];return `<tr><td class="code"><span class="dot" style="background:${x.hex}"></span>${x.hex}${copyBtn(x.hex)}${x.picked?' <span class="picked">picked</span>':''}</td>
+ <td class="code">${x.picked?'—':100*x.w/tot<1?'&lt;1%':Math.round(100*x.w/tot)+'%'}</td>
+ <td><span class="dot" style="background:${C[ni].h}"></span><button class="linkc" data-colour="${ni}">${esc(C[ni].n)}</button> <span class="note">ΔE ${d.toFixed(1)}</span></td>
+ <td class="code"><button class="mini wide" data-imgmix="${n}">Mix</button>${x.picked?`<button class="mini" data-imgrm="${n-IMG.res.length}" aria-label="Remove picked colour">✕</button>`:''}</td></tr>`}).join('')}</tbody></table>
+ ${!user?'<p class="note"><button class="linkc" id="signin">Sign in</button> to save this as a palette.</p>':''}
+ ${toggles()}<div class="duo"><div><p class="cap">Complementary group</p><div class="strip">${hs.map(h=>`<span style="background:${st.show==='exact'?comp(h,st.wheel):C[nearest(comp(h,st.wheel),1)[0][0]].h}"></span>`).join('')}</div></div>${wheel(hs,st.wheel)}</div>
+ ${sim.length?`<h2>Similar palettes <span class="hsub">in ${esc(libName())}, closest first</span></h2><div class="grid">${sim.map(x=>card(x[0])).join('')}</div>`:''}
+ ${artSection(hs.slice(0,6))}`}
+function imgMount(){const c=$('#imgc');if(!c)return;c.width=IMG.big.width;c.height=IMG.big.height;c.getContext('2d').drawImage(IMG.big,0,0);drawCrop()}
+function drawCrop(r=IMG.crop){const b=$('#cropbox'),c=$('#imgc');if(!b)return;b.hidden=!r;if(!r)return;const W=c.clientWidth,H=c.clientHeight;Object.assign(b.style,{left:r.x0*W+'px',top:r.y0*H+'px',width:(r.x1-r.x0)*W+'px',height:(r.y1-r.y0)*H+'px'})}
+function imgRefresh(){const o=$('#imgout');if(!o)return;const y=$('#sheet').scrollTop;o.innerHTML=imgOut();$('#imgcrop0').hidden=!IMG.crop;$('#sheet').scrollTop=y;fillArt()}
+let drag=null;
+const fracAt=(e,c)=>{const r=c.getBoundingClientRect();return [Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))]};
+document.addEventListener('pointerdown',e=>{if(e.target.id!=='imgc')return;e.preventDefault();e.target.setPointerCapture(e.pointerId);drag={a:fracAt(e,e.target),px:[e.clientX,e.clientY]}});
+document.addEventListener('pointermove',e=>{if(!drag||e.target.id!=='imgc')return;const b=fracAt(e,e.target),a=drag.a;if(Math.hypot(e.clientX-drag.px[0],e.clientY-drag.px[1])>6){drag.moved=true;drawCrop({x0:Math.min(a[0],b[0]),x1:Math.max(a[0],b[0]),y0:Math.min(a[1],b[1]),y1:Math.max(a[1],b[1])})}});
+document.addEventListener('pointerup',e=>{if(!drag)return;const c=$('#imgc'),b=fracAt(e,c),a=drag.a,moved=drag.moved;drag=null;
+ if(!moved){const h=Extract.pick(IMG.data,IMG.w,IMG.h,Math.floor(a[0]*IMG.w),Math.floor(a[1]*IMG.h));if(h&&!IMG.picks.includes(h)){IMG.picks.push(h);imgRefresh();toast('Picked '+h)}return}
+ const r={x0:Math.min(a[0],b[0]),x1:Math.max(a[0],b[0]),y0:Math.min(a[1],b[1]),y1:Math.max(a[1],b[1])};
+ if((r.x1-r.x0)*IMG.w<4||(r.y1-r.y0)*IMG.h<4){drawCrop();return}IMG.crop=r;extractNow();imgRefresh()});
+document.addEventListener('input',e=>{if(e.target.id==='imgk'){IMG.k=+e.target.value;$('#imgkv').textContent=IMG.k;clearTimeout(extractNow.t);extractNow.t=setTimeout(()=>{extractNow();imgRefresh()},60)}});
+document.addEventListener('change',e=>{if(e.target.id==='imgx'){IMG.ignore=e.target.checked;extractNow();imgRefresh()}if(e.target.id==='imgfile'){loadImage(e.target.files[0]);e.target.value=''}});
+window.addEventListener('resize',()=>drawCrop());
+let dragDepth=0;const hasFile=e=>[...(e.dataTransfer?.types||[])].includes('Files');
+document.addEventListener('dragenter',e=>{if(!hasFile(e))return;dragDepth++;document.body.classList.add('dragging')});
+document.addEventListener('dragleave',e=>{if(!hasFile(e))return;if(--dragDepth<=0){dragDepth=0;document.body.classList.remove('dragging')}});
+document.addEventListener('dragover',e=>{if(hasFile(e))e.preventDefault()});
+document.addEventListener('drop',e=>{if(!hasFile(e))return;e.preventDefault();dragDepth=0;document.body.classList.remove('dragging');loadImage(e.dataTransfer.files[0])});
+function imgAction(t){if(!IMG||!cur||!cur.img)return false;
+ if(t.id==='imgnew'){$('#imgfile').click();return true}
+ if(t.id==='imgcrop0'){IMG.crop=null;drawCrop();extractNow();imgRefresh();return true}
+ if(t.parentElement&&t.parentElement.id==='imgsnap'){IMG.snap=t.dataset.v==='1';setSeg(t.parentElement,IMG.snap?1:0);imgRefresh();return true}
+ if(t.dataset.imgrm!=null){IMG.picks.splice(+t.dataset.imgrm,1);imgRefresh();return true}
+ if(t.dataset.imgmix!=null){const x=imgCols()[+t.dataset.imgmix];if(x)openSheet({mix:x.hex,label:x.hex,backImg:true});return true}
+ if(t.id==='imgproc'){toProcreate(IMG.name,imgShown().map(x=>x.hex));return true}
+ if(t.id==='imgsave'){const cols=imgCols(),tot=cols.reduce((s,x)=>s+x.w,0);
+  const items=cols.map(x=>{const w=Math.max(1,Math.round(100*x.w/tot));if(IMG.snap)return {...fromLib(nearest(x.hex,1)[0][0]),weight:w};return {ref:null,hex:x.hex,cmyk:null,weight:w,recipe:''}});
+  newPal(items,IMG.name).then(q=>q&&(toast('Saved as '+q.name),openSheet({pal:q.id})));return true}
+ return false}
+
 /* events */
 /* header, ribbon, legend and size filter follow the chosen library */
 function drawChrome(){const ci=C.map((c,i)=>i).filter(inLibC),pi=IDS.filter(inLibP),one=st.lib!=='all'||!MULTI?(SBY[st.lib]||SOURCES[0]):null;
@@ -557,7 +643,7 @@ function drawChrome(){const ci=C.map((c,i)=>i).filter(inLibC),pi=IDS.filter(inLi
 drawChrome();
 $('#lib').addEventListener('change',e=>{st.lib=e.target.value;try{localStorage.setItem('w-lib',st.lib)}catch(x){}drawChrome();render();if(cur)openSheet(cur,true)});
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
-document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button,.tval button,#pproc,#proc-combo,[data-fav],.artseg button,#imgnew,#imgcrop0,#imgsnap button,[data-imgrm],[data-imgmix],#imgproc,#imgsave,#imgback');if(!t){const g=e.target.closest&&e.target.closest('.wheelbox .pr');if(g)g.dispatchEvent(new MouseEvent('mouseover',{bubbles:true}));return}
  if(t.id==='pproc'){const p=P(active);if(p)toProcreate(p.name,p.colours.map(itemHex));return}
  if(t.id==='proc-combo'){toProcreate(PNAME[cur.combo]||`${SBY[PSRC[cur.combo]].short} ${pnum(cur.combo)}`,COMBOS[cur.combo].map(i=>C[i].h));return}
  if(t.dataset.own){toggleOwned(t.dataset.own);return}
@@ -568,6 +654,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data
  if(t.parentElement&&t.parentElement.classList.contains('artseg')){st.artType=t.dataset.v;setSeg(t.parentElement,st.artType);const o=t.closest('.artbox').querySelector('.artout');o.innerHTML='<p class="note">Looking through Harvard Art Museums…</p>';fillArt();return}
  if(t.dataset.fav){toggleFav(+t.dataset.fav);return}
  if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromLib));return}if(t.dataset.colour){addItems([fromLib(+t.dataset.colour)]);return}}
+ if(imgAction(t))return;
+ if(t.id==='imgback'){openSheet({img:true});return}
  if(palAction(t))return;
  if(t.dataset.fam){st.tab='colours';st.chap=+t.dataset.fam;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='colours'));setSeg($('#fchap'),st.chap);render();$('.bar').scrollIntoView({behavior:'smooth'});return}
  if(t.dataset.copy){navigator.clipboard?.writeText(t.dataset.copy).then(()=>toast('Copied '+t.dataset.copy),()=>toast('Copy blocked — select the text instead'));return}

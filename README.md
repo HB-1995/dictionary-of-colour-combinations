@@ -116,6 +116,12 @@ Wada Volume 1 is the first library, not the only one. Each entry in `sources.jso
 - Once there is more than one library, a **Library** menu appears in the filter bar. It sets what you browse and what "nearest colour", complements and "Potential additions" draw from. With one library it stays hidden.
 - Colours added to your palettes remember their library; palettes saved earlier are read as Wada Volume 1.
 
+### Palette from an image
+- The **Image** button beside the search box (or dropping an image anywhere on the page) opens a palette panel. Works with JPEG, PNG, WebP, and HEIC in Safari / on the iPad.
+- `extract.js`: the extraction engine, entirely in the browser; images are never uploaded or stored. It scales the image to 200 px, buckets the pixels, clusters them in CIELAB (vivid colours weighted up so small accents survive), then merges down to the chosen count. Similar colours average; distinct ones keep the larger colour, so two accents never blend into a colour that isn't in the picture. Shares come from real pixel counts.
+- In the panel: 3–10 colours (default 6), leave out near-white and near-black, drag to crop, click to pick a colour by hand, and snap to the chosen library. Each colour shows its nearest library colour with ΔE and a Mix link. Below: value check, complements, **Similar palettes** from the chosen library (optional) and Seen in art.
+- Save as palette (signed in) stores the colours with their shares; with snap on, it stores the library colours instead. Procreate export works as elsewhere.
+
 ### Paints and mixing
 - `paints.json`: all 140 Michael Harding Artists Oil Colours (number, series, Colour Index pigments, opacity, tint power, measured masstone CIELAB by Artist Pigments), collected from michaelharding.co.uk. `mix` is the colour fed to the mixing model and `mixSource` says where it came from (measured masstone, a reference pigment colour for very dark transparent paints, or the chart swatch where the published measurement looks wrong).
 - `mix.js`: recipe solver. Tries 1-, 2- and 3-paint combinations, mixing with the Mixbox pigment model, and ranks by CIEDE2000 distance to the target. Parts are adjusted for each paint's tint power.
