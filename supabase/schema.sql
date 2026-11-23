@@ -20,3 +20,16 @@ create policy "Owner can delete" on palettes for delete using (owner = auth.uid(
 
 -- Newer Supabase projects don't grant table access to signed-in users by default.
 grant select, insert, update, delete on table public.palettes to authenticated;
+
+-- Paints you own (Michael Harding colour numbers), private to each user.
+create table if not exists owned_paints (
+  owner uuid not null default auth.uid() references auth.users on delete cascade,
+  paint_no text not null,
+  created_at timestamptz not null default now(),
+  primary key (owner, paint_no)
+);
+alter table owned_paints enable row level security;
+create policy "Owner can read owned"   on owned_paints for select using (owner = auth.uid());
+create policy "Owner can add owned"    on owned_paints for insert with check (owner = auth.uid());
+create policy "Owner can delete owned" on owned_paints for delete using (owner = auth.uid());
+grant select, insert, delete on table public.owned_paints to authenticated;

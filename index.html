@@ -55,6 +55,17 @@ input[type=color]{width:52px;height:44px;border:1px solid var(--line);border-rad
 .dockin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr) auto auto;gap:12px;align-items:center}.dstrip{height:44px}
 body.adding{padding-bottom:96px}body.adding .card,body.adding .ribbon button{cursor:copy}
 @media(max-width:700px){.dockin{grid-template-columns:1fr 1fr}.dockin>div:first-child,.dstrip{grid-column:1/-1}}
+.ptiles{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.pcard .meta{display:block}.pcard .meta span{display:block;white-space:normal}.pcard{display:flex;flex-direction:column;gap:6px}
+.pswatch{display:flex;height:84px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000000d}.pswatch span{flex:1}
+.big2{height:150px}.big2 span{display:flex;align-items:flex-end;padding:10px;font-size:13px;font-weight:700}
+.own{border:1px solid var(--line);background:var(--card);border-radius:6px;min-height:38px;font-size:14px}.own.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mini.wide{width:auto;padding:0 10px}
+.mixcols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.recipe{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.rsw{display:flex;height:72px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px #0000001a}.rsw span{flex:1}
+.rings{display:flex;flex-direction:column;gap:4px;font-size:14px}.ring i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;box-shadow:0 0 0 1px #0000001a}
+.need{font-style:normal;font-size:12px;color:#c2361f}.de{display:inline-block;margin-top:6px;font-size:13px;color:var(--mute)}.de.good{color:#2f7d45}.de.bad{color:#c2361f}.tip{margin-top:10px}
+@media(max-width:700px){.mixcols{grid-template-columns:1fr}}
 .lbl{font-size:13px;color:var(--mute)}
 select{height:42px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:0 10px}
 #count{margin-left:auto;font-size:14px;color:var(--mute)}
@@ -115,6 +126,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
     <div class="tabs" role="group" aria-label="View">
       <button data-tab="combos" aria-pressed="true">Combinations</button>
       <button data-tab="colours" aria-pressed="false">Colours</button>
+      <button data-tab="paints" aria-pressed="false">Paints</button>
       <button data-tab="mine" aria-pressed="false" hidden>My palettes</button>
     </div>
   </div>
@@ -137,8 +149,10 @@ td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 <div id="dock" hidden></div>
 <div id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="vendor/mixbox.js"></script>
+<script src="mix.js"></script>
 <script>
-fetch('colors.json').then(r=>r.json()).then(raw=>{
+Promise.all([fetch('colors.json').then(r=>r.json()),fetch('paints.json').then(r=>r.json()).catch(()=>[])]).then(([raw,paints])=>{window.__PAINTS=paints;
 const DATA={colors:raw.map(x=>({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations}))};
 const C=DATA.colors;
 const COMBOS={};C.forEach((c,i)=>c.k.forEach(k=>(COMBOS[k]??=[]).push(i)));
@@ -189,7 +203,8 @@ function search(q){q=q.trim();const lq=q.toLowerCase();let m,cols=[],combos=[],n
  return {cols,combos,note}}
 
 function render(){const v=$('#view');
- $('.bar').hidden=st.tab==='mine'&&!st.q.trim();
+ $('.bar').hidden=(st.tab==='mine'&&!st.q.trim())||st.tab==='paints';
+ if(st.tab==='paints'){v.innerHTML=paintsView();return}
  if(st.q.trim()){const r=search(st.q);r.combos=r.combos.filter(id=>(!st.size||COMBOS[id].length===st.size)&&(!st.chap||COMBOS[id].some(i=>C[i].s===st.chap)));$('#count').textContent=`${r.cols.length} colours · ${r.combos.length} combinations`;
   v.innerHTML=(r.note?`<p class="note">${r.note}</p>`:'')+(r.cols.length?`<h2>Colours</h2><div class="tiles">${r.cols.map(tile).join('')}</div>`:'')+(r.combos.length?`<h2>Combinations</h2><div class="grid">${r.combos.map(card).join('')}</div>`:'')+(!r.cols.length&&!r.combos.length?'<p class="empty">Nothing matches. Try a colour name, a combination number, a hex code or four CMYK numbers.</p>':'');return}
  if(st.tab==='combos'){const L=filtered();$('#count').textContent=`${L.length} of ${IDS.length} combinations`;v.innerHTML=L.length?`<div class="grid">${L.map(card).join('')}</div>`:'<p class="empty">No combinations match these filters.</p>'}
@@ -234,19 +249,23 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  <div class="duo"><table><thead><tr><th>Wheel</th><th>Exact</th><th>Nearest Wada</th></tr></thead><tbody>
  ${[["Painter's (RYB)",pr],['Screen (RGB)',rg]].map(([n,x])=>`<tr><td>${n}</td><td class="code"><span class="dot" style="background:${x.ex}"></span>${x.ex}</td><td><span class="dot" style="background:${C[x.ni].h}"></span><button class="linkc" data-colour="${x.ni}">${esc(C[x.ni].n)}</button></td></tr>`).join('')}</tbody></table>${wheel([c.h],st.wheel)}</div>
  ${neutral(i)?'<p class="note">This is a near-neutral colour, so its complement is weak and best treated as a temperature shift.</p>':''}
+ ${mixSection(c.h)}
  <h2>In ${c.k.length} combination${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;let title,body,extra='',hsh='';
  if(o.combo){const fav=favs.includes(o.combo);title=`Combination ${o.combo}`;body=groupHTML(COMBOS[o.combo],o.combo);extra=(user?`<button class="ibtn" id="fav">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
+ else if(o.paint){const p=PBY[o.paint];if(!p)return closeSheet();title=p.name;body=paintHTML(o.paint);hsh='paint-'+o.paint}
+ else if(o.mix){title='Mix: '+o.label;body=(o.back?`<p><button class="linkc" data-pal="${o.back}">← Back to palette</button></p>`:'')+`<div class="sw-hero" style="background:${o.mix};color:${textOn(o.mix)}">${esc(o.label)} · ${o.mix}</div>`+mixSection(o.mix)}
  else{title=C[o.colour].n;body=colourHTML(o.colour);extra=addBtn('colour');hsh='colour-'+o.colour}
  $('#stitle').textContent=title;$('#sextra').innerHTML=extra;$('#sbody').innerHTML=body;
  document.body.classList.add('open');if(hsh&&location.hash.slice(1)!==hsh)location.hash=hsh;
- if(keep)$('#sheet').scrollTop=y;else{$('#sheet').scrollTop=0;$('#close').focus()}}
+ if(keep)$('#sheet').scrollTop=y;else{$('#sheet').scrollTop=0;$('#close').focus()}
+ fillMix()}
 function closeSheet(){cur=null;document.body.classList.remove('open');if(location.hash)location.hash=''}
 function fromHash(){const h=location.hash.slice(1);let m;
- if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if(m=h.match(/^palette-([0-9a-f-]+)$/)){if(P(m[1]))openSheet({pal:m[1]})}else if(cur)closeSheet()}
+ if(m=h.match(/^combo-(\d+)$/))COMBOS[+m[1]]&&openSheet({combo:+m[1]});else if(m=h.match(/^colour-(\d+)$/))C[+m[1]]&&openSheet({colour:+m[1]});else if((m=h.match(/^paint-(\d+)$/))&&PBY&&PBY[m[1]])openSheet({paint:m[1]});else if(m=h.match(/^palette-([0-9a-f-]+)$/)){if(P(m[1]))openSheet({pal:m[1]})}else if(cur)closeSheet()}
 
 function toast(t){const e=$('#toast');e.textContent=t;e.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.opacity=0,1400)}
 function setSeg(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v==String(v)))}
@@ -311,7 +330,7 @@ function palHTML(p){const hs=p.colours.map(itemHex),Ls=hs.map(h=>lab(h)[0]),tot=
  <td class="code">${h}${x.cmyk?`<br>${x.cmyk.join(' / ')}${x.ref==null?' (approx.)':''}`:''}</td>
  <td class="code"><input class="wt" type="number" min="0" max="100" step="1" value="${wOf(x)}" data-wt="${n}" aria-label="Share of ${esc(itemName(x))}"> ${Math.round(100*wOf(x)/tot)}%</td>
  <td><input class="field rec" data-rec="${n}" value="${esc(x.recipe||'')}" placeholder="e.g. burnt sienna + white" aria-label="Paint mix for ${esc(itemName(x))}"></td>
- <td class="code"><button class="mini" data-mv="${n},-1" aria-label="Move up">↑</button><button class="mini" data-mv="${n},1" aria-label="Move down">↓</button><button class="mini" data-rm="${n}" aria-label="Remove">✕</button></td></tr>`}).join('')}
+ <td class="code"><button class="mini" data-mv="${n},-1" aria-label="Move up">↑</button><button class="mini" data-mv="${n},1" aria-label="Move down">↓</button><button class="mini wide" data-mixrow="${n}">Mix</button><button class="mini" data-rm="${n}" aria-label="Remove">✕</button></td></tr>`}).join('')}
  </tbody></table>`:'<p class="empty">Empty palette. Add colours from the site, a suggestion, or a custom colour below.</p>'}
  <p class="note">Share sets how much of the canvas each colour takes; the strips above draw to scale.</p>
  <h2>Add a custom colour</h2>
@@ -361,19 +380,80 @@ document.addEventListener('drop',e=>{const r=e.target.closest&&e.target.closest(
  const to=+r.dataset.row,[it]=p.colours.splice(dragFrom,1);p.colours.splice(to,0,it);dragFrom=null;save(p);openSheet(cur,true)});
 document.addEventListener('dragend',()=>{dragFrom=null;document.querySelectorAll('tr.dragover').forEach(x=>x.classList.remove('dragover'))});
 
+/* ---------- Michael Harding paints, owned paints and mixing ---------- */
+const PAINTS=(window.__PAINTS||[]).filter(p=>p.availability!=='Withdrawn');
+const MIXER=window.makeMixer&&window.mixbox?window.makeMixer(window.mixbox):null;
+const PALL=MIXER?MIXER.prepare(PAINTS):[];
+const PBY={};PAINTS.forEach(p=>PBY[p.no]=p);
+let owned=new Set();const mixCache={};
+const FAMS=['Whites','Yellows and Oranges','Reds and Violets','Blues and Greens','Browns','Greys and Blacks'];
+const pst={own:false,fam:''};
+async function loadOwned(){const {data,error}=await sb.from('owned_paints').select('paint_no');if(error){console.error('owned',error);toast('Could not load your paints');return}
+ owned=new Set(data.map(r=>r.paint_no));for(const k in mixCache)delete mixCache[k];if(st.tab==='paints')render();if(cur&&(cur.colour!=null||cur.mix||cur.paint))openSheet(cur,true)}
+async function toggleOwned(no){const had=owned.has(no);had?owned.delete(no):owned.add(no);for(const k in mixCache)delete mixCache[k];
+ const q=had?sb.from('owned_paints').delete().eq('paint_no',no):sb.from('owned_paints').insert({paint_no:no});const {error}=await q;
+ if(error){had?owned.add(no):owned.delete(no);toast('Could not save — check your connection')}
+ if(st.tab==='paints')render();if(cur&&cur.paint)openSheet(cur,true)}
+const paintCard=p=>`<div class="pcard"><button class="card" data-paint="${p.no}"><div class="pswatch"><span style="background:${p.masstone}" title="Measured masstone"></span><span style="background:${p.swatch}" title="Chart swatch"></span></div>
+ <div class="meta"><b>${esc(p.name)}</b><span>No. ${p.no} · Series ${p.series} · ${esc(p.pigments.join(', '))}</span><span>${esc(p.opacity)} · tint ${esc(p.tint.toLowerCase())}</span></div></button>
+ ${user?`<button class="own ${owned.has(p.no)?'on':''}" data-own="${p.no}" aria-pressed="${owned.has(p.no)}">${owned.has(p.no)?'✓ I have this':'+ I have this'}</button>`:''}</div>`;
+function paintsView(){let L=PAINTS.filter(p=>(!pst.own||owned.has(p.no))&&(!pst.fam||p.family===pst.fam));
+ const q=st.q.trim().toLowerCase();if(q)L=L.filter(p=>p.name.toLowerCase().includes(q)||p.no===q.replace(/^no\.?\s*/,'')||p.pigments.some(g=>g.toLowerCase()===q.replace(/\s/g,'')));
+ $('#count').textContent='';
+ const ctl=`<div class="row-actions"><div class="seg" id="pfam">${['',...FAMS].map(f=>`<button data-v="${esc(f)}" aria-pressed="${pst.fam===f}">${f?esc(f):'All'}</button>`).join('')}</div>
+ ${user?`<div class="seg" id="pown"><button data-v="0" aria-pressed="${!pst.own}">All paints</button><button data-v="1" aria-pressed="${pst.own}">Mine (${owned.size})</button></div>`:'<span class="note"><button class="linkc" id="signin">Sign in</button> to tick the paints you own.</span>'}</div>
+ <p class="note">Michael Harding Artists Oil Colours: ${PAINTS.length} colours. Left swatch: measured masstone (straight from the tube). Right: the chart swatch. Data from michaelharding.co.uk; measurements by Artist Pigments.</p>`;
+ if(!L.length)return ctl+`<p class="empty">${pst.own?'No paints ticked yet. Tick “I have this” on the paints you own.':'No paints match.'}</p>`;
+ return ctl+FAMS.filter(f=>L.some(p=>p.family===f)).map(f=>`<h2>${esc(f)} <span class="hsub">${L.filter(p=>p.family===f).length}</span></h2><div class="tiles ptiles">${L.filter(p=>p.family===f).map(paintCard).join('')}</div>`).join('')}
+
+function paintHTML(no){const p=PBY[no],nn=nearest(p.masstone,4);
+ return `<div class="pswatch big2"><span style="background:${p.masstone};color:${textOn(p.masstone)}">Masstone (measured)</span><span style="background:${p.swatch};color:${textOn(p.swatch)}">Chart swatch</span></div>
+ ${user?`<div class="row-actions"><button class="own ${owned.has(no)?'on':''}" data-own="${no}" aria-pressed="${owned.has(no)}">${owned.has(no)?'✓ I have this':'+ I have this'}</button></div>`:''}
+ <table class="stack"><tbody>${[['Number',`No. ${p.no} · Series ${p.series}`],['Pigments',p.pigments.join(', ')],['Opacity',p.opacity],['Tint power',p.tint],['Temperature',p.temp],['Drying',p.drying],['Lightfastness',p.lightfast],['Oil',p.oil],['Toxic',p.toxic?'Yes — read the label':'No'],['Masstone CIELAB',p.lab.join(' / ')],['Used for mixing',`${p.mix} (${p.mixSource})`]].map(([k,v])=>`<tr><td class="lbl">${k}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+ ${p.note?`<p class="note">${esc(p.note)}</p>`:''}
+ <p><a href="https://michaelharding.co.uk/oil-colours/${p.slug}">View on michaelharding.co.uk</a></p>
+ <h2>Closest Wada colours</h2><div class="tiles">${nn.map(x=>tile(x[0])).join('')}</div>`}
+
+const closeness=de=>de<2?['Near-identical','good']:de<5?['Close','good']:de<10?['Noticeable difference','mid']:['Far: outside what these paints can reach','bad'];
+const fmtParts=n=>n===0.5?'½':n%1?`${Math.floor(n)}½`:String(n);
+function recipeHTML(r,target){const [lab,cls]=closeness(r.de);
+ return `<div class="recipe"><div class="rsw"><span style="background:${target}" title="Target"></span><span style="background:${r.hex}" title="Predicted mix"></span></div>
+ <div><div class="rings">${r.paints.map(p=>`<span class="ring"><i style="background:${PBY[p.no].swatch}"></i><b>${fmtParts(p.parts)}</b> ${esc(p.name)}${user&&!owned.has(p.no)?' <em class="need">not owned</em>':''}</span>`).join('')}</div>
+ <span class="de ${cls}">${lab} · ΔE ${r.de.toFixed(1)}</span></div></div>`}
+function mixSection(hex){return MIXER?`<h2>Mix it in Michael Harding oils</h2><div class="mixout" data-mixhex="${hex}"><p class="note">Working out recipes…</p></div>`:''}
+function fillMix(){const el=document.querySelector('.mixout[data-mixhex]');if(!el||!MIXER)return;const hex=el.dataset.mixhex;
+ const key=hex+'|'+[...owned].sort().join(',');
+ const run=()=>{if(!mixCache[key]){const all=MIXER.solve(hex,PALL);let mine=null,tip=null;
+   if(user&&owned.size){const mineP=PALL.filter(p=>owned.has(p.no));mine=MIXER.solve(hex,mineP);
+    if(mine.length&&all.length&&mine[0].de>all[0].de+3){const extra=[...new Set(all.flatMap(r=>r.paints.map(p=>p.no)))].filter(n=>!owned.has(n)).slice(0,4);
+     let best=null;extra.forEach(n=>{const r=MIXER.solve(hex,mineP.concat(PALL.filter(p=>p.no===n)),{top:1,cand:10})[0];if(r&&(!best||r.de<best.de))best={no:n,de:r.de}});
+     if(best&&best.de<mine[0].de-2)tip=best}}
+   mixCache[key]={all,mine,tip}}
+  const {all,mine,tip}=mixCache[key],cell=document.querySelector(`.mixout[data-mixhex="${hex}"]`);if(!cell)return;
+  cell.innerHTML=`<div class="mixcols"><div><p class="cap">With every Michael Harding colour</p>${all.map(r=>recipeHTML(r,hex)).join('')}</div>
+   <div><p class="cap">With your paints</p>${!user?'<p class="note"><button class="linkc" id="signin">Sign in</button> and tick the paints you own to see what you can mix today.</p>':!owned.size?'<p class="note">Tick the paints you own in the <button class="linkc" data-tab="paints">Paints</button> tab.</p>':mine.map(r=>recipeHTML(r,hex)).join('')}
+   ${tip?`<p class="note tip">Adding <button class="linkc" data-paint="${tip.no}">${esc(PBY[tip.no].name)}</button> would get you to ΔE ${tip.de.toFixed(1)}.</p>`:''}</div></div>
+   <p class="note">Parts are by volume, adjusted for each paint's tinting strength. The predictions use the Mixbox pigment model and Michael Harding's published masstone data: treat them as a starting point and adjust by eye. ΔE under 2 is near-invisible; over 10 is clearly different.</p>`};
+ setTimeout(run,30)}
+
 /* events */
 $('#legend').innerHTML=[1,2,3,4,5,6].map(s=>`<button data-fam="${s}" style="flex:${C.filter(c=>c.s===s).length}" title="Show ${GROUPS[s]}">${GSHORT[s]}</button>`).join('');
 $('#fsize').innerHTML=[0,...[...new Set(IDS.map(id=>COMBOS[id].length))].sort((a,b)=>a-b)].map(v=>`<button data-v="${v}" aria-pressed="${v===0}">${v||'All'}</button>`).join('');
 $('#fchap').innerHTML=GSHORT.map((n,v)=>`<button data-v="${v}" aria-pressed="${v===0}">${v?`<i class="gd" style="background:${GDOT[v]}"></i>`:''}${n}</button>`).join('');
 $('#ribbon').innerHTML=C.map((c,i)=>[i,c]).sort((a,b)=>a[1].s-b[1].s||hsl(a[1].h)[0]-hsl(b[1].h)[0]).map(([i,c])=>`<button data-colour="${i}" style="background:${c.h}" title="${esc(c.n)}" aria-label="${esc(c.n)}"></button>`).join('');
-document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour');if(!t)return;
+document.addEventListener('click',e=>{const t=e.target.closest('[data-fam],[data-combo],[data-colour],[data-pal],[data-sugg],[data-mv],[data-rm],[data-copy],[data-tab],#fsize button,#fchap button,#twheel button,#tshow button,#fav,#close,#scrim,#newpal,#addmode,#cadd,#pdup,#pdel,#dockopen,#dockdone,#signin,#signout,#add-combo,#add-colour,[data-paint],[data-own],[data-mixrow],#pfam button,#pown button');if(!t)return;
+ if(t.dataset.own){toggleOwned(t.dataset.own);return}
+ if(t.dataset.paint&&!adding){openSheet({paint:t.dataset.paint});return}
+ if(t.dataset.mixrow!=null){const p=P(active),x=p&&p.colours[+t.dataset.mixrow];if(x)openSheet({mix:itemHex(x),label:itemName(x),back:p.id});return}
+ if(t.parentElement.id==='pfam'){pst.fam=t.dataset.v;render();return}
+ if(t.parentElement.id==='pown'){pst.own=t.dataset.v==='1';render();return}
  if(adding&&P(active)&&!t.closest('#sheet,#dock')){if(t.dataset.combo){addItems(COMBOS[+t.dataset.combo].map(fromWada));return}if(t.dataset.colour){addItems([fromWada(+t.dataset.colour)]);return}}
  if(palAction(t))return;
  if(t.dataset.fam){st.tab='colours';st.chap=+t.dataset.fam;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tab==='colours'));setSeg($('#fchap'),st.chap);render();$('.bar').scrollIntoView({behavior:'smooth'});return}
  if(t.dataset.copy){navigator.clipboard?.writeText(t.dataset.copy).then(()=>toast('Copied '+t.dataset.copy),()=>toast('Copy blocked — select the text instead'));return}
  if(t.id==='close'||t.id==='scrim')return closeSheet();
  if(t.id==='fav'){const id=cur.combo;favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];saveFavs();t.textContent=favs.includes(id)?'★ Saved':'☆ Save';if(st.tab==='mine')render();return}
- if(t.dataset.tab){st.tab=t.dataset.tab;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===t));render();return}
+ if(t.dataset.tab){if(cur)closeSheet();st.tab=t.dataset.tab;st.q='';$('#q').value='';document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',b===t));render();return}
  const p=t.parentElement;
  if(p.id==='fsize'){st.size=+t.dataset.v;setSeg(p,st.size);render();return}
  if(p.id==='fchap'){st.chap=+t.dataset.v;setSeg(p,st.chap);render();return}
@@ -384,7 +464,7 @@ $('#sort').addEventListener('change',e=>{st.sort=e.target.value;render()});
 let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},120)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur)closeSheet();if(e.key==='/'&&document.activeElement!==$('#q')){e.preventDefault();$('#q').focus()}});
 window.addEventListener('hashchange',fromHash);
-if(sb)sb.auth.onAuthStateChange((ev,s)=>{const was=user&&user.id;user=s&&s.user||null;authUI();if(user&&user.id!==was)setTimeout(loadPals,0);if(!user){pals=[];active=null;adding=false;dock();if(cur&&cur.pal)closeSheet();render()}});
+if(sb)sb.auth.onAuthStateChange((ev,s)=>{const was=user&&user.id;user=s&&s.user||null;authUI();if(user&&user.id!==was)setTimeout(()=>{loadPals();loadOwned()},0);if(!user){pals=[];owned=new Set();active=null;adding=false;dock();if(cur&&cur.pal)closeSheet();render()}});
 authUI();render();fromHash();
 }).catch(()=>{document.getElementById('view').innerHTML='<p class="empty">Could not load the colour data.</p>'});
 </script>

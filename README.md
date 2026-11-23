@@ -101,3 +101,8 @@ MIT, see [LICENSE.md](http://github.com/mattdesl/dictionary-of-colour-combinatio
 
 Changes in this fork:
 - Dull Violet Black corrected to CMYK 100 / 90 / 38 / 50 (checked against the printed book); RGB, hex and Lab recalculated with the same SWOP → sRGB conversion as the rest of the data.
+
+### Paints and mixing
+- `paints.json`: all 140 Michael Harding Artists Oil Colours (number, series, Colour Index pigments, opacity, tint power, measured masstone CIELAB by Artist Pigments), collected from michaelharding.co.uk. `mix` is the colour fed to the mixing model and `mixSource` says where it came from (measured masstone, a reference pigment colour for very dark transparent paints, or the chart swatch where the published measurement looks wrong).
+- `mix.js`: recipe solver. Tries 1-, 2- and 3-paint combinations, mixing with the Mixbox pigment model, and ranks by CIEDE2000 distance to the target. Parts are adjusted for each paint's tint power.
+- `vendor/mixbox.js`: Mixbox 2.0 by Secret Weapons, CC BY-NC 4.0 (non-commercial use only); see `vendor/MIXBOX-LICENSE`.

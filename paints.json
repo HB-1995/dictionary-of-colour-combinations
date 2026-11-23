@@ -1,0 +1,3993 @@
+[
+ {
+  "no": "101",
+  "name": "Titanium White No. 1",
+  "series": 1,
+  "pigments": [
+   "PW6"
+  ],
+  "opacity": "Very Opaque",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Very Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F8F3E1",
+  "lab": [
+   95.95,
+   -0.67,
+   9.26
+  ],
+  "masstone": "#FAF3E1",
+  "mix": "#FAF3E1",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "titanium-white-no-1-101",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Safflower Oil"
+ },
+ {
+  "no": "102",
+  "name": "Titanium White No. 2",
+  "series": 1,
+  "pigments": [
+   "PW6"
+  ],
+  "opacity": "Very Opaque",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F8F8F8",
+  "lab": [
+   95.42,
+   -0.1,
+   12.58
+  ],
+  "masstone": "#FCF1DA",
+  "mix": "#FCF1DA",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "titanium-white-no-2-102",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "130",
+  "name": "Titanium White No. 3",
+  "series": 1,
+  "pigments": [
+   "PW6"
+  ],
+  "opacity": "Very Opaque",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F8F4E6",
+  "lab": [
+   96.09,
+   -0.42,
+   7.29
+  ],
+  "masstone": "#F9F3E6",
+  "mix": "#F9F3E6",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "titanium-white-no-3-130",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "307",
+  "name": "Cremnitz White in Walnut Oil",
+  "series": 3,
+  "pigments": [
+   "PW1"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F8F7F5",
+  "lab": [
+   94.89,
+   -0.6,
+   8.84
+  ],
+  "masstone": "#F7F0DF",
+  "mix": "#F7F0DF",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cremnitz-white-in-walnut-oil-307",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Walnut Oil"
+ },
+ {
+  "no": "308",
+  "name": "Cremnitz White in Linseed Oil",
+  "series": 3,
+  "pigments": [
+   "PW1"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F5ECD5",
+  "lab": [
+   93.53,
+   0.39,
+   12.04
+  ],
+  "masstone": "#F7EBD5",
+  "mix": "#F7EBD5",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cremnitz-white-in-linseed-oil-308",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "225",
+  "name": "Foundation White",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PW1"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F6F2E1",
+  "lab": [
+   95.43,
+   -0.69,
+   8.5
+  ],
+  "masstone": "#F8F2E1",
+  "mix": "#F8F2E1",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "foundation-white-225",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "137",
+  "name": "Warm White",
+  "series": 1,
+  "pigments": [
+   "PW6",
+   "PY43",
+   "PY74"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F9F1D6",
+  "lab": [
+   95.23,
+   -0.41,
+   13.88
+  ],
+  "masstone": "#FCF1D7",
+  "mix": "#FCF1D7",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "warm-white-137",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "703",
+  "name": "Stack Lead White",
+  "series": 7,
+  "pigments": [
+   "PW1"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F1EAD3",
+  "lab": [
+   92.85,
+   -0.59,
+   12.1
+  ],
+  "masstone": "#F3EAD3",
+  "mix": "#F3EAD3",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "stack-lead-white-703",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "117",
+  "name": "Unbleached Titanium Dioxide",
+  "series": 1,
+  "pigments": [
+   "PW6.1"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#C5B9A6",
+  "lab": [
+   70.28,
+   2.34,
+   16.67
+  ],
+  "masstone": "#BCA98E",
+  "mix": "#BCA98E",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "unbleached-titanium-dioxide-117",
+  "family": "Whites",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "512",
+  "name": "Lead Tin Yellow Light",
+  "series": 5,
+  "pigments": [
+   "PY41"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Not tested",
+  "toxic": true,
+  "swatch": "#F3E5A5",
+  "lab": [
+   90.84,
+   -1.85,
+   32.91
+  ],
+  "masstone": "#F8E4A6",
+  "mix": "#F8E4A6",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "lead-tin-yellow-light-512",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "514",
+  "name": "Lead Tin Yellow Lemon",
+  "series": 5,
+  "pigments": [
+   "PY41"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#FDF19B",
+  "lab": [
+   89.08,
+   -1.32,
+   46.53
+  ],
+  "masstone": "#FBDE86",
+  "mix": "#FBDE86",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "lead-tin-yellow-lemon-514",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "108",
+  "name": "Lemon Yellow",
+  "series": 1,
+  "pigments": [
+   "PY31"
+  ],
+  "opacity": "Opaque",
+  "tint": "Low",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F6ED8A",
+  "lab": [
+   92.83,
+   -6.6,
+   48.75
+  ],
+  "masstone": "#FDEC8B",
+  "mix": "#FDEC8B",
+  "mixSource": "measured",
+  "strength": 0.6,
+  "slug": "lemon-yellow-108",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "248",
+  "name": "Citron",
+  "series": 2,
+  "pigments": [
+   "PY175"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FBE900",
+  "lab": [
+   86.78,
+   5.21,
+   87.72
+  ],
+  "masstone": "#FFD200",
+  "mix": "#FFD200",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "citron-248",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "401",
+  "name": "Cadmium Yellow Lemon",
+  "series": 4,
+  "pigments": [
+   "PY35"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FBEA0B",
+  "lab": [
+   91.14,
+   -5.97,
+   82.36
+  ],
+  "masstone": "#FFE533",
+  "mix": "#FFE533",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cadmium-yellow-lemon-401",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "413",
+  "name": "Bismuth Vanadate",
+  "series": 4,
+  "pigments": [
+   "PY184"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#E6D300",
+  "lab": [
+   91.38,
+   -2.76,
+   80.78
+  ],
+  "masstone": "#FFE43A",
+  "mix": "#FFE43A",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "bismuth-vanadate-413",
+  "family": "Yellows and Oranges",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "109",
+  "name": "Bright Yellow Lake",
+  "series": 1,
+  "pigments": [
+   "PY3"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFE800",
+  "lab": [
+   83.26,
+   11.38,
+   110.49
+  ],
+  "masstone": "#FFC400",
+  "mix": "#FFC400",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "bright-yellow-lake-109",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "110",
+  "name": "Yellow Lake",
+  "series": 1,
+  "pigments": [
+   "PY74"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFD700",
+  "lab": [
+   87.75,
+   1.14,
+   98.57
+  ],
+  "masstone": "#FFD700",
+  "mix": "#FFD700",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "yellow-lake-110",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "236",
+  "name": "Yellow Benzimidazolone",
+  "series": 2,
+  "pigments": [
+   "PY154"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFD900",
+  "lab": [
+   83.61,
+   15.84,
+   96.36
+  ],
+  "masstone": "#FFC200",
+  "mix": "#FFC200",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "yellow-benzimidazolone-236",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "315",
+  "name": "Hansa Yellow Medium",
+  "series": 3,
+  "pigments": [
+   "PY97"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFD700",
+  "lab": [
+   78.82,
+   17.41,
+   99.27
+  ],
+  "masstone": "#FFB400",
+  "mix": "#FFB400",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "hansa-yellow-medium-315",
+  "family": "Yellows and Oranges",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "402",
+  "name": "Cadmium Yellow",
+  "series": 4,
+  "pigments": [
+   "PY35"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFD300",
+  "lab": [
+   84.48,
+   14.77,
+   92.71
+  ],
+  "masstone": "#FFC500",
+  "mix": "#FFC500",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-yellow-402",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "501",
+  "name": "Cobalt Yellow (Aureolin)",
+  "series": 5,
+  "pigments": [
+   "PY40"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFC505",
+  "lab": [
+   73.19,
+   18.68,
+   92.87
+  ],
+  "masstone": "#F3A400",
+  "mix": "#F3A400",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-yellow-aureolin-501",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "403",
+  "name": "Cadmium Golden Yellow",
+  "series": 4,
+  "pigments": [
+   "PY35"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FF9900",
+  "lab": [
+   75.67,
+   31.14,
+   81.02
+  ],
+  "masstone": "#FFA100",
+  "mix": "#FFA100",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-golden-yellow-403",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "203",
+  "name": "Indian Yellow",
+  "series": 2,
+  "pigments": [
+   "PY83"
+  ],
+  "opacity": "Very Transparent",
+  "tint": "Very High",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FFBF00",
+  "lab": [
+   65.51,
+   47.86,
+   98.26
+  ],
+  "masstone": "#FF7600",
+  "mix": "#FF7600",
+  "mixSource": "measured",
+  "strength": 2.5,
+  "slug": "indian-yellow-203",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "404",
+  "name": "Cadmium Yellow Deep",
+  "series": 4,
+  "pigments": [
+   "PY35"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F1901C",
+  "lab": [
+   75.39,
+   37.85,
+   81.94
+  ],
+  "masstone": "#FF9B00",
+  "mix": "#FF9B00",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-yellow-deep-404",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "202",
+  "name": "Yellow Lake Deep",
+  "series": 2,
+  "pigments": [
+   "PY139"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FF9D0A",
+  "lab": [
+   74.61,
+   40.58,
+   86.27
+  ],
+  "masstone": "#FF9600",
+  "mix": "#FF9600",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "yellow-lake-deep-202",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "411",
+  "name": "Quinacridone Gold",
+  "series": 4,
+  "pigments": [
+   "PY150",
+   "PR209",
+   "PV19"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#D35B0C",
+  "lab": [
+   32.18,
+   20.87,
+   20.2
+  ],
+  "masstone": "#723E2D",
+  "mix": "#723E2D",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "quinacridone-gold-411",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "204",
+  "name": "Indian Yellow Red Shade",
+  "series": 2,
+  "pigments": [
+   "PY83",
+   "PR101"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#E57E2F",
+  "lab": [
+   42.92,
+   43.07,
+   63.83
+  ],
+  "masstone": "#B14100",
+  "mix": "#B14100",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "indian-yellow-red-shade-204",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "226",
+  "name": "Warm Light Yellow",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PY43",
+   "PY74"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F8D4AF",
+  "lab": [
+   87.44,
+   9.08,
+   23.31
+  ],
+  "masstone": "#FCD4AF",
+  "mix": "#FCD4AF",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "warm-light-yellow-226",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "249",
+  "name": "Warm Yellow",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PY83"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#E0B738",
+  "lab": [
+   89.2,
+   11.1,
+   64.61
+  ],
+  "masstone": "#FFD661",
+  "mix": "#FFD661",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "warm-yellow-249",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "235",
+  "name": "Turners Yellow",
+  "series": 2,
+  "pigments": [
+   "PY216"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F8C134",
+  "lab": [
+   81.22,
+   17.04,
+   67.49
+  ],
+  "masstone": "#FFBB45",
+  "mix": "#FFBB45",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "turners-yellow-235",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "218",
+  "name": "Naples Yellow",
+  "series": 2,
+  "pigments": [
+   "PBr24"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#D68E3A",
+  "lab": [
+   65.52,
+   22.82,
+   54.38
+  ],
+  "masstone": "#DC8E3B",
+  "mix": "#DC8E3B",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "naples-yellow-218",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "605",
+  "name": "Genuine Naples Yellow Light",
+  "series": 6,
+  "pigments": [
+   "PY41"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F8D242",
+  "lab": [
+   85.73,
+   3.2,
+   71.85
+  ],
+  "masstone": "#FFD144",
+  "mix": "#FFD144",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "genuine-naples-yellow-light-605",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "606",
+  "name": "Genuine Naples Yellow Dark",
+  "series": 6,
+  "pigments": [
+   "PY41"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#F4A32A",
+  "lab": [
+   72.23,
+   14.84,
+   61.49
+  ],
+  "masstone": "#E6A53B",
+  "mix": "#E6A53B",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "genuine-naples-yellow-dark-606",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "246",
+  "name": "Brilliant Orange",
+  "series": 2,
+  "pigments": [
+   "PO62"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#E36C09",
+  "lab": [
+   67.57,
+   49.31,
+   67.97
+  ],
+  "masstone": "#FF7B22",
+  "mix": "#FF7B22",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "brilliant-orange-246",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "502",
+  "name": "Cadmium Orange",
+  "series": 5,
+  "pigments": [
+   "PO20"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F53C15",
+  "lab": [
+   62.86,
+   58.54,
+   60.04
+  ],
+  "masstone": "#FF632C",
+  "mix": "#FF632C",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-orange-502",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "222",
+  "name": "Permanent Orange",
+  "series": 2,
+  "pigments": [
+   "PO73"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FF4500",
+  "lab": [
+   56.28,
+   65.91,
+   76.58
+  ],
+  "masstone": "#F94400",
+  "mix": "#F94400",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "permanent-orange-222",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "256",
+  "name": "Amber",
+  "series": 2,
+  "pigments": [
+   "PY74",
+   "PR170",
+   "PY3"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#CC411C",
+  "lab": [
+   44.48,
+   64.5,
+   53.81
+  ],
+  "masstone": "#CF1E0D",
+  "mix": "#CF1E0D",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "amber-256",
+  "family": "Yellows and Oranges",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "245",
+  "name": "Orange Sunset",
+  "series": 2,
+  "pigments": [
+   "PO34"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Good",
+  "toxic": false,
+  "swatch": "#D93122",
+  "lab": [
+   46.97,
+   62.31,
+   62.02
+  ],
+  "masstone": "#D52E00",
+  "mix": "#D52E00",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "orange-sunset-245",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "234",
+  "name": "Orange Benzimidazolone",
+  "series": 2,
+  "pigments": [
+   "PO36.1"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#FF4500",
+  "lab": [
+   47.6,
+   60.54,
+   54.61
+  ],
+  "masstone": "#D43412",
+  "mix": "#D43412",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "orange-benzimidazolone-234",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "503",
+  "name": "Cadmium Red Light",
+  "series": 5,
+  "pigments": [
+   "PR108"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#D12820",
+  "lab": [
+   51.68,
+   61.84,
+   40.73
+  ],
+  "masstone": "#E13F39",
+  "mix": "#E13F39",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-red-light-503",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "301",
+  "name": "Napthol Red",
+  "series": 3,
+  "pigments": [
+   "PR188"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#CC1D06",
+  "lab": [
+   45.17,
+   58.4,
+   43.69
+  ],
+  "masstone": "#C93125",
+  "mix": "#C93125",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "napthol-red-301",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "230",
+  "name": "Pyrrole Red",
+  "series": 2,
+  "pigments": [
+   "PR254"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#E31D2F",
+  "lab": [
+   39.42,
+   65.87,
+   49.12
+  ],
+  "masstone": "#BF000D",
+  "mix": "#BF000D",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "pyrrole-red-230",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "205",
+  "name": "Scarlet Lake",
+  "series": 2,
+  "pigments": [
+   "PR170"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#A20D1B",
+  "lab": [
+   41.81,
+   63.82,
+   45.46
+  ],
+  "masstone": "#C4141B",
+  "mix": "#C4141B",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "scarlet-lake-205",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "504",
+  "name": "Cadmium Red",
+  "series": 5,
+  "pigments": [
+   "PR108"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#C60808",
+  "lab": [
+   46.07,
+   58.13,
+   31.03
+  ],
+  "masstone": "#C9353D",
+  "mix": "#C9353D",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-red-504",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "505",
+  "name": "Cadmium Red Deep",
+  "series": 5,
+  "pigments": [
+   "PR108"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#920F0E",
+  "lab": [
+   42.8,
+   53.02,
+   24.78
+  ],
+  "masstone": "#B8343F",
+  "mix": "#B8343F",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-red-deep-505",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "406",
+  "name": "Crimson Lake",
+  "series": 4,
+  "pigments": [
+   "PR149"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#8A070B",
+  "lab": [
+   24.48,
+   51.26,
+   34.22
+  ],
+  "masstone": "#800007",
+  "mix": "#800007",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "crimson-lake-406",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "320",
+  "name": "Pyrrole Crimson",
+  "series": 3,
+  "pigments": [
+   "PR264"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#880D0D",
+  "lab": [
+   32.21,
+   58.32,
+   32.16
+  ],
+  "masstone": "#9F001D",
+  "mix": "#9F001D",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "pyrrole-crimson-320",
+  "family": "Reds and Violets",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "701",
+  "name": "Genuine Chinese Vermilion",
+  "series": 7,
+  "pigments": [
+   "PR106"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": true,
+  "swatch": "#D14532",
+  "lab": [
+   46.26,
+   45.54,
+   27.59
+  ],
+  "masstone": "#BA4842",
+  "mix": "#BA4842",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "genuine-chinese-vermilion-701",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "138",
+  "name": "Herculane Red",
+  "series": 1,
+  "pigments": [
+   "PR101"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#B13D26",
+  "lab": [
+   41.52,
+   32.88,
+   28.26
+  ],
+  "masstone": "#9C4A35",
+  "mix": "#9C4A35",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "herculane-red-138",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "319",
+  "name": "Rose Dore",
+  "series": 3,
+  "pigments": [
+   "PY151",
+   "PV19"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Good",
+  "toxic": false,
+  "swatch": "#E02325",
+  "lab": [
+   36.01,
+   56.82,
+   34.05
+  ],
+  "masstone": "#A91322",
+  "mix": "#A91322",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "rose-dore-319",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "608",
+  "name": "Rose Madder",
+  "series": 6,
+  "pigments": [
+   "NR9"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Low",
+  "toxic": false,
+  "swatch": "#C21510",
+  "lab": [
+   24.28,
+   23.14,
+   8.38
+  ],
+  "masstone": "#5C2B2E",
+  "mix": "#5C2B2E",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "rose-madder-608",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "254",
+  "name": "Rose Blush",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PY42",
+   "PV19"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#A86D62",
+  "lab": [
+   59.36,
+   30.53,
+   20.9
+  ],
+  "masstone": "#CB796C",
+  "mix": "#CB796C",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "rose-blush-254",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "207",
+  "name": "Brilliant Pink",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PR112",
+   "PR122"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#CF3A56",
+  "lab": [
+   52.26,
+   56.71,
+   15.08
+  ],
+  "masstone": "#D74B66",
+  "mix": "#D74B66",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "brilliant-pink-207",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "247",
+  "name": "Opera Rose",
+  "series": 2,
+  "pigments": [
+   "PR122"
+  ],
+  "opacity": "Transparent",
+  "tint": "Low",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Low",
+  "toxic": false,
+  "swatch": "#F50E32",
+  "lab": [
+   51.74,
+   71.41,
+   29.34
+  ],
+  "masstone": "#EB2B4E",
+  "mix": "#EB2B4E",
+  "mixSource": "measured",
+  "strength": 0.6,
+  "slug": "opera-rose-247",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "321",
+  "name": "Quinacridone Coral",
+  "series": 3,
+  "pigments": [
+   "PR209"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Very Good",
+  "toxic": false,
+  "swatch": "#E0223A",
+  "lab": [
+   36.0,
+   50.05,
+   22.78
+  ],
+  "masstone": "#A02533",
+  "mix": "#A02533",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "quinacridone-coral-321",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "311",
+  "name": "Quinacridone Rose",
+  "series": 3,
+  "pigments": [
+   "PV19"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#82051E",
+  "lab": [
+   27.1,
+   48.64,
+   24.79
+  ],
+  "masstone": "#84071D",
+  "mix": "#84071D",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "quinacridone-rose-311",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "303",
+  "name": "Magenta",
+  "series": 3,
+  "pigments": [
+   "PR122"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#870C24",
+  "lab": [
+   18.75,
+   42.17,
+   8.79
+  ],
+  "masstone": "#630023",
+  "mix": "#80022E",
+  "mixSource": "pigment reference",
+  "strength": 1.0,
+  "slug": "magenta-303",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "302",
+  "name": "Alizarin Crimson",
+  "series": 3,
+  "pigments": [
+   "PR83"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Slow",
+  "lightfast": "Good",
+  "toxic": false,
+  "swatch": "#8B0606",
+  "lab": [
+   25.62,
+   28.77,
+   9.69
+  ],
+  "masstone": "#67282F",
+  "mix": "#67282F",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "alizarin-crimson-302",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "310",
+  "name": "Alizarin Claret",
+  "series": 3,
+  "pigments": [
+   "PR177"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#9B0610",
+  "lab": [
+   17.71,
+   45.55,
+   23.02
+  ],
+  "masstone": "#65000B",
+  "mix": "#65000B",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "alizarin-claret-310",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "316",
+  "name": "Perrindo Maroon",
+  "series": 3,
+  "pigments": [
+   "PR179"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#620404",
+  "lab": [
+   13.76,
+   35.57,
+   17.32
+  ],
+  "masstone": "#50000A",
+  "mix": "#50000A",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "perrindo-maroon-316",
+  "family": "Browns",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "317",
+  "name": "Madder Brown",
+  "series": 3,
+  "pigments": [
+   "PR202",
+   "PR101"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#8B1E16",
+  "lab": [
+   16.57,
+   19.1,
+   8.11
+  ],
+  "masstone": "#441D1E",
+  "mix": "#441D1E",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "madder-brown-317",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "601",
+  "name": "Cobalt Violet Light",
+  "series": 6,
+  "pigments": [
+   "PV14"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#9B2358",
+  "lab": [
+   39.92,
+   39.17,
+   -13.49
+  ],
+  "masstone": "#904375",
+  "mix": "#904375",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-violet-light-601",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "233",
+  "name": "Ultramarine Pink",
+  "series": 2,
+  "pigments": [
+   "PR259"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#A04077",
+  "lab": [
+   28.3,
+   15.76,
+   -0.84
+  ],
+  "masstone": "#593A44",
+  "mix": "#593A44",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "ultramarine-pink-233",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "242",
+  "name": "Wisteria",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PR122",
+   "PB29"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#93647B",
+  "lab": [
+   53.45,
+   14.46,
+   -28.74
+  ],
+  "masstone": "#7E7AB1",
+  "mix": "#7E7AB1",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "wisteria-242",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "309",
+  "name": "Amethyst",
+  "series": 3,
+  "pigments": [
+   "PB29",
+   "PR122",
+   "PV23"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#5D1538",
+  "lab": [
+   13.02,
+   12.79,
+   -4.61
+  ],
+  "masstone": "#301B28",
+  "mix": "#301B28",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "amethyst-309",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "255",
+  "name": "Corinthian Purple",
+  "series": 2,
+  "pigments": [
+   "PR112",
+   "PB29",
+   "PV23"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#800B2E",
+  "lab": [
+   22.69,
+   8.27,
+   5.84
+  ],
+  "masstone": "#45322E",
+  "mix": "#45322E",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "corinthian-purple-255",
+  "family": "Reds and Violets",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "322",
+  "name": "Quinacridone Purple",
+  "series": 3,
+  "pigments": [
+   "PV55"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Very Good",
+  "toxic": false,
+  "swatch": "#8B0058",
+  "lab": [
+   23.52,
+   12.31,
+   -2.06
+  ],
+  "masstone": "#49313B",
+  "mix": "#49313B",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "quinacridone-purple-322",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "314",
+  "name": "Perylene Violet",
+  "series": 3,
+  "pigments": [
+   "PV29"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Good",
+  "toxic": false,
+  "swatch": "#762441",
+  "lab": [
+   30.13,
+   7.29,
+   1.47
+  ],
+  "masstone": "#534345",
+  "mix": "#534345",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "perylene-violet-314",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "241",
+  "name": "Belladonna",
+  "series": 2,
+  "pigments": [
+   "PV23",
+   "PR112",
+   "PB29"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#301934",
+  "lab": [
+   49.46,
+   34.52,
+   -25.34
+  ],
+  "masstone": "#9B60A1",
+  "mix": "#301934",
+  "mixSource": "chart swatch",
+  "strength": 1.0,
+  "slug": "belladonna-241",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil",
+  "note": "Published measurement looks inconsistent with the chart swatch; using the chart swatch."
+ },
+ {
+  "no": "304",
+  "name": "Manganese Violet",
+  "series": 3,
+  "pigments": [
+   "PV16"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#632766",
+  "lab": [
+   27.33,
+   19.57,
+   -14.55
+  ],
+  "masstone": "#543657",
+  "mix": "#543657",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "manganese-violet-304",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "602",
+  "name": "Cobalt Violet Dark",
+  "series": 6,
+  "pigments": [
+   "PV14"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#532553",
+  "lab": [
+   14.3,
+   39.21,
+   -25.9
+  ],
+  "masstone": "#460049",
+  "mix": "#4E0042",
+  "mixSource": "pigment reference",
+  "strength": 1.0,
+  "slug": "cobalt-violet-dark-602",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "253",
+  "name": "Imperial Purple",
+  "series": 2,
+  "pigments": [
+   "PB29",
+   "PV19"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#4A2D40",
+  "lab": [
+   14.48,
+   4.64,
+   -4.32
+  ],
+  "masstone": "#28232B",
+  "mix": "#28232B",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "imperial-purple-253",
+  "family": "Reds and Violets",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "208",
+  "name": "Ultramarine Violet",
+  "series": 2,
+  "pigments": [
+   "PV15"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#4B3263",
+  "lab": [
+   19.52,
+   6.22,
+   -11.23
+  ],
+  "masstone": "#302D40",
+  "mix": "#302D40",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "ultramarine-violet-208",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "312",
+  "name": "Deep Purple (Dioxazine)",
+  "series": 3,
+  "pigments": [
+   "PV23"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#1D181A",
+  "lab": [
+   8.73,
+   2.9,
+   -0.58
+  ],
+  "masstone": "#1D181A",
+  "mix": "#2D0050",
+  "mixSource": "pigment reference (approx.)",
+  "strength": 1.6,
+  "slug": "deep-purple-dioxazine-312",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "211",
+  "name": "Kings Blue Light",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PB29"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#6DA6F2",
+  "lab": [
+   62.06,
+   -3.84,
+   -37.08
+  ],
+  "masstone": "#579BD7",
+  "mix": "#579BD7",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "kings-blue-light-211",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "212",
+  "name": "Kings Blue Deep",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PB29"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#5D96F0",
+  "lab": [
+   56.07,
+   -0.32,
+   -45.62
+  ],
+  "masstone": "#358BD6",
+  "mix": "#358BD6",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "kings-blue-deep-212",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "227",
+  "name": "Pale Violet",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PB29",
+   "PV23"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#5D68B3",
+  "lab": [
+   50.65,
+   10.03,
+   -42.92
+  ],
+  "masstone": "#5477C2",
+  "mix": "#5477C2",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "pale-violet-227",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "243",
+  "name": "Lavender",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PV15",
+   "PB29",
+   "PV19"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#AA88C3",
+  "lab": [
+   18.64,
+   5.45,
+   4.73
+  ],
+  "masstone": "#382A27",
+  "mix": "#AA88C3",
+  "mixSource": "chart swatch",
+  "strength": 1.0,
+  "slug": "lavender-243",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil",
+  "note": "Published measurement looks inconsistent with the colour (too dark for an opaque pastel); using the chart swatch."
+ },
+ {
+  "no": "240",
+  "name": "Vivid Blue",
+  "series": 2,
+  "pigments": [
+   "PW6",
+   "PB15.3",
+   "PG7"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#40979A",
+  "lab": [
+   70.07,
+   -32.09,
+   -19.57
+  ],
+  "masstone": "#19BDCE",
+  "mix": "#19BDCE",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "vivid-blue-240",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "513",
+  "name": "Cobalt Teal",
+  "series": 5,
+  "pigments": [
+   "PG50"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#008080",
+  "lab": [
+   49.88,
+   -46.76,
+   -13.88
+  ],
+  "masstone": "#008B8D",
+  "mix": "#008B8D",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-teal-513",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "516",
+  "name": "Cobalt Teal Blue Shade",
+  "series": 5,
+  "pigments": [
+   "PB50"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#008080",
+  "lab": [
+   45.99,
+   -45.36,
+   -18.01
+  ],
+  "masstone": "#00808A",
+  "mix": "#00808A",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-teal-blue-shade-516",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "229",
+  "name": "Caribbean Turquoise",
+  "series": 2,
+  "pigments": [
+   "PB15.3",
+   "PG7",
+   "PY74"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#006F87",
+  "lab": [
+   9.2,
+   2.75,
+   -10.08
+  ],
+  "masstone": "#161927",
+  "mix": "#161927",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "caribbean-turquoise-229",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "251",
+  "name": "Aqua Green",
+  "series": 2,
+  "pigments": [
+   "PG7",
+   "PB15.3"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#00553D",
+  "lab": [
+   7.43,
+   -2.25,
+   -10.95
+  ],
+  "masstone": "#061825",
+  "mix": "#061825",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "aqua-green-251",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "507",
+  "name": "Cobalt Turquoise Deep",
+  "series": 5,
+  "pigments": [
+   "PB36"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#006263",
+  "lab": [
+   37.93,
+   -26.21,
+   -11.0
+  ],
+  "masstone": "#00656A",
+  "mix": "#00656A",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-turquoise-deep-507",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "603",
+  "name": "Cerulean Blue",
+  "series": 6,
+  "pigments": [
+   "PB36"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#00677F",
+  "lab": [
+   41.14,
+   -8.08,
+   -19.22
+  ],
+  "masstone": "#376680",
+  "mix": "#376680",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cerulean-blue-603",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "318",
+  "name": "Blue Verditer",
+  "series": 3,
+  "pigments": [
+   "PB28",
+   "PW6",
+   "PB36"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#0047AB",
+  "lab": [
+   47.23,
+   -2.16,
+   -49.31
+  ],
+  "masstone": "#0076C3",
+  "mix": "#0076C3",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "blue-verditer-318",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "114",
+  "name": "Phthalo Blue & Titanium White",
+  "series": 1,
+  "pigments": [
+   "PW6",
+   "PB15.3"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#0064A9",
+  "lab": [
+   47.82,
+   -22.33,
+   -43.78
+  ],
+  "masstone": "#007FBB",
+  "mix": "#007FBB",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "phthalo-blue-titanium-white-114",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "506",
+  "name": "Cobalt Blue",
+  "series": 5,
+  "pigments": [
+   "PB28"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#123783",
+  "lab": [
+   24.42,
+   11.99,
+   -47.62
+  ],
+  "masstone": "#003983",
+  "mix": "#003983",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-blue-506",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "517",
+  "name": "Cobalt Blue Deep",
+  "series": 5,
+  "pigments": [
+   "PB74"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#2E378B",
+  "lab": [
+   9.93,
+   18.6,
+   -39.95
+  ],
+  "masstone": "#001653",
+  "mix": "#001653",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-blue-deep-517",
+  "family": "Blues and Greens",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "702",
+  "name": "Lapis Lazuli (Afghan)",
+  "series": 7,
+  "pigments": [
+   "PB29"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Low",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Not tested",
+  "toxic": false,
+  "swatch": "#0D51A8",
+  "lab": [
+   26.64,
+   0.63,
+   -13.15
+  ],
+  "masstone": "#344053",
+  "mix": "#344053",
+  "mixSource": "measured",
+  "strength": 0.6,
+  "slug": "lapis-lazuli-afghan-702",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "113",
+  "name": "Ultramarine Blue",
+  "series": 1,
+  "pigments": [
+   "PB29"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#2748A3",
+  "lab": [
+   20.14,
+   6.33,
+   -15.79
+  ],
+  "masstone": "#2D2F48",
+  "mix": "#190059",
+  "mixSource": "pigment reference",
+  "strength": 1.0,
+  "slug": "ultramarine-blue-113",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "112",
+  "name": "Prussian Blue",
+  "series": 1,
+  "pigments": [
+   "PB27"
+  ],
+  "opacity": "Transparent",
+  "tint": "Very High",
+  "temp": "Cool",
+  "drying": "Very Fast",
+  "lightfast": "Very Good",
+  "toxic": false,
+  "swatch": "#151415",
+  "lab": [
+   6.37,
+   0.65,
+   -0.39
+  ],
+  "masstone": "#151415",
+  "mix": "#0D1B44",
+  "mixSource": "pigment reference (approx.)",
+  "strength": 2.5,
+  "slug": "prussian-blue-112",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "313",
+  "name": "Indanthrone Blue",
+  "series": 3,
+  "pigments": [
+   "PB60"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#0D0A23",
+  "lab": [
+   10.04,
+   7.15,
+   -5.9
+  ],
+  "masstone": "#221824",
+  "mix": "#190059",
+  "mixSource": "pigment reference (approx.)",
+  "strength": 1.6,
+  "slug": "indanthrone-blue-313",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "209",
+  "name": "Phthalocyanine Blue Lake",
+  "series": 2,
+  "pigments": [
+   "PB15.3"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#000B2B",
+  "lab": [
+   6.85,
+   16.08,
+   -25.3
+  ],
+  "masstone": "#140F37",
+  "mix": "#0D1B44",
+  "mixSource": "pigment reference",
+  "strength": 1.6,
+  "slug": "phthalocyanine-blue-lake-209",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "231",
+  "name": "Phthalocyanine Blue Red Shade",
+  "series": 2,
+  "pigments": [
+   "PB15.1"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#302A5A",
+  "lab": [
+   7.44,
+   14.14,
+   -21.7
+  ],
+  "masstone": "#171133",
+  "mix": "#0D1B44",
+  "mixSource": "pigment reference",
+  "strength": 1.6,
+  "slug": "phthalocyanine-blue-red-shade-231",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "210",
+  "name": "Phthalocyanine Turquoise",
+  "series": 2,
+  "pigments": [
+   "PB15.3",
+   "PG7",
+   "PW6"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#007682",
+  "lab": [
+   41.26,
+   -38.56,
+   -25.59
+  ],
+  "masstone": "#00738A",
+  "mix": "#00738A",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "phthalocyanine-turquoise-210",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "252",
+  "name": "Cosmic Blue",
+  "series": 2,
+  "pigments": [
+   "PBk11",
+   "PB15.1"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#2E484A",
+  "lab": [
+   7.48,
+   0.25,
+   -2.41
+  ],
+  "masstone": "#15171A",
+  "mix": "#15171A",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cosmic-blue-252",
+  "family": "Blues and Greens",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "228",
+  "name": "Indigo",
+  "series": 2,
+  "pigments": [
+   "PBk6",
+   "PB15.3",
+   "PV19"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#090C15",
+  "lab": [
+   10.0,
+   1.01,
+   -2.71
+  ],
+  "masstone": "#1B1B1F",
+  "mix": "#1B1B1F",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "indigo-228",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "215",
+  "name": "Permanent Green Light",
+  "series": 2,
+  "pigments": [
+   "PG36",
+   "PY3",
+   "PW6"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#25BD8C",
+  "lab": [
+   58.77,
+   -55.19,
+   16.58
+  ],
+  "masstone": "#00A46E",
+  "mix": "#00A46E",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "permanent-green-light-215",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "412",
+  "name": "Cadmium Green",
+  "series": 4,
+  "pigments": [
+   "PY35",
+   "PG18"
+  ],
+  "opacity": "Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#84A92B",
+  "lab": [
+   63.99,
+   -42.23,
+   47.52
+  ],
+  "masstone": "#64AC40",
+  "mix": "#64AC40",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "cadmium-green-412",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "116",
+  "name": "Bright Green Lake",
+  "series": 1,
+  "pigments": [
+   "PY74",
+   "PG7"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#89DD27",
+  "lab": [
+   58.62,
+   -42.57,
+   67.56
+  ],
+  "masstone": "#5E9E00",
+  "mix": "#5E9E00",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "bright-green-lake-116",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "216",
+  "name": "Emerald Green",
+  "series": 2,
+  "pigments": [
+   "PG7",
+   "PY3",
+   "PW6"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#00965D",
+  "lab": [
+   54.45,
+   -60.33,
+   8.64
+  ],
+  "masstone": "#009A72",
+  "mix": "#009A72",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "emerald-green-216",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "508",
+  "name": "Cobalt Green Deep",
+  "series": 5,
+  "pigments": [
+   "PG19"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#00B877",
+  "lab": [
+   31.18,
+   -22.22,
+   3.43
+  ],
+  "masstone": "#1B5243",
+  "mix": "#1B5243",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "cobalt-green-deep-508",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "511",
+  "name": "Viridian",
+  "series": 5,
+  "pigments": [
+   "PG18"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#008A68",
+  "lab": [
+   26.51,
+   -25.97,
+   -3.31
+  ],
+  "masstone": "#004943",
+  "mix": "#004943",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "viridian-511",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "214",
+  "name": "Phthalocyanine Green Yellow Shade",
+  "series": 2,
+  "pigments": [
+   "PG36"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#008537",
+  "lab": [
+   9.69,
+   -13.02,
+   -4.1
+  ],
+  "masstone": "#002020",
+  "mix": "#003C32",
+  "mixSource": "pigment reference",
+  "strength": 1.6,
+  "slug": "phthalocyanine-green-yellow-shade-214",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "213",
+  "name": "Phthalocyanine Green",
+  "series": 2,
+  "pigments": [
+   "PG7"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#006633",
+  "lab": [
+   6.86,
+   -8.44,
+   -10.91
+  ],
+  "masstone": "#001923",
+  "mix": "#003C32",
+  "mixSource": "pigment reference",
+  "strength": 1.6,
+  "slug": "phthalocyanine-green-213",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "217",
+  "name": "Permanent Sap Green",
+  "series": 2,
+  "pigments": [
+   "PG7",
+   "PBr6",
+   "PY74"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#0A0C0A",
+  "lab": [
+   10.18,
+   -11.15,
+   3.9
+  ],
+  "masstone": "#0B2016",
+  "mix": "#0B2016",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "permanent-sap-green-217",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "238",
+  "name": "Hookers Green",
+  "series": 2,
+  "pigments": [
+   "PG36",
+   "PR101",
+   "PY74"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#0E2A1B",
+  "lab": [
+   14.49,
+   -14.28,
+   6.31
+  ],
+  "masstone": "#102A1B",
+  "mix": "#102A1B",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "hookers-green-238",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "250",
+  "name": "Forest Green",
+  "series": 2,
+  "pigments": [
+   "PBr7",
+   "PB15.1"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#2E4136",
+  "lab": [
+   15.04,
+   -7.72,
+   -0.52
+  ],
+  "masstone": "#182926",
+  "mix": "#182926",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "forest-green-250",
+  "family": "Blues and Greens",
+  "availability": "In Stock",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "239",
+  "name": "Moss Green",
+  "series": 2,
+  "pigments": [
+   "PY150",
+   "PB29",
+   "PR209"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#433E29",
+  "lab": [
+   15.28,
+   -6.24,
+   5.2
+  ],
+  "masstone": "#20291F",
+  "mix": "#20291F",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "moss-green-239",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "237",
+  "name": "Olive Green",
+  "series": 2,
+  "pigments": [
+   "PR101",
+   "PY74",
+   "PB15.3"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#403A2E",
+  "lab": [
+   16.41,
+   -5.3,
+   9.95
+  ],
+  "masstone": "#262A1A",
+  "mix": "#262A1A",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "olive-green-237",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "115",
+  "name": "Terre Verte",
+  "series": 1,
+  "pigments": [
+   "PG23"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Very Low",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#597D58",
+  "lab": [
+   31.5,
+   -11.36,
+   7.63
+  ],
+  "masstone": "#3C4F3E",
+  "mix": "#3C4F3E",
+  "mixSource": "measured",
+  "strength": 0.35,
+  "slug": "terre-verte-115",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "305",
+  "name": "Oxide of Chromium",
+  "series": 3,
+  "pigments": [
+   "PG17"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#3D573B",
+  "lab": [
+   40.58,
+   -19.19,
+   14.87
+  ],
+  "masstone": "#476847",
+  "mix": "#476847",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "oxide-of-chromium-305",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "132",
+  "name": "Italian Green Umber",
+  "series": 1,
+  "pigments": [
+   "PBr7"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#767140",
+  "lab": [
+   25.77,
+   -0.38,
+   13.41
+  ],
+  "masstone": "#443D29",
+  "mix": "#443D29",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "italian-green-umber-132",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "410",
+  "name": "Green Gold",
+  "series": 4,
+  "pigments": [
+   "PY129"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Average",
+  "toxic": false,
+  "swatch": "#755D08",
+  "lab": [
+   28.22,
+   -10.22,
+   27.47
+  ],
+  "masstone": "#404616",
+  "mix": "#404616",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "green-gold-410",
+  "family": "Blues and Greens",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "119",
+  "name": "Yellow Ochre",
+  "series": 1,
+  "pigments": [
+   "PY42"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#A7782B",
+  "lab": [
+   54.15,
+   13.5,
+   47.38
+  ],
+  "masstone": "#AB772C",
+  "mix": "#AB772C",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "yellow-ochre-119",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "133",
+  "name": "French Yellow Ochre",
+  "series": 1,
+  "pigments": [
+   "PY43"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#A7682C",
+  "lab": [
+   54.29,
+   16.26,
+   36.86
+  ],
+  "masstone": "#AD7642",
+  "mix": "#AD7642",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "french-yellow-ochre-133",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "118",
+  "name": "Yellow Ochre Deep",
+  "series": 1,
+  "pigments": [
+   "PY43"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#94470C",
+  "lab": [
+   55.8,
+   24.13,
+   46.19
+  ],
+  "masstone": "#BF7434",
+  "mix": "#BF7434",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "yellow-ochre-deep-118",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "219",
+  "name": "Transparent Oxide Yellow",
+  "series": 2,
+  "pigments": [
+   "PY42"
+  ],
+  "opacity": "Transparent",
+  "tint": "Average",
+  "temp": "Warm",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#9A5E24",
+  "lab": [
+   24.1,
+   8.78,
+   16.87
+  ],
+  "masstone": "#4D3420",
+  "mix": "#4D3420",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "transparent-oxide-yellow-219",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "244",
+  "name": "New Gamboge",
+  "series": 2,
+  "pigments": [
+   "PY150"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#E08F1F",
+  "lab": [
+   36.3,
+   12.64,
+   43.36
+  ],
+  "masstone": "#774C06",
+  "mix": "#774C06",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "new-gamboge-244",
+  "family": "Yellows and Oranges",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "120",
+  "name": "Raw Sienna",
+  "series": 1,
+  "pigments": [
+   "PBr7"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#8B532C",
+  "lab": [
+   38.27,
+   7.78,
+   16.21
+  ],
+  "masstone": "#6F5540",
+  "mix": "#6F5540",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "raw-sienna-120",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "223",
+  "name": "Italian Brown Ochre",
+  "series": 2,
+  "pigments": [
+   "PBr7"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#7B4927",
+  "lab": [
+   36.54,
+   19.46,
+   29.14
+  ],
+  "masstone": "#7E4927",
+  "mix": "#7E4927",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "italian-brown-ochre-223",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "125",
+  "name": "Burnt Sienna",
+  "series": 1,
+  "pigments": [
+   "PBr7"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#7D3C24",
+  "lab": [
+   33.97,
+   27.31,
+   28.21
+  ],
+  "masstone": "#803C24",
+  "mix": "#803C24",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "burnt-sienna-125",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "220",
+  "name": "Transparent Oxide Red",
+  "series": 2,
+  "pigments": [
+   "PR101"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#9B2D1D",
+  "lab": [
+   17.65,
+   14.05,
+   11.92
+  ],
+  "masstone": "#42231B",
+  "mix": "#42231B",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "transparent-oxide-red-220",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "122",
+  "name": "Venetian Red",
+  "series": 1,
+  "pigments": [
+   "PR101"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Low",
+  "temp": "Warm",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#A73A25",
+  "lab": [
+   35.76,
+   36.1,
+   40.35
+  ],
+  "masstone": "#913812",
+  "mix": "#913812",
+  "mixSource": "measured",
+  "strength": 0.6,
+  "slug": "venetian-red-122",
+  "family": "Reds and Violets",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "123",
+  "name": "Indian Red",
+  "series": 1,
+  "pigments": [
+   "PR101"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "High",
+  "temp": "Cool",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#712C26",
+  "lab": [
+   28.35,
+   30.57,
+   19.84
+  ],
+  "masstone": "#732C26",
+  "mix": "#732C26",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "indian-red-123",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "232",
+  "name": "Permanent Brown",
+  "series": 2,
+  "pigments": [
+   "PBr25"
+  ],
+  "opacity": "Transparent",
+  "tint": "High",
+  "temp": "Neutral",
+  "drying": "Very Fast",
+  "lightfast": "Very Good",
+  "toxic": false,
+  "swatch": "#421612",
+  "lab": [
+   9.87,
+   6.57,
+   5.7
+  ],
+  "masstone": "#261814",
+  "mix": "#261814",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "permanent-brown-232",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "124",
+  "name": "Red Umber",
+  "series": 1,
+  "pigments": [
+   "PBr6"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#4D2413",
+  "lab": [
+   19.91,
+   18.17,
+   20.55
+  ],
+  "masstone": "#4E2413",
+  "mix": "#4E2413",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "red-umber-124",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "224",
+  "name": "Transparent Oxide Brown",
+  "series": 2,
+  "pigments": [
+   "PBr7"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#9B4321",
+  "lab": [
+   11.22,
+   6.69,
+   8.26
+  ],
+  "masstone": "#2A1A13",
+  "mix": "#2A1A13",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "transparent-oxide-brown-224",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "121",
+  "name": "Raw Umber",
+  "series": 1,
+  "pigments": [
+   "PBr6"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Very Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#30271D",
+  "lab": [
+   16.62,
+   2.87,
+   8.57
+  ],
+  "masstone": "#31271D",
+  "mix": "#31271D",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "raw-umber-121",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "126",
+  "name": "Burnt Umber",
+  "series": 1,
+  "pigments": [
+   "PBr6"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#321E12",
+  "lab": [
+   13.57,
+   9.06,
+   12.47
+  ],
+  "masstone": "#331E11",
+  "mix": "#331E11",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "burnt-umber-126",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "134",
+  "name": "Vandyke Brown",
+  "series": 1,
+  "pigments": [
+   "NBr8"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Fast",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#3E3023",
+  "lab": [
+   12.78,
+   3.2,
+   5.81
+  ],
+  "masstone": "#281F19",
+  "mix": "#281F19",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "vandyke-brown-134",
+  "family": "Browns",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "140",
+  "name": "Neutral Grey (N7)",
+  "series": 1,
+  "pigments": [
+   "PW6",
+   "PBr6",
+   "PBk6"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#868686",
+  "lab": [
+   71.17,
+   -1.06,
+   -0.82
+  ],
+  "masstone": "#ABAFB0",
+  "mix": "#ABAFB0",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "neutral-grey-n7-140",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "136",
+  "name": "Neutral Grey (N5)",
+  "series": 1,
+  "pigments": [
+   "PW6",
+   "PBk6",
+   "PBr6"
+  ],
+  "opacity": "Opaque",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#504B46",
+  "lab": [
+   51.96,
+   -1.85,
+   -2.27
+  ],
+  "masstone": "#777D80",
+  "mix": "#777D80",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "neutral-grey-n5-136",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "139",
+  "name": "Neutral Tint",
+  "series": 1,
+  "pigments": [
+   "PBk6",
+   "PV19",
+   "PB15.3"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#1D1B1C",
+  "lab": [
+   9.97,
+   1.3,
+   -0.61
+  ],
+  "masstone": "#1D1B1C",
+  "mix": "#1D1B1C",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "neutral-tint-139",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "127",
+  "name": "Paynes Grey",
+  "series": 1,
+  "pigments": [
+   "PBk9",
+   "PB29",
+   "PY42"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "Average",
+  "temp": "Cool",
+  "drying": "Average",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#1C1F21",
+  "lab": [
+   11.33,
+   -0.7,
+   -2.02
+  ],
+  "masstone": "#1C1F21",
+  "mix": "#1C1F21",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "paynes-grey-127",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "135",
+  "name": "Vine Black",
+  "series": 1,
+  "pigments": [
+   "PBk11"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Average",
+  "toxic": false,
+  "swatch": "#0D0D0D",
+  "lab": [
+   8.41,
+   0.21,
+   1.12
+  ],
+  "masstone": "#191817",
+  "mix": "#191817",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "vine-black-135",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "128",
+  "name": "Lamp Black",
+  "series": 1,
+  "pigments": [
+   "PBk6"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#1B1A1E",
+  "lab": [
+   23.53,
+   -0.72,
+   -1.78
+  ],
+  "masstone": "#36383B",
+  "mix": "#36383B",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "lamp-black-128",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "129",
+  "name": "Ivory Black",
+  "series": 1,
+  "pigments": [
+   "PBk9"
+  ],
+  "opacity": "Semi-Transparent",
+  "tint": "Average",
+  "temp": "Neutral",
+  "drying": "Average",
+  "lightfast": "Average",
+  "toxic": false,
+  "swatch": "#1B1B1B",
+  "lab": [
+   9.9,
+   -0.26,
+   -0.0
+  ],
+  "masstone": "#1B1B1B",
+  "mix": "#1B1B1B",
+  "mixSource": "measured",
+  "strength": 1.0,
+  "slug": "ivory-black-129",
+  "family": "Greys and Blacks",
+  "availability": "Available Worldwide",
+  "oil": "Linseed Oil"
+ },
+ {
+  "no": "103",
+  "name": "Zinc White (Withdrawn)",
+  "series": 1,
+  "pigments": [
+   "PW4"
+  ],
+  "opacity": "Semi-Opaque",
+  "tint": "High",
+  "temp": "Warm",
+  "drying": "Slow",
+  "lightfast": "Excellent",
+  "toxic": false,
+  "swatch": "#F4F4F4",
+  "lab": [
+   96.24,
+   -0.45,
+   12.79
+  ],
+  "masstone": "#FEF4DC",
+  "mix": "#FEF4DC",
+  "mixSource": "measured",
+  "strength": 1.6,
+  "slug": "zinc-white-withdrawn",
+  "family": "Whites",
+  "availability": "Withdrawn",
+  "oil": ""
+ }
+]
