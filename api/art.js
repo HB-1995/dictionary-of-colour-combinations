@@ -46,6 +46,16 @@ module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   if (!key) { res.statusCode = 503; return res.end(JSON.stringify({ error: 'not-configured' })) }
   const q = req.query || Object.fromEntries(new URL(req.url, 'http://x').searchParams);
+  if (q.debug === '1') {                                  // temporary: which colour query form does Harvard accept?
+    const tries = { plain: {}, colorHash: { color: '#a0522d' }, colorBare: { color: 'a0522d' }, colorSpectrum: { color: '#af4b4b' }, qCss3: { q: 'colors.css3:"#a0522d"' }, qHue: { q: 'colors.hue:Red' }, qColor: { q: 'colors.color:"#a0522d"' } };
+    const out = {};
+    for (const [k, p] of Object.entries(tries)) {
+      try { const u = new URL(BASE); Object.entries({ apikey: key, hasimage: 1, size: 1, fields: 'id,colors', ...p }).forEach(([a, b]) => u.searchParams.set(a, b));
+        const r = await fetch(u); const j = await r.json(); out[k] = { status: r.status, total: j.info && j.info.totalrecords, sample: j.records && j.records[0] && (j.records[0].colors || []).slice(0, 3) };
+      } catch (e) { out[k] = String(e) }
+    }
+    res.setHeader('Cache-Control', 'no-store'); return res.end(JSON.stringify(out));
+  }
   const hexes = String(q.c || '').split(',').map(h => h.trim().replace(/^#?/, '#').toUpperCase()).filter(h => /^#[0-9A-F]{6}$/.test(h)).slice(0, 12);
   if (!hexes.length) { res.statusCode = 400; return res.end(JSON.stringify({ error: 'no-colours' })) }
   const type = TYPES.includes(q.type) ? q.type : (q.type === 'all' ? 'all' : 'Paintings');
@@ -70,7 +80,7 @@ module.exports = async (req, res) => {
         image: r.primaryimageurl, matched: m.matched, de: Math.round(m.closeness * 10) / 10,
         colors: m.cols.slice().sort((a, b) => b.pct - a.pct).slice(0, 8).map(c => ({ hex: c.hex, pct: Math.round(c.pct * 1000) / 10, hit: m.hits.has(c.i) }))
       }));
-    res.setHeader('Cache-Control', 'public, s-maxage=1209600, stale-while-revalidate=86400');
+    res.setHeader('Cache-Control', ranked.length ? 'public, s-maxage=1209600, stale-while-revalidate=86400' : 'no-store');
     res.end(JSON.stringify({ palette: hexes, type, candidates: seen.size, results: ranked, source: 'Harvard Art Museums' }));
   } catch (e) {
     res.statusCode = 502; res.end(JSON.stringify({ error: 'upstream', detail: String(e.message || e) }));
