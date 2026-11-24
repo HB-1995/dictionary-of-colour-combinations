@@ -367,13 +367,15 @@ const DEFAULT_SOURCES=[{id:'wada-1',name:'A Dictionary of Color Combinations, Vo
 fetch('sources.json').then(r=>r.ok?r.json():DEFAULT_SOURCES).catch(()=>DEFAULT_SOURCES).then(S=>Promise.all([
  Promise.all(S.map(s=>fetch(s.file).then(r=>r.json()).then(d=>[s,d]).catch(()=>{console.error('Could not load source',s.id);return null}))),
  fetch('paints.json').then(r=>r.json()).catch(()=>[])])).then(([loaded,paints])=>{window.__PAINTS=paints;
-const SOURCES=[],SBY={},C=[],COMBOS={},PSRC={},PNAME={};
+const SOURCES=[],SBY={},C=[],COMBOS={},PSRC={},PNAME={},PGROUP={},PPROV={},PORDER={};
 loaded.filter(Boolean).forEach(([s,d])=>{const base=+s.idBase||0,src={...s,base};SOURCES.push(src);SBY[s.id]=src;
  if(s.format==='wada')d.forEach(x=>C.push({n:x.name,h:x.hex.toUpperCase(),c:x.cmyk,l:x.lab,s:x.swatch+1,k:x.combinations.map(k=>base+k),src:s.id}));
  else{const idx={};(d.colours||[]).forEach(x=>{const h=x.hex.toUpperCase();idx[x.name]=C.length;C.push({n:x.name,h,c:x.cmyk||null,l:null,s:+x.family||0,k:[],src:s.id})});
-  (d.palettes||[]).forEach((p,pi)=>{const id=base+(+p.id||pi+1);if(p.name)PNAME[id]=p.name;p.colours.forEach(nm=>{const i=idx[nm];if(i!=null&&!C[i].k.includes(id))C[i].k.push(id)})})}});
+  (d.palettes||[]).forEach((p,pi)=>{const id=base+(+p.id||pi+1);if(p.name)PNAME[id]=p.name;if(p.group)PGROUP[id]=p.group;if(p.provisional)PPROV[id]=1;PORDER[id]=[];p.colours.forEach(nm=>{const i=idx[nm];if(i!=null&&!C[i].k.includes(id)){C[i].k.push(id);PORDER[id].push(i)}})})}});
 if(!C.length)throw new Error('no colours');
 C.forEach((c,i)=>c.k.forEach(k=>{(COMBOS[k]??=[]).push(i);PSRC[k]=c.src}));
+/* palettes that list their colours keep the book's order */
+for(const id in PORDER)if(COMBOS[id])COMBOS[id]=PORDER[id];
 const IDS=Object.keys(COMBOS).map(Number).filter(id=>COMBOS[id].length>1).sort((a,b)=>a-b);
 const PRIMARY=SOURCES[0].id,MULTI=SOURCES.length>1;
 /* hue family for colours that don't come with one: 1 reds/pinks … 6 neutrals */
@@ -390,7 +392,7 @@ const cmykOf=i=>C[i].c?C[i].c.join(' '):'';
 /* palette labels: the primary source keeps its plain numbers (240); others read "Short 12" or their own name */
 const pnum=id=>id-SBY[PSRC[id]].base;
 const plabel=id=>PSRC[id]===PRIMARY?String(id):`${SBY[PSRC[id]].short} ${pnum(id)}`;
-const ptitle=id=>PSRC[id]===PRIMARY?`Combination ${id}`:PNAME[id]||plabel(id);
+const ptitle=id=>PSRC[id]===PRIMARY?`Combination ${id}`:PNAME[id]||plabel(id)+(PGROUP[id]?' · '+PGROUP[id]:'');
 let favs=[];try{favs=JSON.parse(localStorage.getItem('w-favs')||'[]')}catch(e){}
 const saveFavs=()=>{try{localStorage.setItem('w-favs',JSON.stringify(favs))}catch(e){}};
 function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];saveFavs();const on=favs.includes(id);
@@ -556,7 +558,7 @@ function colourHTML(i){const c=C[i],ry=compOf(i);const rg=(()=>{const ex=comp(c.
  ${MULTI?`<p class="note">From ${esc(SBY[c.src].name)}</p>`:''}<h2>In ${c.k.length} ${PSRC[c.k[0]]===PRIMARY?'combination':'palette'}${c.k.length>1?'s':''}</h2><div class="grid">${c.k.map(card).join('')}</div>`}
 
 function openSheet(o,keep){const y=$('#sheet').scrollTop;cur=o;if(!keep)st.wl=null;let title,body,extra='',hsh='';
- if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn sq" id="cprev" aria-label="Previous combination" title="Previous (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="ibtn sq" id="cnext" aria-label="Next combination" title="Next (→)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`+(user?`<button class="ibtn" id="fav" aria-pressed="${fav}">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo').replace('class="ibtn"','class="ibtn primary"');hsh='combo-'+o.combo}
+ if(o.combo){const fav=favs.includes(o.combo);title=ptitle(o.combo);body=(PPROV[o.combo]?'<p class="note">Colours from the book’s index; their order hasn’t been checked against the page yet.</p>':'')+groupHTML(COMBOS[o.combo],o.combo);extra=`<button class="ibtn sq" id="cprev" aria-label="Previous combination" title="Previous (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="ibtn sq" id="cnext" aria-label="Next combination" title="Next (→)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`+(user?`<button class="ibtn" id="fav" aria-pressed="${fav}">${fav?'★ Saved':'☆ Save'}</button>`:'')+addBtn('combo').replace('class="ibtn"','class="ibtn primary"');hsh='combo-'+o.combo}
  else if(o.pal){const p=P(o.pal);if(!p)return closeSheet();active=p.id;title=p.name;body=palHTML(p);hsh='palette-'+p.id}
  else if(o.signin){title='Sign in';body=signinHTML()}
  else if(o.img){if(!IMG)return closeSheet();title='Palette from '+IMG.name;body=imgHTML();extra=`<button class="ibtn" id="imgproc" title="Download as a Procreate palette">Procreate ↓</button>`+(user?`<button class="ibtn" id="imgsave">Save as palette</button>`:'')}

@@ -103,7 +103,7 @@ Changes in this fork:
 - Dull Violet Black corrected to CMYK 100 / 90 / 38 / 50 (checked against the printed book); RGB, hex and Lab recalculated with the same SWOP → sRGB conversion as the rest of the data.
 
 ### Colour libraries (`sources.json`)
-Wada Volume 1 is the first library, not the only one. Each entry in `sources.json` points at one data file:
+Two libraries so far: Wada Volume 1 (`colors.json`) and Wada Volume 2 (`sources/wada-2.json`: 171 colours, 233 combinations, transcribed from the book's colour index on pp. 234–259; colour order for 1–72 from the month pages, palettes marked `provisional` still need their order checked). Each entry in `sources.json` points at one data file:
 
 ```json
 { "id": "wada-2", "name": "A Dictionary of Color Combinations, Volume 2", "short": "Wada Vol 2",

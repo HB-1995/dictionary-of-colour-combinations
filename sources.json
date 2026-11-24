@@ -7,5 +7,14 @@
     "file": "colors.json",
     "format": "wada",
     "idBase": 0
+  },
+  {
+    "id": "wada-2",
+    "name": "A Dictionary of Color Combinations, Volume 2",
+    "short": "Wada Vol 2",
+    "byline": "Sanzo Wada · Volume 2",
+    "file": "sources/wada-2.json",
+    "format": "palettes",
+    "idBase": 1000
   }
 ]
